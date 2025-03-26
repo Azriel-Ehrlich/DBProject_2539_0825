@@ -1,0 +1,3502 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+-- Started on 2025-03-26 21:51:09 UTC
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE azriel;
+ALTER ROLE azriel WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:f84DYmgsNg1Hb4EOn9qsYQ==$HuvDRO5pWjZe8oSTrA6JR986J19vEec8Xn7Mbe93LqI=:BlyL9l07jH3fEtCQzLPeT8y7oO+XZPsqcG6M4wLjgbA=';
+
+--
+-- User Configurations
+--
+
+
+
+
+
+
+
+
+--
+-- Databases
+--
+
+--
+-- Database "template1" dump
+--
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.4 (Debian 17.4-1.pgdg120+2)
+-- Dumped by pg_dump version 17.4
+
+-- Started on 2025-03-26 21:51:09 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2025-03-26 21:51:10 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database "mydatabase" dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.4 (Debian 17.4-1.pgdg120+2)
+-- Dumped by pg_dump version 17.4
+
+-- Started on 2025-03-26 21:51:10 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3433 (class 1262 OID 16384)
+-- Name: mydatabase; Type: DATABASE; Schema: -; Owner: azriel
+--
+
+CREATE DATABASE mydatabase WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+
+
+ALTER DATABASE mydatabase OWNER TO azriel;
+
+\connect mydatabase
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 226 (class 1259 OID 16757)
+-- Name: attendance; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.attendance (
+    attendanceid integer NOT NULL,
+    memberid integer NOT NULL,
+    date date NOT NULL,
+    checkin time without time zone NOT NULL,
+    checkout time without time zone
+);
+
+
+ALTER TABLE public.attendance OWNER TO azriel;
+
+--
+-- TOC entry 225 (class 1259 OID 16756)
+-- Name: attendance_attendanceid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.attendance_attendanceid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.attendance_attendanceid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: attendance_attendanceid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.attendance_attendanceid_seq OWNED BY public.attendance.attendanceid;
+
+
+--
+-- TOC entry 229 (class 1259 OID 16780)
+-- Name: class_membership; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.class_membership (
+    memberid integer NOT NULL,
+    classid integer NOT NULL
+);
+
+
+ALTER TABLE public.class_membership OWNER TO azriel;
+
+--
+-- TOC entry 224 (class 1259 OID 16745)
+-- Name: classes; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.classes (
+    classid integer NOT NULL,
+    classname character varying(100) NOT NULL,
+    classtime time without time zone NOT NULL,
+    instructorid integer
+);
+
+
+ALTER TABLE public.classes OWNER TO azriel;
+
+--
+-- TOC entry 223 (class 1259 OID 16744)
+-- Name: classes_classid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.classes_classid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.classes_classid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: classes_classid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.classes_classid_seq OWNED BY public.classes.classid;
+
+
+--
+-- TOC entry 222 (class 1259 OID 16736)
+-- Name: instructors; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.instructors (
+    instructorid integer NOT NULL,
+    name character varying(100) NOT NULL,
+    expertise character varying(255),
+    phone character varying(15),
+    hourlyrate numeric(10,2),
+    schedule text
+);
+
+
+ALTER TABLE public.instructors OWNER TO azriel;
+
+--
+-- TOC entry 221 (class 1259 OID 16735)
+-- Name: instructors_instructorid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.instructors_instructorid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.instructors_instructorid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: instructors_instructorid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.instructors_instructorid_seq OWNED BY public.instructors.instructorid;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16720)
+-- Name: members; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.members (
+    memberid integer NOT NULL,
+    name character varying(100) NOT NULL,
+    birth_date date NOT NULL,
+    email character varying(255) NOT NULL,
+    phone character varying(15) NOT NULL,
+    membershiptype integer,
+    join_date date NOT NULL
+);
+
+
+ALTER TABLE public.members OWNER TO azriel;
+
+--
+-- TOC entry 219 (class 1259 OID 16719)
+-- Name: members_memberid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.members_memberid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.members_memberid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: members_memberid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.members_memberid_seq OWNED BY public.members.memberid;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16712)
+-- Name: memberships; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.memberships (
+    membershipid integer NOT NULL,
+    type character varying(50) NOT NULL,
+    price numeric(10,2) NOT NULL,
+    duration integer NOT NULL,
+    isactive boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.memberships OWNER TO azriel;
+
+--
+-- TOC entry 217 (class 1259 OID 16711)
+-- Name: memberships_membershipid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.memberships_membershipid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.memberships_membershipid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3438 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: memberships_membershipid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.memberships_membershipid_seq OWNED BY public.memberships.membershipid;
+
+
+--
+-- TOC entry 228 (class 1259 OID 16769)
+-- Name: payments; Type: TABLE; Schema: public; Owner: azriel
+--
+
+CREATE TABLE public.payments (
+    paymentid integer NOT NULL,
+    memberid integer NOT NULL,
+    amount numeric(10,2) NOT NULL,
+    paymentdate date NOT NULL
+);
+
+
+ALTER TABLE public.payments OWNER TO azriel;
+
+--
+-- TOC entry 227 (class 1259 OID 16768)
+-- Name: payments_paymentid_seq; Type: SEQUENCE; Schema: public; Owner: azriel
+--
+
+CREATE SEQUENCE public.payments_paymentid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.payments_paymentid_seq OWNER TO azriel;
+
+--
+-- TOC entry 3439 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: payments_paymentid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: azriel
+--
+
+ALTER SEQUENCE public.payments_paymentid_seq OWNED BY public.payments.paymentid;
+
+
+--
+-- TOC entry 3244 (class 2604 OID 16760)
+-- Name: attendance attendanceid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.attendance ALTER COLUMN attendanceid SET DEFAULT nextval('public.attendance_attendanceid_seq'::regclass);
+
+
+--
+-- TOC entry 3243 (class 2604 OID 16748)
+-- Name: classes classid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.classes ALTER COLUMN classid SET DEFAULT nextval('public.classes_classid_seq'::regclass);
+
+
+--
+-- TOC entry 3242 (class 2604 OID 16739)
+-- Name: instructors instructorid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.instructors ALTER COLUMN instructorid SET DEFAULT nextval('public.instructors_instructorid_seq'::regclass);
+
+
+--
+-- TOC entry 3241 (class 2604 OID 16723)
+-- Name: members memberid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.members ALTER COLUMN memberid SET DEFAULT nextval('public.members_memberid_seq'::regclass);
+
+
+--
+-- TOC entry 3239 (class 2604 OID 16715)
+-- Name: memberships membershipid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.memberships ALTER COLUMN membershipid SET DEFAULT nextval('public.memberships_membershipid_seq'::regclass);
+
+
+--
+-- TOC entry 3245 (class 2604 OID 16772)
+-- Name: payments paymentid; Type: DEFAULT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN paymentid SET DEFAULT nextval('public.payments_paymentid_seq'::regclass);
+
+
+--
+-- TOC entry 3424 (class 0 OID 16757)
+-- Dependencies: 226
+-- Data for Name: attendance; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.attendance (attendanceid, memberid, date, checkin, checkout) FROM stdin;
+1	1	2024-03-10	09:05:00	10:00:00
+2	2	2024-03-11	14:10:00	15:00:00
+3	3	2024-03-12	17:00:00	18:00:00
+4	64	2024-03-10	09:36:00	19:10:00
+5	234	2024-03-11	19:01:00	17:29:00
+6	189	2024-03-10	12:25:00	19:36:00
+7	8	2024-03-11	23:14:00	23:05:00
+8	399	2024-03-11	15:06:00	02:30:00
+9	215	2024-03-11	05:00:00	16:46:00
+10	106	2024-03-11	10:04:00	12:19:00
+11	120	2024-03-11	06:07:00	18:15:00
+12	90	2024-03-10	13:52:00	19:21:00
+13	285	2024-03-10	09:21:00	13:54:00
+14	338	2024-03-10	12:06:00	02:16:00
+15	109	2024-03-10	10:10:00	15:07:00
+16	150	2024-03-10	00:33:00	16:19:00
+17	181	2024-03-10	09:49:00	10:25:00
+18	216	2024-03-11	06:42:00	05:07:00
+19	89	2024-03-10	18:43:00	10:08:00
+20	209	2024-03-11	12:04:00	05:27:00
+21	152	2024-03-11	10:41:00	23:00:00
+22	30	2024-03-10	15:42:00	05:13:00
+23	387	2024-03-10	15:41:00	07:41:00
+24	134	2024-03-10	12:05:00	13:03:00
+25	22	2024-03-10	05:39:00	14:06:00
+26	202	2024-03-10	02:10:00	16:13:00
+27	255	2024-03-11	12:32:00	01:53:00
+28	280	2024-03-11	04:42:00	06:37:00
+29	206	2024-03-10	15:51:00	13:56:00
+30	179	2024-03-11	00:49:00	14:10:00
+31	33	2024-03-11	11:25:00	00:22:00
+32	86	2024-03-11	03:50:00	15:12:00
+33	23	2024-03-10	16:17:00	23:12:00
+34	236	2024-03-11	16:15:00	08:58:00
+35	67	2024-03-11	03:23:00	11:01:00
+36	77	2024-03-11	02:01:00	10:40:00
+37	266	2024-03-10	16:24:00	23:46:00
+38	4	2024-03-11	05:23:00	19:28:00
+39	370	2024-03-10	21:16:00	19:48:00
+40	193	2024-03-10	14:05:00	00:39:00
+41	362	2024-03-11	16:02:00	20:25:00
+42	293	2024-03-11	08:03:00	18:08:00
+43	289	2024-03-10	03:05:00	02:18:00
+44	378	2024-03-11	19:03:00	16:36:00
+45	202	2024-03-10	09:19:00	20:58:00
+46	82	2024-03-11	14:36:00	18:55:00
+47	214	2024-03-10	15:22:00	16:25:00
+48	348	2024-03-10	02:43:00	18:14:00
+49	63	2024-03-10	18:14:00	06:55:00
+50	251	2024-03-11	14:52:00	14:06:00
+51	79	2024-03-10	02:05:00	14:52:00
+52	214	2024-03-10	16:47:00	12:15:00
+53	342	2024-03-11	08:19:00	02:29:00
+54	201	2024-03-10	10:11:00	14:37:00
+55	302	2024-03-11	19:43:00	07:38:00
+56	278	2024-03-11	08:47:00	00:40:00
+57	184	2024-03-10	14:40:00	19:54:00
+58	191	2024-03-11	21:05:00	08:33:00
+59	197	2024-03-10	17:15:00	21:04:00
+60	124	2024-03-10	17:48:00	10:28:00
+61	334	2024-03-11	22:20:00	04:34:00
+62	43	2024-03-11	05:52:00	05:06:00
+63	278	2024-03-11	03:29:00	11:57:00
+64	379	2024-03-10	16:09:00	01:27:00
+65	251	2024-03-10	23:28:00	22:34:00
+66	99	2024-03-10	16:40:00	15:25:00
+67	225	2024-03-10	11:48:00	04:33:00
+68	332	2024-03-11	23:30:00	08:55:00
+69	198	2024-03-11	13:48:00	07:49:00
+70	7	2024-03-10	06:10:00	21:12:00
+71	281	2024-03-10	22:41:00	06:19:00
+72	343	2024-03-10	14:32:00	03:31:00
+73	288	2024-03-11	14:24:00	02:29:00
+74	261	2024-03-10	14:37:00	20:54:00
+75	319	2024-03-11	23:10:00	00:34:00
+76	307	2024-03-10	13:03:00	17:40:00
+77	74	2024-03-10	11:29:00	03:52:00
+78	267	2024-03-10	04:24:00	14:33:00
+79	179	2024-03-11	17:24:00	03:05:00
+80	350	2024-03-11	19:30:00	14:00:00
+81	147	2024-03-11	12:24:00	20:04:00
+82	104	2024-03-10	01:12:00	14:47:00
+83	391	2024-03-10	11:29:00	03:23:00
+84	361	2024-03-11	15:03:00	12:25:00
+85	268	2024-03-10	13:41:00	21:14:00
+86	199	2024-03-11	10:56:00	21:57:00
+87	303	2024-03-11	14:43:00	06:24:00
+88	10	2024-03-10	18:46:00	09:57:00
+89	333	2024-03-11	02:06:00	16:19:00
+90	109	2024-03-10	05:45:00	23:39:00
+91	121	2024-03-10	15:24:00	19:11:00
+92	395	2024-03-11	00:13:00	02:05:00
+93	15	2024-03-10	04:36:00	00:58:00
+94	123	2024-03-11	11:35:00	22:16:00
+95	83	2024-03-10	23:05:00	15:30:00
+96	287	2024-03-11	23:49:00	15:08:00
+97	60	2024-03-11	03:56:00	04:08:00
+98	266	2024-03-11	07:48:00	04:35:00
+99	38	2024-03-11	02:40:00	19:15:00
+100	401	2024-03-11	19:54:00	02:37:00
+101	134	2024-03-11	19:16:00	05:28:00
+102	391	2024-03-10	02:19:00	08:21:00
+103	265	2024-03-10	08:15:00	22:33:00
+104	316	2024-03-11	20:07:00	16:08:00
+105	371	2024-03-11	13:05:00	21:56:00
+106	197	2024-03-11	16:52:00	19:57:00
+107	297	2024-03-10	04:31:00	00:33:00
+108	300	2024-03-10	22:25:00	21:35:00
+109	139	2024-03-10	14:23:00	23:22:00
+110	310	2024-03-11	15:30:00	11:10:00
+111	277	2024-03-10	21:46:00	05:14:00
+112	88	2024-03-10	02:19:00	16:31:00
+113	280	2024-03-11	06:45:00	15:40:00
+114	101	2024-03-10	06:12:00	08:13:00
+115	194	2024-03-11	09:50:00	04:00:00
+116	32	2024-03-10	11:18:00	23:10:00
+117	135	2024-03-11	18:58:00	17:06:00
+118	79	2024-03-10	15:00:00	00:07:00
+119	262	2024-03-10	02:38:00	20:04:00
+120	305	2024-03-11	14:53:00	15:11:00
+121	391	2024-03-11	15:17:00	14:18:00
+122	369	2024-03-11	01:22:00	17:44:00
+123	223	2024-03-10	14:03:00	12:01:00
+124	116	2024-03-10	13:03:00	10:03:00
+125	21	2024-03-11	12:15:00	23:24:00
+126	397	2024-03-10	05:02:00	13:22:00
+127	397	2024-03-10	02:41:00	14:11:00
+128	364	2024-03-10	01:49:00	00:32:00
+129	264	2024-03-11	14:12:00	11:29:00
+130	36	2024-03-10	18:19:00	13:43:00
+131	327	2024-03-11	01:36:00	11:02:00
+132	211	2024-03-11	10:51:00	07:42:00
+133	257	2024-03-10	11:57:00	10:22:00
+134	27	2024-03-10	15:44:00	14:00:00
+135	260	2024-03-10	20:09:00	13:00:00
+136	250	2024-03-11	16:42:00	00:11:00
+137	260	2024-03-11	13:37:00	15:48:00
+138	177	2024-03-11	12:37:00	06:36:00
+139	106	2024-03-11	08:18:00	22:19:00
+140	55	2024-03-10	03:56:00	15:23:00
+141	82	2024-03-11	10:11:00	14:36:00
+142	250	2024-03-11	23:25:00	09:34:00
+143	128	2024-03-10	21:02:00	17:46:00
+144	178	2024-03-11	00:13:00	07:58:00
+145	77	2024-03-11	16:19:00	00:49:00
+146	64	2024-03-11	23:53:00	07:18:00
+147	361	2024-03-11	20:14:00	18:59:00
+148	94	2024-03-10	04:56:00	09:10:00
+149	281	2024-03-11	04:50:00	14:35:00
+150	400	2024-03-10	04:47:00	02:05:00
+151	93	2024-03-11	20:30:00	06:05:00
+152	56	2024-03-11	16:03:00	12:47:00
+153	248	2024-03-10	06:59:00	06:00:00
+154	262	2024-03-10	12:21:00	11:11:00
+155	1	2024-03-11	07:54:00	04:35:00
+156	392	2024-03-10	10:00:00	12:45:00
+157	15	2024-03-10	17:36:00	19:25:00
+158	22	2024-03-10	12:26:00	12:20:00
+159	53	2024-03-11	12:48:00	17:05:00
+160	283	2024-03-10	17:17:00	07:10:00
+161	37	2024-03-11	14:19:00	14:21:00
+162	243	2024-03-11	21:53:00	13:27:00
+163	244	2024-03-10	02:32:00	20:03:00
+164	197	2024-03-10	22:15:00	19:36:00
+165	73	2024-03-11	07:08:00	20:29:00
+166	14	2024-03-10	07:46:00	08:19:00
+167	79	2024-03-11	08:58:00	22:37:00
+168	377	2024-03-10	15:49:00	19:45:00
+169	95	2024-03-10	21:05:00	09:56:00
+170	245	2024-03-10	03:43:00	19:39:00
+171	100	2024-03-10	06:03:00	08:49:00
+172	24	2024-03-11	20:43:00	17:45:00
+173	358	2024-03-10	04:14:00	18:08:00
+174	30	2024-03-10	22:47:00	16:39:00
+175	226	2024-03-11	09:22:00	23:52:00
+176	329	2024-03-10	15:53:00	08:32:00
+177	68	2024-03-11	19:06:00	17:15:00
+178	142	2024-03-10	08:48:00	03:15:00
+179	221	2024-03-11	06:14:00	19:42:00
+180	223	2024-03-10	13:26:00	17:16:00
+181	122	2024-03-10	22:49:00	09:26:00
+182	241	2024-03-10	02:36:00	03:35:00
+183	338	2024-03-10	17:51:00	12:04:00
+184	292	2024-03-11	04:52:00	17:50:00
+185	112	2024-03-11	16:35:00	20:26:00
+186	173	2024-03-10	16:37:00	01:23:00
+187	68	2024-03-11	00:29:00	05:18:00
+188	339	2024-03-10	04:25:00	19:36:00
+189	392	2024-03-10	13:49:00	14:47:00
+190	386	2024-03-11	19:00:00	07:58:00
+191	373	2024-03-11	09:50:00	04:57:00
+192	341	2024-03-10	19:57:00	19:11:00
+193	184	2024-03-11	05:41:00	14:42:00
+194	393	2024-03-10	23:39:00	15:38:00
+195	293	2024-03-11	11:20:00	16:08:00
+196	218	2024-03-11	13:55:00	16:55:00
+197	221	2024-03-11	16:39:00	14:44:00
+198	179	2024-03-10	14:26:00	20:09:00
+199	292	2024-03-11	12:06:00	05:48:00
+200	28	2024-03-10	14:24:00	01:59:00
+201	388	2024-03-11	04:30:00	23:46:00
+202	170	2024-03-11	15:28:00	17:24:00
+203	14	2024-03-10	17:03:00	07:44:00
+204	310	2024-03-10	12:14:00	22:05:00
+205	341	2024-03-10	05:09:00	03:21:00
+206	375	2024-03-10	08:32:00	10:30:00
+207	119	2024-03-11	17:07:00	22:41:00
+208	175	2024-03-11	09:09:00	23:56:00
+209	170	2024-03-11	13:44:00	13:44:00
+210	319	2024-03-11	17:54:00	08:48:00
+211	310	2024-03-10	21:38:00	07:24:00
+212	76	2024-03-11	01:00:00	03:13:00
+213	385	2024-03-10	13:35:00	09:21:00
+214	376	2024-03-11	08:54:00	03:36:00
+215	247	2024-03-10	08:19:00	09:24:00
+216	320	2024-03-10	19:24:00	07:43:00
+217	43	2024-03-10	06:04:00	13:26:00
+218	379	2024-03-10	14:56:00	12:25:00
+219	345	2024-03-11	20:04:00	21:52:00
+220	34	2024-03-10	23:12:00	09:15:00
+221	172	2024-03-10	14:13:00	19:59:00
+222	68	2024-03-11	16:55:00	11:24:00
+223	58	2024-03-11	12:11:00	01:42:00
+224	209	2024-03-11	16:35:00	08:00:00
+225	191	2024-03-10	23:13:00	18:14:00
+226	365	2024-03-11	02:17:00	09:07:00
+227	335	2024-03-10	07:39:00	06:45:00
+228	195	2024-03-11	15:43:00	08:03:00
+229	265	2024-03-11	01:46:00	07:28:00
+230	336	2024-03-10	19:34:00	00:31:00
+231	9	2024-03-11	12:05:00	06:40:00
+232	158	2024-03-11	06:29:00	08:33:00
+233	259	2024-03-10	10:38:00	10:26:00
+234	39	2024-03-11	22:13:00	05:41:00
+235	211	2024-03-10	22:56:00	13:45:00
+236	203	2024-03-10	17:19:00	16:59:00
+237	182	2024-03-11	11:16:00	13:01:00
+238	57	2024-03-11	10:38:00	00:41:00
+239	401	2024-03-10	04:42:00	17:01:00
+240	179	2024-03-11	16:39:00	06:28:00
+241	46	2024-03-10	03:00:00	10:47:00
+242	316	2024-03-10	18:10:00	00:34:00
+243	33	2024-03-11	04:38:00	05:48:00
+244	14	2024-03-11	00:58:00	10:14:00
+245	207	2024-03-10	15:09:00	02:58:00
+246	164	2024-03-11	18:17:00	01:18:00
+247	230	2024-03-10	21:28:00	08:42:00
+248	391	2024-03-10	18:39:00	16:37:00
+249	216	2024-03-10	02:06:00	15:26:00
+250	248	2024-03-11	08:28:00	09:51:00
+251	283	2024-03-10	21:59:00	01:25:00
+252	26	2024-03-11	12:56:00	05:54:00
+253	68	2024-03-11	05:59:00	19:42:00
+254	369	2024-03-10	02:39:00	19:53:00
+255	324	2024-03-11	01:54:00	19:33:00
+256	106	2024-03-11	21:22:00	00:08:00
+257	207	2024-03-11	22:15:00	13:33:00
+258	206	2024-03-10	11:36:00	22:22:00
+259	155	2024-03-10	15:55:00	16:31:00
+260	400	2024-03-10	18:43:00	15:40:00
+261	239	2024-03-10	17:13:00	06:29:00
+262	111	2024-03-11	23:38:00	13:06:00
+263	149	2024-03-11	07:43:00	10:32:00
+264	163	2024-03-10	16:57:00	05:36:00
+265	18	2024-03-11	18:56:00	05:39:00
+266	318	2024-03-10	05:54:00	06:26:00
+267	278	2024-03-11	09:16:00	21:29:00
+268	190	2024-03-11	20:52:00	19:42:00
+269	326	2024-03-10	09:29:00	08:43:00
+270	319	2024-03-10	14:00:00	07:47:00
+271	314	2024-03-10	00:01:00	06:34:00
+272	361	2024-03-10	10:11:00	05:29:00
+273	240	2024-03-11	20:30:00	15:30:00
+274	156	2024-03-11	22:21:00	21:34:00
+275	109	2024-03-11	00:32:00	11:04:00
+276	297	2024-03-11	08:17:00	16:11:00
+277	182	2024-03-11	15:00:00	21:54:00
+278	192	2024-03-11	15:45:00	11:33:00
+279	45	2024-03-11	19:06:00	15:44:00
+280	194	2024-03-11	18:54:00	02:11:00
+281	265	2024-03-10	15:33:00	17:43:00
+282	154	2024-03-10	13:26:00	23:48:00
+283	108	2024-03-11	18:56:00	00:22:00
+284	234	2024-03-10	05:56:00	00:25:00
+285	82	2024-03-11	09:39:00	17:05:00
+286	176	2024-03-10	09:28:00	09:22:00
+287	314	2024-03-10	10:26:00	20:33:00
+288	119	2024-03-10	17:02:00	16:49:00
+289	75	2024-03-11	00:53:00	22:17:00
+290	7	2024-03-10	09:03:00	06:48:00
+291	122	2024-03-11	03:54:00	05:15:00
+292	362	2024-03-10	00:48:00	02:48:00
+293	219	2024-03-10	07:22:00	14:58:00
+294	62	2024-03-11	13:43:00	23:16:00
+295	243	2024-03-10	22:47:00	21:39:00
+296	256	2024-03-10	01:43:00	10:23:00
+297	347	2024-03-11	02:37:00	09:54:00
+298	114	2024-03-11	07:49:00	06:35:00
+299	289	2024-03-11	03:49:00	15:40:00
+300	1	2024-03-10	12:51:00	17:33:00
+301	400	2024-03-11	06:59:00	18:08:00
+302	34	2024-03-10	09:16:00	16:09:00
+303	50	2024-03-10	15:43:00	05:25:00
+304	307	2024-03-10	00:11:00	13:10:00
+305	2	2024-03-11	15:22:00	08:34:00
+306	339	2024-03-10	21:34:00	00:47:00
+307	188	2024-03-11	16:28:00	16:27:00
+308	147	2024-03-11	11:34:00	06:34:00
+309	344	2024-03-10	06:19:00	20:38:00
+310	287	2024-03-11	23:01:00	16:23:00
+311	6	2024-03-10	15:26:00	02:50:00
+312	87	2024-03-11	14:27:00	17:13:00
+313	403	2024-03-11	13:30:00	20:28:00
+314	394	2024-03-10	16:43:00	10:17:00
+315	238	2024-03-11	03:08:00	03:40:00
+316	162	2024-03-11	12:05:00	11:31:00
+317	206	2024-03-10	03:24:00	08:17:00
+318	252	2024-03-11	10:03:00	20:38:00
+319	208	2024-03-10	05:50:00	00:42:00
+320	21	2024-03-10	00:54:00	14:36:00
+321	350	2024-03-11	02:58:00	01:50:00
+322	279	2024-03-10	03:28:00	23:55:00
+323	342	2024-03-11	15:09:00	07:08:00
+324	286	2024-03-10	19:31:00	15:48:00
+325	216	2024-03-10	02:56:00	15:27:00
+326	340	2024-03-10	12:41:00	14:51:00
+327	28	2024-03-11	02:12:00	22:01:00
+328	301	2024-03-11	01:15:00	19:52:00
+329	25	2024-03-10	23:15:00	08:07:00
+330	160	2024-03-10	12:16:00	05:08:00
+331	260	2024-03-11	18:11:00	07:29:00
+332	128	2024-03-10	06:09:00	13:02:00
+333	395	2024-03-11	21:22:00	07:53:00
+334	371	2024-03-11	07:56:00	10:07:00
+335	359	2024-03-11	12:49:00	23:52:00
+336	274	2024-03-11	15:26:00	03:22:00
+337	353	2024-03-11	11:23:00	04:26:00
+338	387	2024-03-11	12:15:00	09:04:00
+339	300	2024-03-10	12:50:00	12:12:00
+340	304	2024-03-11	16:55:00	10:44:00
+341	7	2024-03-10	02:46:00	15:20:00
+342	30	2024-03-11	05:12:00	14:48:00
+343	228	2024-03-11	16:30:00	22:06:00
+344	146	2024-03-11	08:11:00	21:34:00
+345	299	2024-03-10	21:16:00	20:35:00
+346	128	2024-03-10	13:15:00	10:45:00
+347	288	2024-03-11	06:22:00	20:18:00
+348	368	2024-03-10	21:13:00	09:13:00
+349	387	2024-03-10	00:32:00	22:48:00
+350	65	2024-03-10	08:37:00	05:25:00
+351	323	2024-03-10	06:00:00	02:22:00
+352	4	2024-03-11	16:48:00	07:44:00
+353	379	2024-03-10	22:21:00	14:18:00
+354	236	2024-03-10	18:28:00	05:05:00
+355	1	2024-03-10	01:49:00	17:28:00
+356	152	2024-03-11	20:15:00	18:20:00
+357	4	2024-03-11	09:40:00	18:31:00
+358	48	2024-03-11	10:55:00	19:56:00
+359	97	2024-03-11	01:55:00	15:31:00
+360	352	2024-03-10	18:57:00	11:28:00
+361	72	2024-03-10	18:51:00	15:59:00
+362	104	2024-03-11	00:53:00	18:16:00
+363	152	2024-03-10	13:12:00	15:53:00
+364	29	2024-03-10	17:49:00	00:53:00
+365	264	2024-03-11	23:38:00	10:30:00
+366	215	2024-03-10	01:59:00	18:06:00
+367	82	2024-03-11	00:03:00	18:19:00
+368	275	2024-03-10	17:08:00	14:10:00
+369	306	2024-03-11	05:18:00	13:44:00
+370	44	2024-03-10	07:47:00	15:02:00
+371	2	2024-03-10	21:10:00	01:19:00
+372	212	2024-03-11	04:41:00	13:13:00
+373	103	2024-03-10	21:35:00	20:34:00
+374	284	2024-03-11	02:01:00	01:05:00
+375	256	2024-03-11	04:36:00	05:10:00
+376	168	2024-03-10	06:24:00	23:37:00
+377	283	2024-03-11	08:22:00	01:08:00
+378	105	2024-03-11	00:14:00	10:39:00
+379	243	2024-03-10	00:49:00	04:31:00
+380	233	2024-03-10	19:08:00	17:50:00
+381	218	2024-03-10	23:47:00	15:31:00
+382	185	2024-03-11	06:16:00	11:33:00
+383	395	2024-03-11	17:34:00	15:31:00
+384	28	2024-03-10	14:38:00	13:44:00
+385	355	2024-03-11	13:54:00	22:53:00
+386	339	2024-03-10	14:53:00	22:51:00
+387	14	2024-03-10	20:28:00	22:42:00
+388	143	2024-03-10	10:47:00	05:58:00
+389	1	2024-03-10	14:07:00	01:11:00
+390	192	2024-03-11	08:40:00	05:51:00
+391	231	2024-03-10	15:02:00	16:43:00
+392	54	2024-03-10	23:35:00	04:10:00
+393	277	2024-03-11	04:06:00	08:47:00
+394	102	2024-03-10	06:03:00	08:40:00
+395	402	2024-03-10	14:53:00	22:10:00
+396	45	2024-03-11	16:35:00	01:32:00
+397	249	2024-03-11	16:11:00	00:22:00
+398	254	2024-03-11	03:10:00	03:26:00
+399	87	2024-03-11	11:40:00	08:31:00
+400	17	2024-03-11	20:53:00	09:45:00
+401	137	2024-03-11	18:05:00	02:28:00
+402	7	2024-03-10	18:22:00	20:34:00
+403	190	2024-03-11	03:43:00	14:54:00
+\.
+
+
+--
+-- TOC entry 3427 (class 0 OID 16780)
+-- Dependencies: 229
+-- Data for Name: class_membership; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.class_membership (memberid, classid) FROM stdin;
+1	1
+2	2
+3	3
+403	360
+40	369
+86	282
+173	231
+185	95
+227	370
+365	262
+158	284
+252	14
+159	229
+44	158
+23	21
+219	372
+287	390
+5	38
+391	66
+131	130
+228	283
+321	248
+373	82
+115	371
+384	343
+156	268
+238	43
+299	122
+312	36
+147	320
+232	182
+102	142
+241	148
+274	196
+154	331
+211	351
+158	58
+369	39
+124	40
+43	199
+279	59
+22	19
+320	346
+172	19
+284	163
+184	258
+49	195
+392	80
+278	134
+58	256
+316	261
+158	55
+20	135
+37	264
+296	78
+192	367
+378	357
+114	91
+227	82
+216	310
+91	392
+318	40
+289	386
+346	52
+127	175
+106	11
+23	281
+47	399
+188	382
+137	181
+153	248
+6	360
+188	375
+278	224
+236	79
+302	387
+75	190
+222	252
+164	338
+41	254
+395	32
+10	371
+318	116
+11	89
+376	201
+225	165
+341	69
+271	295
+5	250
+42	50
+14	320
+268	346
+251	9
+151	145
+201	394
+370	21
+150	363
+133	24
+337	376
+358	126
+93	108
+105	151
+271	160
+239	186
+361	329
+93	2
+295	339
+224	165
+112	374
+300	358
+52	29
+20	353
+229	145
+295	356
+271	40
+35	41
+361	237
+211	211
+295	63
+111	62
+41	353
+266	110
+86	303
+373	292
+234	17
+11	319
+45	345
+256	184
+95	9
+302	208
+303	179
+8	30
+72	243
+402	83
+366	386
+190	354
+10	4
+337	259
+394	20
+164	213
+109	154
+327	274
+188	200
+251	290
+77	207
+201	128
+351	278
+80	161
+159	383
+58	385
+335	216
+238	237
+273	379
+314	201
+369	133
+197	132
+119	66
+395	136
+103	39
+355	189
+228	302
+366	184
+34	107
+111	311
+276	192
+281	116
+402	76
+166	215
+334	141
+232	256
+308	255
+121	377
+246	310
+24	131
+70	95
+213	22
+212	205
+305	258
+218	169
+13	236
+255	207
+127	311
+148	166
+176	392
+339	185
+331	107
+108	54
+251	109
+16	190
+76	273
+63	126
+98	60
+276	358
+280	277
+211	143
+255	133
+263	286
+10	59
+296	398
+187	306
+337	218
+352	290
+173	400
+240	103
+262	291
+344	378
+51	320
+108	354
+254	96
+178	348
+323	136
+203	88
+185	391
+156	42
+97	357
+364	117
+38	50
+378	58
+386	43
+1	317
+79	355
+361	217
+298	292
+196	62
+9	353
+35	394
+58	142
+368	97
+191	88
+203	147
+146	360
+89	121
+185	80
+283	244
+29	362
+321	163
+241	195
+35	308
+74	398
+165	23
+129	30
+139	290
+360	81
+248	143
+261	299
+324	129
+281	27
+220	163
+108	20
+378	12
+390	70
+59	77
+17	1
+256	104
+203	360
+378	263
+84	12
+186	256
+263	60
+2	106
+3	262
+269	209
+390	349
+48	300
+111	308
+287	109
+391	139
+171	196
+273	131
+180	152
+68	245
+283	43
+198	380
+354	368
+386	173
+267	44
+196	112
+81	198
+198	204
+308	31
+296	115
+289	129
+31	214
+387	312
+395	190
+365	183
+53	308
+141	105
+316	80
+196	365
+320	89
+11	381
+271	112
+259	199
+353	328
+165	326
+166	271
+75	144
+74	239
+378	348
+393	116
+201	351
+281	230
+224	255
+383	115
+92	117
+137	194
+255	55
+312	258
+200	42
+38	379
+5	401
+232	257
+253	310
+21	27
+240	280
+273	400
+390	1
+126	379
+340	101
+263	142
+361	95
+31	361
+402	143
+63	141
+287	355
+322	44
+80	298
+381	232
+376	207
+163	250
+94	59
+368	71
+355	374
+234	69
+68	230
+205	32
+362	3
+309	300
+70	59
+66	102
+205	166
+196	152
+137	148
+241	369
+263	205
+28	208
+339	136
+276	312
+87	55
+402	191
+303	303
+359	171
+332	342
+339	350
+380	267
+316	309
+60	215
+289	274
+104	322
+154	25
+13	298
+83	286
+50	238
+145	366
+79	108
+142	340
+402	112
+350	383
+285	320
+97	67
+314	34
+5	294
+401	341
+50	9
+390	66
+234	146
+100	312
+158	32
+66	218
+222	218
+236	131
+216	279
+59	119
+87	354
+132	23
+383	91
+261	374
+120	78
+18	287
+99	6
+249	157
+301	124
+90	272
+330	168
+292	335
+278	342
+325	360
+66	385
+227	168
+152	255
+56	222
+267	125
+\.
+
+
+--
+-- TOC entry 3422 (class 0 OID 16745)
+-- Dependencies: 224
+-- Data for Name: classes; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.classes (classid, classname, classtime, instructorid) FROM stdin;
+1	Morning Yoga	09:00:00	1
+2	Pilates Core	14:00:00	2
+3	Evening Zumba	17:00:00	3
+4	barre	12:16:00	109
+5	swimming	01:47:00	210
+6	spin	12:13:00	243
+7	functional training	13:10:00	168
+8	cardio	15:15:00	403
+9	bootcamp	04:04:00	103
+10	bootcamp	14:15:00	359
+11	spin	08:58:00	171
+12	swimming	15:40:00	330
+13	spin	09:21:00	132
+14	powerlifting	08:18:00	269
+15	functional training	06:58:00	124
+16	swimming	06:48:00	208
+17	cardio	18:52:00	269
+18	TRX	13:43:00	241
+19	cycling	17:46:00	88
+20	spin	09:56:00	403
+21	boxing	17:11:00	327
+22	cycling	18:41:00	218
+23	cardio	14:58:00	137
+24	crossfit	01:15:00	112
+25	spin	03:07:00	379
+26	cycling	12:48:00	359
+27	swimming	10:48:00	163
+28	cycling	14:36:00	275
+29	aerobics	12:05:00	357
+30	crossfit	03:07:00	252
+31	bootcamp	04:01:00	121
+32	functional training	09:45:00	378
+33	spin	01:36:00	374
+34	powerlifting	13:07:00	403
+35	crossfit	02:22:00	352
+36	swimming	02:43:00	93
+37	boxing	13:40:00	277
+38	swimming	02:57:00	309
+39	bootcamp	00:22:00	15
+40	swimming	05:10:00	334
+41	spin	09:48:00	59
+42	bootcamp	05:40:00	126
+43	crossfit	10:31:00	59
+44	TRX	02:12:00	327
+45	crossfit	01:48:00	394
+46	functional training	03:03:00	364
+47	bootcamp	13:03:00	187
+48	spin	03:26:00	75
+49	boxing	02:51:00	187
+50	barre	09:20:00	180
+51	spin	11:02:00	187
+52	TRX	14:09:00	30
+53	powerlifting	03:37:00	309
+54	functional training	05:27:00	148
+55	boxing	05:15:00	402
+56	cycling	12:07:00	79
+57	swimming	13:49:00	330
+58	cycling	12:33:00	301
+59	functional training	06:44:00	119
+60	barre	10:04:00	376
+61	swimming	15:50:00	132
+62	TRX	05:02:00	329
+63	swimming	04:35:00	277
+64	swimming	13:39:00	344
+65	barre	03:41:00	288
+66	swimming	13:04:00	148
+67	spin	02:34:00	300
+68	boxing	17:15:00	78
+69	swimming	18:52:00	96
+70	cardio	14:15:00	28
+71	TRX	00:50:00	353
+72	TRX	05:17:00	71
+73	bootcamp	00:10:00	26
+74	spin	04:26:00	108
+75	cycling	15:21:00	154
+76	TRX	14:05:00	259
+77	spin	11:24:00	214
+78	functional training	18:48:00	218
+79	spin	00:28:00	19
+80	crossfit	09:17:00	181
+81	cardio	04:16:00	333
+82	functional training	15:40:00	14
+83	functional training	03:23:00	187
+84	cardio	16:56:00	324
+85	barre	04:17:00	166
+86	powerlifting	16:48:00	210
+87	cardio	12:50:00	63
+88	spin	11:09:00	241
+89	aerobics	03:38:00	364
+90	cardio	13:45:00	280
+91	boxing	18:44:00	132
+92	barre	11:55:00	235
+93	cardio	10:06:00	204
+94	powerlifting	16:09:00	285
+95	cardio	08:29:00	117
+96	powerlifting	04:32:00	200
+97	crossfit	05:13:00	313
+98	powerlifting	05:38:00	201
+99	powerlifting	02:54:00	248
+100	powerlifting	18:04:00	376
+101	aerobics	04:13:00	389
+102	crossfit	01:07:00	44
+103	spin	16:39:00	32
+104	powerlifting	06:41:00	247
+105	crossfit	11:04:00	346
+106	boxing	12:25:00	264
+107	boxing	18:23:00	15
+108	bootcamp	09:21:00	120
+109	TRX	07:22:00	192
+110	bootcamp	07:50:00	168
+111	cardio	12:28:00	142
+112	functional training	00:48:00	280
+113	bootcamp	01:25:00	109
+114	TRX	14:51:00	285
+115	swimming	15:18:00	24
+116	TRX	09:17:00	355
+117	boxing	15:23:00	29
+118	functional training	08:29:00	310
+119	crossfit	06:59:00	334
+120	TRX	01:41:00	166
+121	crossfit	01:34:00	386
+122	TRX	18:44:00	18
+123	spin	11:07:00	43
+124	crossfit	10:19:00	211
+125	cycling	13:31:00	35
+126	aerobics	00:46:00	218
+127	spin	03:13:00	60
+128	boxing	10:30:00	106
+129	functional training	05:46:00	363
+130	barre	03:53:00	273
+131	TRX	15:06:00	73
+132	spin	01:53:00	181
+133	crossfit	18:37:00	162
+134	functional training	10:03:00	332
+135	crossfit	16:34:00	69
+136	TRX	14:18:00	340
+137	powerlifting	11:46:00	400
+138	boxing	09:21:00	204
+139	TRX	10:58:00	327
+140	spin	00:34:00	395
+141	powerlifting	13:06:00	12
+142	spin	00:12:00	325
+143	crossfit	01:02:00	337
+144	swimming	07:17:00	302
+145	bootcamp	00:03:00	347
+146	crossfit	16:26:00	376
+147	cardio	07:12:00	3
+148	cardio	18:09:00	61
+149	barre	14:48:00	101
+150	TRX	11:54:00	75
+151	spin	04:46:00	98
+152	crossfit	14:11:00	48
+153	TRX	05:43:00	104
+154	aerobics	17:59:00	355
+155	cycling	08:59:00	351
+156	barre	07:09:00	193
+157	swimming	09:13:00	234
+158	spin	02:03:00	314
+159	functional training	17:10:00	181
+160	crossfit	14:12:00	397
+161	boxing	15:04:00	377
+162	functional training	06:29:00	22
+163	bootcamp	09:34:00	373
+164	boxing	02:19:00	395
+165	boxing	09:14:00	45
+166	powerlifting	12:41:00	180
+167	barre	05:56:00	81
+168	aerobics	00:04:00	197
+169	swimming	06:07:00	403
+170	spin	07:16:00	396
+171	boxing	03:25:00	156
+172	functional training	08:02:00	280
+173	functional training	06:17:00	363
+174	aerobics	07:44:00	396
+175	functional training	15:36:00	268
+176	cardio	15:41:00	270
+177	bootcamp	06:09:00	54
+178	functional training	09:05:00	184
+179	bootcamp	03:23:00	386
+180	crossfit	13:09:00	327
+181	powerlifting	18:46:00	250
+182	bootcamp	14:20:00	47
+183	functional training	17:13:00	219
+184	aerobics	11:24:00	168
+185	crossfit	13:38:00	89
+186	cardio	17:28:00	61
+187	barre	16:58:00	308
+188	bootcamp	05:00:00	389
+189	spin	09:57:00	149
+190	crossfit	17:59:00	266
+191	bootcamp	13:10:00	32
+192	swimming	09:20:00	124
+193	aerobics	05:48:00	77
+194	cycling	02:27:00	322
+195	crossfit	07:46:00	63
+196	boxing	14:22:00	375
+197	crossfit	17:43:00	88
+198	functional training	05:54:00	186
+199	cardio	04:41:00	24
+200	crossfit	07:38:00	62
+201	functional training	03:08:00	155
+202	crossfit	15:22:00	396
+203	cycling	17:58:00	42
+204	cardio	17:56:00	325
+205	barre	01:11:00	192
+206	TRX	09:17:00	39
+207	spin	18:20:00	221
+208	aerobics	16:52:00	20
+209	swimming	01:21:00	2
+210	boxing	16:42:00	238
+211	crossfit	16:56:00	280
+212	crossfit	02:49:00	14
+213	crossfit	10:28:00	91
+214	boxing	01:02:00	392
+215	powerlifting	17:18:00	275
+216	spin	17:56:00	201
+217	spin	00:53:00	102
+218	barre	02:14:00	321
+219	TRX	07:17:00	260
+220	crossfit	17:27:00	275
+221	crossfit	15:44:00	117
+222	swimming	18:13:00	78
+223	spin	04:09:00	103
+224	TRX	03:33:00	284
+225	cardio	15:41:00	342
+226	boxing	12:14:00	295
+227	cycling	02:27:00	134
+228	bootcamp	15:09:00	243
+229	crossfit	05:25:00	256
+230	bootcamp	13:46:00	198
+231	aerobics	13:32:00	157
+232	crossfit	17:57:00	347
+233	barre	05:43:00	204
+234	spin	05:39:00	86
+235	cardio	18:15:00	220
+236	TRX	03:01:00	122
+237	cycling	02:58:00	47
+238	swimming	11:31:00	398
+239	swimming	03:30:00	221
+240	cardio	17:20:00	278
+241	crossfit	00:38:00	103
+242	swimming	11:31:00	176
+243	cardio	12:47:00	27
+244	swimming	16:31:00	55
+245	barre	07:47:00	13
+246	crossfit	16:24:00	58
+247	cardio	17:32:00	317
+248	swimming	03:42:00	173
+249	TRX	14:18:00	30
+250	barre	15:16:00	4
+251	crossfit	03:07:00	372
+252	barre	01:08:00	36
+253	TRX	04:55:00	397
+254	powerlifting	01:21:00	374
+255	aerobics	14:49:00	289
+256	barre	01:04:00	312
+257	crossfit	09:17:00	376
+258	cycling	03:00:00	173
+259	cardio	16:49:00	32
+260	powerlifting	01:51:00	230
+261	spin	03:05:00	162
+262	bootcamp	06:17:00	280
+263	barre	09:52:00	68
+264	powerlifting	07:19:00	402
+265	TRX	14:56:00	25
+266	powerlifting	18:42:00	170
+267	bootcamp	09:39:00	364
+268	aerobics	01:24:00	22
+269	cycling	17:32:00	403
+270	crossfit	05:44:00	320
+271	cardio	03:45:00	244
+272	boxing	07:31:00	242
+273	boxing	05:51:00	375
+274	powerlifting	17:53:00	353
+275	functional training	13:49:00	43
+276	functional training	06:19:00	249
+277	swimming	12:31:00	208
+278	functional training	06:10:00	346
+279	boxing	01:53:00	324
+280	functional training	18:18:00	182
+281	cycling	08:43:00	114
+282	TRX	10:26:00	144
+283	aerobics	16:02:00	301
+284	cardio	08:59:00	130
+285	bootcamp	07:29:00	47
+286	cardio	05:25:00	183
+287	functional training	07:58:00	325
+288	spin	04:09:00	148
+289	cardio	07:29:00	147
+290	bootcamp	04:50:00	12
+291	barre	14:38:00	95
+292	cycling	12:18:00	258
+293	bootcamp	17:12:00	16
+294	powerlifting	10:27:00	196
+295	spin	02:01:00	1
+296	cycling	11:47:00	319
+297	powerlifting	14:54:00	363
+298	boxing	15:58:00	304
+299	functional training	08:45:00	380
+300	powerlifting	02:34:00	287
+301	cycling	12:28:00	63
+302	crossfit	13:24:00	186
+303	bootcamp	02:46:00	135
+304	crossfit	08:21:00	125
+305	TRX	07:20:00	357
+306	cycling	05:01:00	223
+307	spin	10:19:00	232
+308	TRX	09:20:00	255
+309	cardio	04:50:00	133
+310	barre	11:40:00	374
+311	powerlifting	04:09:00	288
+312	barre	15:59:00	369
+313	swimming	16:27:00	24
+314	TRX	12:01:00	149
+315	functional training	02:05:00	290
+316	TRX	07:17:00	101
+317	functional training	11:29:00	325
+318	powerlifting	05:02:00	22
+319	powerlifting	05:29:00	246
+320	aerobics	16:36:00	124
+321	spin	14:37:00	372
+322	spin	14:49:00	301
+323	cycling	07:57:00	2
+324	aerobics	08:54:00	389
+325	aerobics	09:15:00	197
+326	barre	14:59:00	265
+327	boxing	01:48:00	282
+328	functional training	12:30:00	260
+329	cardio	00:27:00	30
+330	powerlifting	15:25:00	183
+331	spin	00:46:00	156
+332	crossfit	11:46:00	340
+333	bootcamp	12:48:00	70
+334	boxing	06:59:00	52
+335	spin	13:00:00	344
+336	crossfit	11:42:00	317
+337	crossfit	14:29:00	88
+338	crossfit	11:35:00	389
+339	powerlifting	10:25:00	239
+340	boxing	05:15:00	29
+341	spin	01:56:00	79
+342	powerlifting	02:21:00	315
+343	cycling	18:34:00	145
+344	swimming	06:37:00	233
+345	functional training	02:31:00	256
+346	powerlifting	17:05:00	137
+347	functional training	07:04:00	40
+348	spin	03:53:00	191
+349	spin	09:11:00	269
+350	boxing	07:47:00	43
+351	functional training	14:32:00	382
+352	bootcamp	15:55:00	261
+353	TRX	15:40:00	256
+354	cardio	08:56:00	155
+355	TRX	10:55:00	304
+356	swimming	02:00:00	191
+357	swimming	04:37:00	145
+358	functional training	11:46:00	87
+359	spin	15:22:00	334
+360	spin	17:41:00	166
+361	spin	06:12:00	267
+362	cardio	02:51:00	329
+363	barre	11:52:00	79
+364	swimming	06:59:00	267
+365	crossfit	01:28:00	236
+366	aerobics	08:48:00	109
+367	barre	14:02:00	137
+368	swimming	17:02:00	403
+369	spin	02:04:00	345
+370	spin	04:11:00	41
+371	boxing	02:27:00	45
+372	bootcamp	13:42:00	172
+373	cardio	06:46:00	164
+374	bootcamp	04:58:00	200
+375	functional training	06:58:00	113
+376	cycling	11:43:00	34
+377	aerobics	07:27:00	307
+378	spin	08:29:00	136
+379	cycling	08:48:00	398
+380	boxing	09:07:00	203
+381	aerobics	16:36:00	173
+382	TRX	18:36:00	263
+383	boxing	01:35:00	208
+384	bootcamp	02:41:00	261
+385	boxing	03:04:00	255
+386	crossfit	11:42:00	108
+387	cycling	02:18:00	379
+388	spin	17:14:00	392
+389	bootcamp	08:59:00	206
+390	powerlifting	14:05:00	316
+391	bootcamp	13:35:00	15
+392	barre	00:54:00	41
+393	boxing	12:56:00	192
+394	spin	05:52:00	245
+395	boxing	10:55:00	141
+396	cardio	12:21:00	278
+397	bootcamp	13:38:00	224
+398	TRX	02:35:00	85
+399	swimming	17:05:00	269
+400	cycling	02:38:00	156
+401	functional training	13:13:00	133
+402	powerlifting	15:22:00	10
+403	cardio	00:54:00	330
+404	functional training	15:41:00	77
+405	crossfit	10:28:00	62
+406	bootcamp	00:59:00	313
+407	cycling	15:37:00	364
+408	swimming	10:43:00	279
+409	powerlifting	07:32:00	56
+410	TRX	04:47:00	263
+411	aerobics	12:02:00	397
+412	crossfit	15:30:00	403
+413	bootcamp	16:25:00	119
+414	aerobics	15:54:00	200
+415	swimming	12:22:00	25
+416	bootcamp	13:00:00	27
+417	barre	18:49:00	42
+418	swimming	09:58:00	359
+419	crossfit	11:26:00	149
+420	barre	18:58:00	267
+421	bootcamp	01:35:00	366
+422	bootcamp	07:50:00	83
+423	cardio	18:50:00	287
+424	cardio	01:39:00	190
+425	functional training	01:22:00	317
+426	barre	10:39:00	384
+427	aerobics	11:47:00	118
+428	spin	16:16:00	232
+429	TRX	12:06:00	276
+430	barre	15:55:00	131
+431	bootcamp	11:01:00	201
+432	cycling	10:15:00	30
+433	crossfit	10:36:00	192
+434	swimming	00:09:00	66
+435	aerobics	13:11:00	223
+436	aerobics	17:32:00	243
+437	TRX	03:07:00	189
+438	functional training	16:47:00	222
+439	swimming	00:45:00	402
+440	functional training	06:37:00	381
+441	crossfit	06:27:00	364
+442	functional training	02:35:00	314
+443	swimming	06:05:00	384
+444	powerlifting	18:35:00	223
+445	bootcamp	10:28:00	365
+446	TRX	04:45:00	374
+447	swimming	00:05:00	184
+448	aerobics	00:11:00	242
+449	functional training	04:44:00	198
+450	aerobics	16:32:00	372
+451	crossfit	18:05:00	91
+452	powerlifting	09:34:00	96
+453	boxing	06:48:00	165
+454	cycling	05:55:00	212
+455	cardio	16:24:00	25
+456	cycling	10:34:00	21
+457	swimming	18:40:00	348
+458	functional training	10:24:00	255
+459	crossfit	05:05:00	149
+460	cardio	13:17:00	166
+461	cardio	03:10:00	180
+462	bootcamp	17:37:00	117
+463	bootcamp	06:40:00	248
+464	aerobics	03:43:00	302
+465	spin	00:35:00	89
+466	bootcamp	00:53:00	24
+467	crossfit	14:49:00	186
+468	crossfit	11:32:00	53
+469	barre	16:37:00	95
+470	powerlifting	07:00:00	28
+471	bootcamp	00:43:00	333
+472	bootcamp	12:08:00	177
+473	crossfit	10:38:00	299
+474	barre	12:51:00	185
+475	cardio	09:30:00	201
+476	aerobics	11:22:00	107
+477	boxing	05:06:00	340
+478	barre	15:06:00	301
+479	swimming	07:05:00	368
+480	boxing	09:27:00	234
+481	bootcamp	11:54:00	271
+482	cardio	17:09:00	197
+483	bootcamp	14:05:00	62
+484	bootcamp	18:48:00	359
+485	barre	15:04:00	263
+486	functional training	14:27:00	345
+487	powerlifting	18:17:00	117
+488	TRX	09:37:00	286
+489	cardio	07:24:00	48
+490	functional training	07:49:00	307
+491	powerlifting	12:36:00	39
+492	functional training	03:41:00	195
+493	functional training	04:46:00	345
+494	cardio	18:21:00	141
+495	powerlifting	05:21:00	368
+496	bootcamp	12:23:00	9
+497	crossfit	04:36:00	379
+498	swimming	16:25:00	207
+499	cycling	15:02:00	90
+500	cardio	01:43:00	323
+501	TRX	18:23:00	312
+502	cardio	09:05:00	319
+503	boxing	07:15:00	11
+504	powerlifting	15:23:00	64
+505	spin	01:55:00	59
+506	crossfit	12:52:00	49
+507	aerobics	15:35:00	73
+508	crossfit	17:05:00	211
+509	barre	11:56:00	199
+510	crossfit	12:22:00	259
+511	boxing	05:21:00	11
+512	barre	04:16:00	253
+513	crossfit	00:05:00	186
+514	boxing	12:48:00	73
+515	boxing	13:50:00	221
+516	functional training	03:13:00	120
+517	bootcamp	10:42:00	38
+518	barre	00:40:00	219
+519	spin	05:31:00	319
+520	aerobics	04:55:00	69
+521	functional training	13:34:00	267
+522	barre	10:47:00	41
+523	cycling	14:53:00	359
+524	boxing	15:42:00	240
+525	boxing	00:51:00	17
+526	barre	16:06:00	82
+527	cycling	09:12:00	305
+528	aerobics	03:22:00	162
+529	boxing	14:18:00	68
+530	spin	02:33:00	131
+531	spin	13:46:00	48
+532	powerlifting	14:25:00	127
+533	barre	05:44:00	297
+534	powerlifting	14:00:00	383
+535	cycling	03:35:00	224
+536	cardio	00:42:00	274
+537	aerobics	04:04:00	49
+538	TRX	10:32:00	161
+539	crossfit	15:06:00	76
+540	crossfit	01:22:00	65
+541	TRX	12:16:00	239
+542	cardio	17:45:00	320
+543	barre	03:04:00	157
+544	powerlifting	15:27:00	393
+545	bootcamp	01:08:00	339
+546	powerlifting	07:47:00	224
+547	TRX	11:01:00	59
+548	TRX	06:15:00	81
+549	bootcamp	18:42:00	190
+550	spin	08:27:00	278
+551	cycling	16:57:00	260
+552	crossfit	04:39:00	338
+553	cycling	15:34:00	292
+554	cycling	11:41:00	68
+555	cycling	08:56:00	29
+556	spin	00:21:00	349
+557	functional training	17:58:00	106
+558	bootcamp	04:15:00	382
+559	cycling	07:04:00	238
+560	aerobics	06:22:00	363
+561	cycling	09:31:00	149
+562	aerobics	14:31:00	267
+563	boxing	05:27:00	294
+564	barre	12:20:00	93
+565	TRX	12:24:00	331
+566	aerobics	18:05:00	389
+567	spin	06:10:00	26
+568	bootcamp	16:12:00	36
+569	bootcamp	15:14:00	108
+570	boxing	12:27:00	394
+571	TRX	16:43:00	307
+572	TRX	08:27:00	331
+573	cycling	00:55:00	325
+574	spin	12:27:00	36
+575	bootcamp	04:54:00	21
+576	crossfit	10:42:00	136
+577	spin	04:34:00	286
+578	bootcamp	08:36:00	76
+579	swimming	15:50:00	199
+580	crossfit	01:59:00	287
+581	powerlifting	11:23:00	336
+582	spin	18:25:00	155
+583	TRX	12:01:00	270
+584	boxing	17:20:00	298
+585	bootcamp	03:20:00	294
+586	TRX	12:09:00	326
+587	barre	17:07:00	403
+588	functional training	08:29:00	271
+589	bootcamp	14:20:00	213
+590	TRX	04:57:00	334
+591	functional training	06:49:00	278
+592	crossfit	05:31:00	133
+593	spin	07:36:00	146
+594	boxing	07:35:00	205
+595	swimming	07:25:00	54
+596	swimming	02:04:00	149
+597	aerobics	15:27:00	299
+598	cycling	03:51:00	84
+599	functional training	15:40:00	75
+600	spin	08:23:00	321
+601	crossfit	17:11:00	24
+602	cardio	09:18:00	388
+603	swimming	16:56:00	399
+604	barre	04:16:00	264
+605	cardio	05:17:00	128
+606	aerobics	15:15:00	80
+607	barre	12:51:00	21
+608	boxing	01:18:00	395
+609	aerobics	18:00:00	352
+610	aerobics	07:28:00	221
+611	swimming	04:07:00	249
+612	spin	12:02:00	129
+613	cycling	00:35:00	305
+614	boxing	14:31:00	195
+615	swimming	05:36:00	129
+616	bootcamp	10:16:00	152
+617	functional training	01:00:00	168
+618	aerobics	14:06:00	353
+619	cycling	16:24:00	187
+620	swimming	05:10:00	178
+621	boxing	18:48:00	195
+622	barre	12:45:00	323
+623	cardio	08:12:00	192
+624	boxing	14:11:00	2
+625	crossfit	04:29:00	282
+626	TRX	16:54:00	235
+627	spin	16:35:00	236
+628	TRX	00:02:00	376
+629	cardio	05:31:00	392
+630	bootcamp	14:53:00	19
+631	powerlifting	15:45:00	393
+632	cycling	13:42:00	347
+633	barre	04:12:00	377
+634	spin	00:43:00	29
+635	boxing	05:31:00	87
+636	TRX	16:47:00	199
+637	TRX	16:24:00	76
+638	powerlifting	03:14:00	29
+639	crossfit	16:52:00	401
+640	aerobics	10:59:00	189
+641	functional training	04:52:00	165
+642	cardio	03:33:00	205
+643	TRX	11:41:00	71
+644	swimming	05:37:00	267
+645	cycling	15:34:00	282
+646	bootcamp	07:02:00	8
+647	aerobics	14:16:00	143
+648	cycling	03:38:00	17
+649	crossfit	14:49:00	177
+650	cardio	08:29:00	136
+651	swimming	17:45:00	231
+652	TRX	15:50:00	288
+653	barre	14:33:00	173
+654	spin	09:41:00	263
+655	functional training	17:28:00	36
+656	functional training	05:10:00	279
+657	barre	14:53:00	363
+658	cycling	03:04:00	321
+659	crossfit	11:33:00	66
+660	powerlifting	09:44:00	57
+661	powerlifting	17:39:00	86
+662	bootcamp	04:04:00	106
+663	swimming	12:17:00	183
+664	cycling	03:51:00	37
+665	bootcamp	00:33:00	263
+666	TRX	09:51:00	233
+667	boxing	04:37:00	129
+668	cardio	11:04:00	12
+669	TRX	18:59:00	215
+670	spin	03:25:00	360
+671	cycling	04:00:00	285
+672	spin	11:56:00	11
+673	bootcamp	16:21:00	364
+674	cycling	01:29:00	97
+675	barre	17:00:00	9
+676	TRX	14:01:00	301
+677	aerobics	06:25:00	99
+678	aerobics	05:35:00	16
+679	barre	11:06:00	13
+680	cardio	16:38:00	108
+681	spin	02:47:00	159
+682	aerobics	13:35:00	74
+683	powerlifting	16:03:00	238
+684	aerobics	07:55:00	27
+685	TRX	07:44:00	340
+686	crossfit	15:33:00	248
+687	powerlifting	03:44:00	41
+688	aerobics	18:52:00	84
+689	barre	17:38:00	322
+690	TRX	06:50:00	96
+691	cardio	11:47:00	287
+692	boxing	18:45:00	335
+693	barre	11:24:00	145
+694	swimming	15:44:00	121
+695	powerlifting	13:58:00	170
+696	TRX	14:20:00	163
+697	cardio	01:22:00	156
+698	cardio	12:40:00	237
+699	barre	18:35:00	249
+700	spin	04:35:00	167
+701	cardio	03:27:00	368
+702	swimming	07:28:00	202
+703	aerobics	12:22:00	62
+704	crossfit	11:17:00	146
+705	spin	15:23:00	259
+706	cycling	03:01:00	145
+707	barre	01:33:00	259
+708	cycling	17:45:00	358
+709	spin	08:43:00	328
+710	bootcamp	09:24:00	371
+711	powerlifting	18:17:00	15
+712	powerlifting	01:28:00	336
+713	cycling	06:08:00	254
+714	cycling	02:19:00	17
+715	powerlifting	01:13:00	81
+716	powerlifting	11:02:00	106
+717	swimming	02:03:00	195
+718	cardio	12:42:00	223
+719	aerobics	12:23:00	267
+720	TRX	16:47:00	54
+721	TRX	03:56:00	107
+722	spin	06:11:00	302
+723	swimming	16:18:00	52
+724	spin	02:42:00	370
+725	boxing	02:27:00	26
+726	bootcamp	13:00:00	357
+727	barre	07:40:00	50
+728	powerlifting	02:45:00	13
+729	cycling	14:05:00	119
+730	powerlifting	02:01:00	389
+731	barre	17:44:00	296
+732	cardio	17:25:00	118
+733	aerobics	09:38:00	176
+734	powerlifting	08:08:00	216
+735	cardio	03:44:00	304
+736	bootcamp	03:29:00	238
+737	spin	11:00:00	125
+738	functional training	00:34:00	262
+739	spin	01:30:00	196
+740	functional training	08:55:00	107
+741	powerlifting	07:41:00	281
+742	crossfit	09:34:00	36
+743	spin	10:19:00	143
+744	functional training	14:12:00	202
+745	cycling	12:55:00	219
+746	spin	17:33:00	228
+747	cycling	10:16:00	22
+748	powerlifting	09:07:00	54
+749	barre	14:17:00	169
+750	bootcamp	17:14:00	206
+751	bootcamp	07:12:00	201
+752	cycling	10:06:00	309
+753	aerobics	05:14:00	230
+\.
+
+
+--
+-- TOC entry 3420 (class 0 OID 16736)
+-- Dependencies: 222
+-- Data for Name: instructors; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.instructors (instructorid, name, expertise, phone, hourlyrate, schedule) FROM stdin;
+1	Alice Brown	Yoga	123-456-7890	40.00	Mon-Wed-Fri: 9:00-11:00
+2	Bob Green	Pilates	987-654-3210	45.00	Tue-Thu: 14:00-16:00
+3	Charlie Black	Zumba	555-123-4567	35.00	Mon-Wed-Fri: 17:00-19:00
+4	Byram Puddicombe	boxing	992-387-1303	43.82	Fri: 14:00-16:00
+5	Rossy Alwin	spin	532-984-2488	48.86	Mon: 12:00-14:00
+6	Dodie Piburn	swimming	312-993-8752	95.43	Mon-Wed: 16:00-18:00
+7	Tory Crews	aerobics	235-647-3229	38.83	Mon-Wed: 11:30-13:30
+8	Melita Redman	powerlifting	287-108-8696	86.26	Wed: 10:00-14:00
+9	Marnia Studders	crossfit	976-901-8622	38.73	Wed: 13:00-15:00
+10	Danielle Taggert	spin	723-240-7303	60.57	Mon-Wed-Fri: 9:00-11:00
+11	Raoul Mounsie	bootcamp	893-932-4945	71.24	Wed-Fri: 15:00-17:00
+12	Consolata Avramov	functional training	769-282-4405	43.40	Mon-Thu: 16:00-18:00
+13	Tori Solano	bootcamp	792-102-4817	64.43	Thu-Fri: 17:00-19:00
+14	Curcio McGilleghole	powerlifting	550-686-7420	76.49	Tue-Thu: 12:00-14:00
+15	Jephthah Gardener	TRX	346-385-3818	85.33	Mon-Tue-Thu: 9:30-11:30
+16	Windy Gorges	TRX	826-863-5234	88.94	Mon: 8:30-10:30
+17	Andie Stoyle	boxing	279-639-6335	61.19	Mon-Wed: 11:30-13:30
+18	Marlin Dorin	cycling	577-131-8535	62.51	Mon-Wed: 11:30-13:30
+19	Stevana Evreux	cardio	941-969-1613	94.15	Mon-Tue-Thu: 9:30-11:30
+20	Sigismondo Wedgwood	barre	205-748-4282	56.61	Wed-Fri: 15:00-17:00
+21	Farand Craig	aerobics	367-923-9598	51.53	Tue-Fri: 18:00-20:00
+22	Diahann MacKniely	zumba	387-658-0834	54.40	Tue-Thu: 13:00-15:00
+23	Stu Ogbourne	dance	313-938-6352	91.30	Mon-Fri: 8:00-12:00
+24	Davon Pepin	bootcamp	844-381-7686	42.20	Tue-Fri: 18:00-20:00
+25	Tildi Janny	strength training	486-256-5761	67.79	Mon-Wed: 11:30-13:30
+26	Gareth Checchetelli	pilates	267-783-4110	44.99	Tue: 9:00-10:30
+27	Lou Devenny	powerlifting	331-814-0434	69.31	Mon-Tue-Thu: 9:30-11:30
+28	Violante Mignot	strength training	963-436-6000	63.85	Wed: 10:00-14:00
+29	Selinda Skelding	pilates	428-163-8691	68.50	Wed-Fri: 15:00-17:00
+30	Sydney Haryngton	spin	345-651-1391	99.98	Mon-Thu: 16:00-18:00
+31	Art Daniells	strength training	203-692-4048	81.48	Tue: 14:00-16:00
+32	Valaree Ugoni	spin	223-732-9062	40.96	Mon-Fri: 7:00-9:00
+33	Clerc Lagen	pilates	523-535-6546	91.28	Mon-Wed-Fri: 9:00-11:00
+34	Monah Kitching	pilates	229-349-4444	36.33	Tue-Thu: 12:00-14:00
+35	Tedra Dryden	functional training	535-412-4804	81.08	Mon-Fri: 8:00-12:00
+36	Bernardine Tithecott	dance	174-797-3000	84.71	Mon: 12:00-14:00
+37	Sansone Rabbet	crossfit	491-216-3924	84.24	Mon-Fri: 8:00-12:00
+38	Luella Darling	crossfit	955-929-1010	41.73	Mon-Wed: 16:00-18:00
+39	Austin Clemits	yoga	777-798-7696	70.80	Mon: 12:00-14:00
+40	Richmound Lobley	weightlifting	189-175-4158	70.70	Mon-Tue-Thu: 9:30-11:30
+41	Monika Forten	swimming	547-332-6383	78.16	Mon: 12:00-14:00
+42	Wendel Gunn	cardio	182-836-9066	58.78	Wed-Fri: 15:00-17:00
+43	Chrisse Brigdale	HIIT	956-449-5791	75.12	Tue-Thu: 12:00-14:00
+44	Malinda Farney	bodyweight exercises	313-622-0246	72.32	Mon: 8:30-10:30
+45	Wilt Jeandeau	kickboxing	750-371-2239	73.42	Wed: 10:00-14:00
+46	Audrey Jakaway	HIIT	174-706-8389	85.35	Wed-Fri: 15:00-17:00
+47	Augustin Braime	strength training	691-793-6744	96.41	Tue: 14:00-16:00
+48	Felike Longthorn	yoga	400-344-6868	42.86	Mon-Wed: 11:30-13:30
+49	Tamra O' Scallan	bodyweight exercises	678-891-5852	76.31	Fri: 11:00-13:00
+50	Wyatt Lempenny	swimming	365-902-6113	69.30	Thu: 10:00-12:00
+51	Des Landrick	spin	384-110-0246	63.91	Tue: 14:00-16:00
+52	Benson Sisselot	swimming	779-808-5906	44.92	Mon-Thu: 14:30-16:30
+53	Farrell Lindberg	barre	633-271-9998	69.52	Mon-Wed-Fri: 9:00-11:00
+54	Vern MacKall	crossfit	214-214-7537	88.09	Mon-Fri: 8:00-12:00
+55	Trude Gansbuhler	crossfit	698-309-3994	65.86	Mon-Fri: 8:00-12:00
+56	Denney Temperton	HIIT	341-613-8832	66.25	Tue: 14:00-16:00
+57	Chicky Skule	dance	146-543-4630	51.60	Tue-Thu: 12:00-14:00
+58	Phyllys Pacher	pilates	433-380-3239	88.59	Mon-Wed: 16:00-18:00
+59	Dominick Godin	bootcamp	714-456-3474	75.34	Mon: 8:30-10:30
+60	Fiona Nozzolii	crossfit	859-932-5993	81.20	Thu-Fri: 17:00-19:00
+61	Nichol Sawforde	functional training	619-493-2619	75.11	Mon: 8:30-10:30
+62	Lanny Cordero	dance	202-680-3033	89.01	Mon-Wed: 11:30-13:30
+63	Haily Costock	bootcamp	816-769-4675	82.11	Tue-Thu: 13:00-15:00
+64	Far Akroyd	barre	746-648-9469	82.19	Mon-Wed: 11:30-13:30
+65	Monica Rosenfield	weightlifting	214-866-2029	89.65	Mon-Thu: 14:30-16:30
+66	Ermentrude Pozzi	pilates	218-679-7125	96.17	Tue: 9:00-10:30
+67	Taffy Wagen	yoga	394-621-9539	66.87	Mon-Fri: 8:00-12:00
+68	Franky Inkster	cardio	275-625-9371	58.42	Tue-Fri: 18:00-20:00
+69	Torrin Fellon	strength training	255-329-5241	36.17	Mon-Wed-Fri: 9:00-11:00
+70	Etan Thomen	weightlifting	420-196-4790	84.52	Tue-Thu: 12:00-14:00
+71	Frazer Cannon	stretching	893-396-6298	85.75	Mon-Thu: 14:30-16:30
+72	Nariko Brodhead	pilates	545-444-2465	82.58	Mon-Thu: 16:00-18:00
+73	Wylie Horley	barre	599-866-7395	44.28	Thu: 10:00-12:00
+74	Luce Abramamov	functional training	410-140-5078	81.73	Mon-Fri: 8:00-12:00
+75	Maria Clerke	swimming	542-175-5902	66.98	Tue-Thu: 12:00-14:00
+76	Jandy Lesor	bodyweight exercises	161-601-9951	87.80	Mon-Tue-Thu: 9:30-11:30
+77	Hana Presswell	powerlifting	917-992-0906	85.57	Wed-Fri: 15:00-17:00
+78	Emilio McCurdy	aerobics	207-572-9724	83.18	Wed: 13:00-15:00
+79	Denni Coushe	dance	809-793-0658	50.59	Mon-Wed: 16:00-18:00
+80	Kerwin Lyst	crossfit	537-182-7405	72.41	Wed: 13:00-15:00
+81	Tyson Gurys	yoga	858-620-1515	59.06	Mon-Thu: 16:00-18:00
+82	Walker Adran	cycling	757-425-6264	69.22	Fri: 14:00-16:00
+83	Tito McElree	bodyweight exercises	908-411-9617	66.80	Fri: 11:00-13:00
+84	Packston Chuney	barre	883-270-8705	61.41	Mon-Tue-Thu: 9:30-11:30
+85	Fidelia Nelius	functional training	373-364-6544	64.28	Mon: 8:30-10:30
+86	Hugh Dennant	cardio	482-816-0641	38.54	Mon-Thu: 16:00-18:00
+87	Reeba Blamey	bootcamp	785-896-9992	88.96	Mon-Wed: 16:00-18:00
+88	Lonny Morforth	boxing	622-140-0913	48.74	Mon-Wed-Fri: 9:00-11:00
+89	Jarad Penylton	TRX	472-923-5514	70.24	Fri: 11:00-13:00
+90	Emory Drohane	barre	366-392-0356	98.41	Tue: 9:00-10:30
+91	Ed Bounde	crossfit	306-645-6346	92.54	Thu: 10:00-12:00
+92	Camey Munroe	strength training	137-143-1266	41.30	Mon-Tue-Thu: 9:30-11:30
+93	Bren MacFadyen	kickboxing	582-705-2321	69.03	Fri: 11:00-13:00
+94	Iona Watsam	cardio	874-440-9824	58.95	Wed-Fri: 15:00-17:00
+95	Cordell Berriball	boxing	685-857-7333	69.90	Mon-Tue-Thu: 9:30-11:30
+96	Curr Merigeau	zumba	114-187-2720	43.45	Mon-Wed: 16:00-18:00
+97	Ibbie Nesby	TRX	189-678-0668	74.05	Mon-Fri: 8:00-12:00
+98	Almeta Collinette	barre	165-975-5799	43.50	Tue: 14:00-16:00
+99	Jordain Grigoire	yoga	757-191-9152	75.94	Tue: 14:00-16:00
+100	Giuditta Witnall	TRX	591-452-4313	99.06	Thu-Fri: 17:00-19:00
+101	Morie Witherup	swimming	309-197-4099	70.40	Wed: 10:00-14:00
+102	Bernard Garwill	stretching	420-487-8949	60.40	Fri: 14:00-16:00
+103	York Newarte	swimming	580-204-3157	78.86	Wed-Fri: 15:00-17:00
+104	Calhoun Linch	barre	424-308-1408	65.09	Mon-Tue-Thu: 9:30-11:30
+105	Claybourne Hatliffe	strength training	222-684-2311	74.20	Mon-Wed-Fri: 9:00-11:00
+106	Ellynn Barrar	boxing	876-423-5610	44.98	Fri: 14:00-16:00
+107	Tripp Brass	stretching	721-554-8680	72.02	Thu-Fri: 17:00-19:00
+108	Maddi Aizkovitch	dance	147-230-3847	40.56	Thu: 10:00-12:00
+109	Anya Huntington	weightlifting	993-411-3483	60.56	Fri: 14:00-16:00
+110	Ezequiel McClifferty	swimming	237-169-9213	67.77	Thu: 10:00-12:00
+111	Geneva Kleinberer	cycling	946-504-4795	59.43	Mon-Fri: 8:00-12:00
+112	Elisabeth Bacchus	functional training	764-662-6346	63.59	Mon-Wed-Fri: 9:00-11:00
+113	Verney Moyser	cycling	901-120-4127	49.37	Wed: 13:00-15:00
+114	Carmela Docherty	barre	863-329-2162	47.13	Fri: 14:00-16:00
+115	Matilda Agglio	stretching	625-613-7283	64.46	Tue-Thu: 13:00-15:00
+116	Jodi Waterman	kickboxing	525-125-7547	83.49	Tue-Thu: 12:00-14:00
+117	Amanda Davison	swimming	467-478-6081	62.13	Mon: 12:00-14:00
+118	Amabelle Luttgert	stretching	223-282-5096	85.56	Wed: 13:00-15:00
+119	Clarence Greggor	boxing	522-489-3152	58.19	Mon-Wed: 16:00-18:00
+120	Aryn Agglione	aerobics	276-912-8183	73.13	Wed-Fri: 15:00-17:00
+121	Binny Malecky	pilates	860-918-1735	68.63	Fri: 14:00-16:00
+122	Sandra Elflain	boxing	253-655-6124	97.79	Tue-Thu: 13:00-15:00
+123	Clarence Greville	dance	593-967-0147	90.12	Tue-Fri: 18:00-20:00
+124	Henryetta Schimek	bootcamp	673-449-9833	69.75	Thu-Fri: 17:00-19:00
+125	Elnora Fandrey	bootcamp	302-234-9838	59.57	Fri: 14:00-16:00
+126	Ruthe Connechie	spin	121-118-1266	37.91	Mon: 12:00-14:00
+127	Leesa Biddiss	strength training	781-241-7470	36.03	Mon-Thu: 14:30-16:30
+128	Lynnet Winterbottom	crossfit	354-632-0007	76.12	Mon-Thu: 14:30-16:30
+129	Antonie Gallelli	weightlifting	823-903-2936	97.25	Mon-Wed: 11:30-13:30
+130	Barrie Tod	kickboxing	130-709-9418	78.78	Thu: 10:00-12:00
+131	Ingra Beidebeke	yoga	593-420-6187	40.75	Mon-Thu: 16:00-18:00
+132	Josefa Camden	stretching	590-562-4128	49.71	Mon-Tue-Thu: 9:30-11:30
+133	Ricky Stokey	functional training	938-419-5685	97.92	Tue-Fri: 18:00-20:00
+134	Windy Gouny	crossfit	989-462-9936	77.35	Thu-Fri: 17:00-19:00
+135	Gan Magee	aerobics	687-198-9245	37.52	Fri: 14:00-16:00
+136	Imelda Gowdy	bodyweight exercises	186-412-2348	83.82	Thu: 10:00-12:00
+137	Temple Lanning	dance	139-867-8674	78.52	Tue-Thu: 13:00-15:00
+138	Cinnamon Casari	bootcamp	459-847-4514	40.05	Mon-Wed-Fri: 9:00-11:00
+139	Knox Doxsey	swimming	844-217-4861	39.62	Wed: 13:00-15:00
+140	Jacinthe Yerill	crossfit	385-556-7423	63.63	Tue-Thu: 12:00-14:00
+141	Yardley MacHostie	barre	212-225-4007	49.27	Mon-Wed: 11:30-13:30
+142	Danell Soles	powerlifting	176-425-2249	36.06	Thu: 10:00-12:00
+143	Kylila Gashion	dance	768-439-3386	50.75	Mon-Thu: 14:30-16:30
+144	Dinny Eby	yoga	148-249-4801	61.83	Tue: 9:00-10:30
+145	Victoria Jeff	strength training	176-814-3989	60.61	Fri: 14:00-16:00
+146	Nertie Lideard	boxing	579-594-6602	94.16	Mon-Tue-Thu: 9:30-11:30
+147	Sheff Priest	pilates	155-327-1711	81.84	Mon-Fri: 8:00-12:00
+148	Bernelle Acres	cardio	603-877-3079	51.12	Mon: 8:30-10:30
+149	Cynthie Cominoli	weightlifting	949-939-0326	66.69	Tue-Thu: 13:00-15:00
+150	Ingunna Werrett	pilates	601-232-3832	58.31	Mon-Tue-Thu: 9:30-11:30
+151	Annette Newcombe	cardio	919-307-6437	72.80	Mon: 12:00-14:00
+152	Issie Lehemann	pilates	460-204-2783	71.57	Wed-Fri: 15:00-17:00
+153	Eb Eake	pilates	111-340-0507	56.01	Mon: 12:00-14:00
+154	Blinnie Dana	bodyweight exercises	744-367-1448	91.63	Mon: 12:00-14:00
+155	Melosa Newns	zumba	266-980-6386	38.71	Wed-Fri: 15:00-17:00
+156	Karlee Czajka	strength training	291-521-2762	52.71	Mon-Thu: 14:30-16:30
+157	Fax Duigan	yoga	933-694-9942	77.94	Thu: 10:00-12:00
+158	Jonell Mashro	crossfit	932-231-9477	75.96	Tue-Thu: 13:00-15:00
+159	Marina Bonham	aerobics	936-661-7695	60.04	Fri: 14:00-16:00
+160	Laney Valentinuzzi	strength training	914-621-2420	44.60	Mon-Thu: 14:30-16:30
+161	Ebeneser Dabs	crossfit	255-171-6768	40.39	Wed: 13:00-15:00
+162	Sharline Checklin	strength training	221-475-7604	93.38	Fri: 14:00-16:00
+163	Jackelyn Colbron	strength training	425-791-9731	74.72	Wed-Fri: 15:00-17:00
+164	Mathian Poser	barre	632-847-5761	60.01	Mon-Thu: 14:30-16:30
+165	Mauricio Ede	bootcamp	763-866-3311	55.12	Wed: 10:00-14:00
+166	Alexis Heys	aerobics	765-291-1599	53.42	Mon: 12:00-14:00
+167	Melisa Lefwich	aerobics	403-435-3421	40.18	Tue: 9:00-10:30
+168	Lenard Ilyuchyov	powerlifting	932-845-5361	80.93	Fri: 11:00-13:00
+169	Eda Tallow	yoga	477-597-4448	77.10	Mon-Thu: 16:00-18:00
+170	Waly Sweetnam	swimming	400-421-3491	49.64	Mon-Wed: 11:30-13:30
+171	Connie Crosthwaite	barre	196-905-7077	96.67	Tue-Thu: 13:00-15:00
+172	Ciel Marrett	functional training	314-285-2738	71.39	Mon-Thu: 14:30-16:30
+173	Edna Antonomolii	TRX	925-385-6882	95.77	Tue-Thu: 13:00-15:00
+174	Sybille Fynan	stretching	905-653-2309	75.38	Tue-Thu: 12:00-14:00
+175	Jacinta Marklin	yoga	345-130-0441	73.82	Mon: 12:00-14:00
+176	Moishe Koomar	functional training	369-380-6056	60.76	Tue-Thu: 12:00-14:00
+177	Jocelin Bentzen	barre	903-960-7772	85.68	Thu-Fri: 17:00-19:00
+178	Miguelita Courtenay	crossfit	694-812-7517	56.61	Tue-Fri: 18:00-20:00
+179	Lewiss Lidgate	kickboxing	847-745-8931	58.18	Thu-Fri: 17:00-19:00
+180	Maxy Gubbins	crossfit	403-993-4491	78.16	Mon: 12:00-14:00
+181	Ruby Smieton	dance	215-992-0704	49.53	Tue: 9:00-10:30
+182	Trace Boxhill	dance	818-125-1317	65.67	Fri: 14:00-16:00
+183	Mayer Bew	aerobics	122-791-4546	58.44	Mon: 8:30-10:30
+184	Gerhardt Cregin	TRX	318-112-7827	63.19	Mon: 12:00-14:00
+185	Rowan Sowerbutts	swimming	635-196-8805	96.94	Mon-Thu: 16:00-18:00
+186	Bernelle Chaster	TRX	935-735-8359	65.37	Mon-Wed: 11:30-13:30
+187	Tonye O'Hartigan	cycling	123-381-0689	73.11	Tue-Fri: 18:00-20:00
+188	Eleni Overnell	kickboxing	340-103-5749	49.19	Tue-Thu: 12:00-14:00
+189	David Espinet	kickboxing	589-525-3121	69.73	Tue-Thu: 12:00-14:00
+190	Bord Jertz	zumba	829-392-6817	83.56	Mon: 12:00-14:00
+191	Eldridge Edsell	yoga	222-169-5021	45.49	Mon-Wed: 11:30-13:30
+192	Francisca McCambrois	yoga	475-671-8484	41.83	Thu-Fri: 17:00-19:00
+193	Agatha Mitham	strength training	895-698-0941	72.81	Mon-Fri: 7:00-9:00
+194	Sarge Dary	boxing	628-372-9089	78.32	Tue: 14:00-16:00
+195	Pierrette Glanz	bootcamp	253-680-3885	91.00	Mon: 8:30-10:30
+196	Dolores Kamienski	weightlifting	112-869-2560	67.13	Tue-Fri: 18:00-20:00
+197	Rickey Greene	spin	858-801-6032	36.94	Tue: 14:00-16:00
+198	Carey Cobello	swimming	543-547-0330	55.69	Mon-Thu: 14:30-16:30
+199	Grace Hambling	bootcamp	294-213-1692	39.39	Thu: 10:00-12:00
+200	Cody McVicker	kickboxing	179-433-5452	96.84	Mon: 12:00-14:00
+201	Clem Brammall	HIIT	141-180-5111	92.88	Wed: 10:00-14:00
+202	Weylin Daymont	kickboxing	701-716-0018	81.62	Fri: 14:00-16:00
+203	Gerry Trighton	bootcamp	180-160-4003	54.35	Mon-Fri: 8:00-12:00
+204	Reginald Sondland	kickboxing	646-121-0859	48.13	Mon-Thu: 14:30-16:30
+205	Sheela Ingall	swimming	228-275-7060	61.48	Mon-Wed: 11:30-13:30
+206	Sawyer McClelland	bodyweight exercises	273-977-0702	64.65	Mon-Wed: 11:30-13:30
+207	Norean Gownge	stretching	706-423-8162	70.99	Mon-Fri: 8:00-12:00
+208	Janith Kopec	weightlifting	737-271-8137	78.81	Wed: 10:00-14:00
+209	Colet Hesbrook	aerobics	562-956-9151	99.73	Fri: 11:00-13:00
+210	Kendre Petit	weightlifting	455-741-7652	88.53	Mon-Tue-Thu: 9:30-11:30
+211	Alejandra Ternault	boxing	216-648-1371	52.23	Mon: 12:00-14:00
+212	Karissa Mycock	cycling	412-771-5353	43.68	Mon-Wed-Fri: 9:00-11:00
+213	Afton Gulleford	functional training	983-419-4114	76.87	Mon-Wed: 11:30-13:30
+214	Jamal Tomaini	TRX	333-538-1347	90.62	Mon: 12:00-14:00
+215	Jdavie Stormouth	crossfit	209-483-1757	36.24	Fri: 14:00-16:00
+216	Rebecca Samsin	bootcamp	866-864-8626	58.28	Fri: 11:00-13:00
+217	Filmore Woltman	pilates	630-500-8927	56.56	Tue: 14:00-16:00
+218	Frankie Knappitt	TRX	282-614-6207	38.01	Tue-Fri: 18:00-20:00
+219	Viole Rodrig	powerlifting	410-313-0620	69.20	Tue: 14:00-16:00
+220	Barnett Feria	aerobics	721-501-8892	97.54	Fri: 11:00-13:00
+221	Gisela Cowthard	crossfit	647-777-7714	57.07	Mon-Tue-Thu: 9:30-11:30
+222	Katalin Sinderland	yoga	825-995-4682	38.77	Mon-Tue-Thu: 9:30-11:30
+223	Merrile Waddilow	functional training	478-659-0361	90.12	Tue: 9:00-10:30
+224	Gerhardine Streader	barre	573-168-6693	59.31	Tue-Thu: 13:00-15:00
+225	Lettie Le Barre	boxing	192-134-9915	46.42	Tue-Fri: 18:00-20:00
+226	Stuart Rey	strength training	985-478-3070	98.32	Mon-Thu: 16:00-18:00
+227	Ursala Walsham	cardio	114-571-3214	85.55	Wed: 13:00-15:00
+228	Wylma Savins	yoga	255-194-2149	68.82	Mon: 12:00-14:00
+229	West Nabbs	spin	716-954-8811	83.45	Thu-Fri: 17:00-19:00
+230	Mychal Lipp	strength training	193-904-4981	82.46	Mon-Tue-Thu: 9:30-11:30
+231	Zondra Rubberts	weightlifting	303-991-6525	88.84	Mon-Fri: 7:00-9:00
+232	Rivi Dring	kickboxing	892-318-0982	73.24	Wed-Fri: 15:00-17:00
+233	Sidnee Haskew	crossfit	372-307-2935	58.65	Tue-Thu: 12:00-14:00
+234	Nahum Undrell	kickboxing	995-877-6138	64.17	Mon-Wed: 16:00-18:00
+235	Otho Eade	dance	701-591-2544	38.55	Mon-Thu: 16:00-18:00
+236	Gus Pietsma	aerobics	790-170-9897	68.08	Tue: 14:00-16:00
+237	Marcelo Andrei	powerlifting	159-780-9566	81.80	Tue-Fri: 18:00-20:00
+238	Thadeus Eagan	strength training	792-878-4520	40.24	Mon-Fri: 8:00-12:00
+239	Jehu Van Schafflaer	powerlifting	206-104-0183	78.75	Fri: 11:00-13:00
+240	Schuyler Eckh	pilates	204-127-8016	90.35	Mon-Thu: 14:30-16:30
+241	Jorie Ferminger	zumba	940-964-5617	84.93	Mon-Fri: 7:00-9:00
+242	Aaren Grunder	aerobics	495-170-2082	98.27	Tue-Fri: 18:00-20:00
+243	Franklin Kemish	cardio	739-953-1975	53.59	Fri: 11:00-13:00
+244	Sammy Blastock	stretching	956-268-2544	55.86	Wed: 10:00-14:00
+245	Shanon Cartner	powerlifting	710-170-2261	54.94	Fri: 14:00-16:00
+246	Ynez Stonestreet	swimming	499-189-5417	85.85	Mon-Tue-Thu: 9:30-11:30
+247	Leif Bellino	bodyweight exercises	931-996-4855	55.64	Tue-Thu: 13:00-15:00
+248	Orazio Opy	crossfit	487-115-4417	55.32	Wed-Fri: 15:00-17:00
+249	Tim Denis	functional training	761-522-5414	96.93	Mon-Wed: 16:00-18:00
+250	Falito Cowlam	functional training	502-483-6633	66.62	Mon-Thu: 16:00-18:00
+251	Helge Duffet	strength training	430-125-2523	53.72	Tue-Thu: 12:00-14:00
+252	Jecho Borley	kickboxing	569-438-7277	72.39	Tue: 14:00-16:00
+253	Gabriel Klejin	barre	746-449-0061	78.90	Thu-Fri: 17:00-19:00
+254	Kristen Surmeir	aerobics	751-572-3020	44.14	Thu-Fri: 17:00-19:00
+255	Kesley Cuddy	dance	164-215-6796	63.46	Tue: 9:00-10:30
+256	Glennis Clewarth	strength training	910-535-4600	53.48	Mon: 8:30-10:30
+257	Dom Galpin	bootcamp	106-666-6169	62.69	Fri: 11:00-13:00
+258	Rudolph Childes	functional training	537-385-8424	36.52	Mon-Fri: 8:00-12:00
+259	Robers Roumier	HIIT	701-799-0935	55.99	Mon-Wed: 16:00-18:00
+260	Clive Selliman	boxing	584-703-9777	48.41	Mon: 8:30-10:30
+261	Oberon Clemmey	cardio	712-671-4949	79.60	Mon-Tue-Thu: 9:30-11:30
+262	Perkin Karolczyk	HIIT	761-745-9440	71.03	Mon-Thu: 14:30-16:30
+263	Janie Crole	crossfit	582-271-7753	36.92	Tue-Thu: 12:00-14:00
+264	Rhonda Pereira	strength training	372-879-7515	48.39	Tue: 9:00-10:30
+265	Bondy Woollaston	powerlifting	332-966-0667	49.35	Tue-Thu: 13:00-15:00
+266	Ellette Pedreschi	functional training	851-319-5549	57.33	Wed: 13:00-15:00
+267	Darrick Ferretti	pilates	599-583-2262	88.51	Mon-Thu: 14:30-16:30
+268	Jed Padginton	bodyweight exercises	519-387-8707	79.21	Mon: 8:30-10:30
+269	Rhett Ricardot	barre	358-689-4635	82.61	Mon-Tue-Thu: 9:30-11:30
+270	Chrissie Eddolls	bootcamp	411-242-3350	82.24	Mon-Wed: 11:30-13:30
+271	Kelsey Kolodziej	kickboxing	728-795-6176	68.00	Wed-Fri: 15:00-17:00
+272	Eberhard Cowlas	boxing	168-317-5670	71.38	Tue: 9:00-10:30
+273	Randell Faltin	pilates	139-747-5229	73.11	Mon-Tue-Thu: 9:30-11:30
+274	Hatti Borrington	barre	349-118-8348	66.11	Mon-Wed: 11:30-13:30
+275	Carmina Vassman	barre	865-873-1504	70.98	Mon: 8:30-10:30
+276	Roselia O'Crevy	pilates	660-438-4933	52.23	Mon-Wed-Fri: 9:00-11:00
+277	Berkie Kingzeth	cycling	114-760-4899	66.88	Mon: 12:00-14:00
+278	Pamelina Bartoszek	barre	633-110-0294	99.35	Mon: 8:30-10:30
+279	Cherie Franies	cardio	472-911-3535	73.35	Mon: 12:00-14:00
+280	Humphrey Bartaloni	cardio	499-239-5225	59.12	Tue: 9:00-10:30
+281	Sheela Bartomieu	HIIT	992-136-9917	65.17	Mon-Fri: 8:00-12:00
+282	Mag Whyler	crossfit	243-987-6277	40.87	Wed-Fri: 15:00-17:00
+283	Aveline Shillitto	spin	259-306-1102	55.39	Mon-Fri: 7:00-9:00
+284	Sophia McGrill	spin	773-189-9136	56.18	Tue: 9:00-10:30
+285	Elvira Schimek	bodyweight exercises	415-256-2240	43.65	Mon-Thu: 16:00-18:00
+286	Garnette Dearth	HIIT	722-253-1174	38.06	Tue: 14:00-16:00
+287	Aurelea Joselin	cycling	403-226-9759	80.97	Tue: 14:00-16:00
+288	Hamel Sinnie	cardio	111-672-7442	38.62	Wed: 13:00-15:00
+289	Zoe Beckey	stretching	346-142-6621	35.21	Mon-Fri: 7:00-9:00
+290	Foster Hickin	TRX	347-756-1734	70.28	Tue: 9:00-10:30
+291	Daveta Iggalden	pilates	447-716-4164	56.19	Thu-Fri: 17:00-19:00
+292	Sada Hamill	aerobics	599-538-5457	86.71	Mon: 12:00-14:00
+293	Klemens Gillitt	pilates	950-466-4580	92.49	Mon-Fri: 7:00-9:00
+294	Luise Tipling	functional training	267-366-7427	96.24	Mon-Wed-Fri: 9:00-11:00
+295	Terrill Townrow	dance	415-711-7137	37.99	Wed: 13:00-15:00
+296	Harley Lilloe	zumba	644-877-9826	84.58	Mon-Wed-Fri: 9:00-11:00
+297	Charin Ulyet	barre	998-350-3264	38.28	Mon-Fri: 8:00-12:00
+298	Errol Oluwatoyin	pilates	273-527-6598	75.88	Mon-Wed-Fri: 9:00-11:00
+299	Benito Tendahl	functional training	312-457-3662	48.14	Fri: 11:00-13:00
+300	Elvera Chillingworth	pilates	817-799-7258	50.66	Mon-Wed: 16:00-18:00
+301	Allina Broadbridge	pilates	823-376-3589	78.16	Mon: 8:30-10:30
+302	Stan Desvignes	bodyweight exercises	177-292-1148	64.27	Wed-Fri: 15:00-17:00
+303	Sergent Ipplett	spin	402-517-5024	64.00	Wed: 10:00-14:00
+304	Lindsay Catmull	boxing	980-652-8597	80.25	Mon-Thu: 14:30-16:30
+305	Prisca Brigstock	TRX	820-595-8614	65.12	Tue-Thu: 12:00-14:00
+306	Hunfredo Fretter	TRX	889-413-2150	79.19	Tue-Thu: 13:00-15:00
+307	Demetri McSkin	cycling	702-183-7364	38.54	Mon-Fri: 7:00-9:00
+308	Pippy Joire	TRX	846-693-4055	44.16	Thu: 10:00-12:00
+309	Cele Robatham	pilates	671-386-6954	61.70	Mon-Tue-Thu: 9:30-11:30
+310	Wilone Cullinan	dance	657-303-2663	39.73	Mon: 8:30-10:30
+311	Ronnie O' Neligan	barre	793-999-3798	91.48	Mon-Tue-Thu: 9:30-11:30
+312	Robert Borres	HIIT	487-677-3758	88.31	Wed: 10:00-14:00
+313	Donna Pirozzi	strength training	518-935-2828	56.44	Mon: 8:30-10:30
+314	Cthrine Gilgryst	crossfit	285-645-7264	59.04	Mon-Thu: 14:30-16:30
+315	Mike Dominique	TRX	928-174-0745	55.58	Wed-Fri: 15:00-17:00
+316	Fredric Gratrex	bootcamp	287-624-2212	46.15	Fri: 11:00-13:00
+317	Fay Domnick	TRX	419-740-1034	63.57	Mon-Thu: 16:00-18:00
+318	Filia Topley	functional training	470-501-9154	43.17	Wed: 13:00-15:00
+319	Cynthy Blacktin	aerobics	731-953-1170	66.76	Mon-Tue-Thu: 9:30-11:30
+320	Jess Coleford	yoga	950-543-9596	83.64	Wed-Fri: 15:00-17:00
+321	Fransisco Edge	spin	276-616-9086	92.19	Mon-Thu: 16:00-18:00
+322	Denyse Flegg	strength training	668-764-1432	71.54	Wed: 10:00-14:00
+323	Montgomery Enders	bodyweight exercises	603-820-0050	84.23	Fri: 11:00-13:00
+324	Lanette Bollam	yoga	808-854-4974	48.83	Tue: 14:00-16:00
+325	Matti Leward	strength training	620-861-5854	99.32	Mon-Wed-Fri: 9:00-11:00
+326	Ernestus Lockhurst	weightlifting	639-109-7282	80.13	Tue-Thu: 12:00-14:00
+327	Marty Midner	crossfit	752-447-7155	48.28	Tue-Fri: 18:00-20:00
+328	Ashien Birtchnell	HIIT	246-541-6427	98.05	Tue: 14:00-16:00
+329	Niccolo Guise	swimming	764-566-3721	64.80	Wed: 10:00-14:00
+330	Blinni Rapp	zumba	468-947-8082	52.76	Fri: 11:00-13:00
+331	Lock Flasby	bootcamp	395-385-4544	53.58	Tue-Thu: 13:00-15:00
+332	Janine Grivori	strength training	308-640-7876	91.64	Wed-Fri: 15:00-17:00
+333	Hillier Forten	cycling	137-471-6139	59.87	Mon-Thu: 14:30-16:30
+334	Babs Tethacot	crossfit	312-529-8952	82.93	Tue: 14:00-16:00
+335	Ezechiel MacArd	barre	988-207-7890	78.90	Wed: 10:00-14:00
+336	Yves Miklem	bootcamp	488-821-8193	48.11	Thu-Fri: 17:00-19:00
+337	Jdavie Ridgley	weightlifting	275-986-4573	85.81	Mon-Wed-Fri: 9:00-11:00
+338	Nyssa Lentsch	spin	998-875-8160	59.77	Tue-Thu: 12:00-14:00
+339	Berne Mourant	dance	934-288-9881	55.91	Wed: 13:00-15:00
+340	Caresse Buye	functional training	569-951-9060	89.17	Fri: 11:00-13:00
+341	Frederick Southard	bodyweight exercises	785-976-0499	89.72	Wed: 13:00-15:00
+342	Lew Barthelemy	strength training	281-308-0735	61.64	Wed-Fri: 15:00-17:00
+343	Antoni Sycamore	boxing	177-856-5615	74.57	Thu-Fri: 17:00-19:00
+344	Charmain Chyuerton	functional training	776-851-8225	51.59	Mon-Thu: 16:00-18:00
+345	Osbourne Munnery	strength training	933-994-2430	85.11	Tue: 9:00-10:30
+346	Tailor Addenbrooke	dance	600-763-7413	44.98	Thu-Fri: 17:00-19:00
+347	Merrilee Cruddas	dance	431-188-7741	52.82	Mon-Fri: 7:00-9:00
+348	Bridget Raisher	cardio	599-552-9837	42.05	Fri: 11:00-13:00
+349	Bibbie Wickardt	spin	821-464-8775	52.13	Mon-Fri: 7:00-9:00
+350	Shirlene Craxford	strength training	191-985-6729	98.25	Tue-Fri: 18:00-20:00
+351	Christy Adamovich	strength training	820-159-1458	94.92	Tue-Fri: 18:00-20:00
+352	Florence Calvie	boxing	415-503-8352	68.48	Tue-Thu: 12:00-14:00
+353	Hanni Ziem	pilates	494-536-6311	64.77	Wed-Fri: 15:00-17:00
+354	Pearce Morforth	strength training	775-512-7500	88.36	Fri: 14:00-16:00
+355	Joye Rankin	stretching	156-400-7509	93.22	Mon-Fri: 7:00-9:00
+356	Barby Thews	aerobics	145-551-4525	76.02	Fri: 11:00-13:00
+357	Sidoney Willavize	stretching	978-383-0356	96.84	Mon: 8:30-10:30
+358	Tod Frantsev	HIIT	220-525-2208	95.21	Tue-Fri: 18:00-20:00
+359	Kristoffer Hanhardt	TRX	524-695-0123	66.71	Tue-Fri: 18:00-20:00
+360	Sterling Tripon	zumba	915-182-1163	36.92	Wed: 10:00-14:00
+361	Ninnetta Nusche	strength training	205-905-4885	75.36	Mon: 8:30-10:30
+362	Reese Burleigh	boxing	988-476-0863	95.57	Tue-Thu: 12:00-14:00
+363	Mischa Berrigan	functional training	716-281-4996	68.55	Tue-Fri: 18:00-20:00
+364	Bengt Ducaen	aerobics	504-909-6275	66.19	Wed: 13:00-15:00
+365	Calli Puckham	crossfit	107-331-4090	63.53	Mon-Wed: 16:00-18:00
+366	Chery Preon	bootcamp	851-895-3953	95.28	Mon-Thu: 16:00-18:00
+367	Muire Roderham	TRX	801-716-0199	54.84	Fri: 14:00-16:00
+368	Melissa Gookey	TRX	858-762-4042	66.89	Mon: 8:30-10:30
+369	Lance Lamborne	cycling	148-316-1641	82.70	Wed: 10:00-14:00
+370	Claudie Mateus	kickboxing	780-619-8110	78.91	Thu-Fri: 17:00-19:00
+371	Chiquita Wolfart	aerobics	603-155-1930	43.73	Fri: 14:00-16:00
+372	Tasia Francey	HIIT	182-676-4555	78.02	Mon-Wed: 11:30-13:30
+373	Yolande O' Reagan	cardio	759-320-6308	77.39	Tue: 9:00-10:30
+374	Hieronymus Dundendale	swimming	965-936-9400	54.38	Mon-Fri: 7:00-9:00
+375	Thaddus Kirtley	swimming	474-932-5893	91.52	Wed: 10:00-14:00
+376	Alvera Gerriet	functional training	153-650-9366	73.16	Thu-Fri: 17:00-19:00
+377	Yance Smallacombe	crossfit	527-428-9331	65.46	Mon-Thu: 14:30-16:30
+378	Wit Bloss	dance	908-253-7245	66.12	Tue-Fri: 18:00-20:00
+379	Lacy Wabersinke	pilates	137-264-2450	59.37	Tue: 14:00-16:00
+380	Britni Peddowe	aerobics	315-129-3874	89.21	Tue-Fri: 18:00-20:00
+381	Gaby Haquin	stretching	208-915-4831	56.93	Thu-Fri: 17:00-19:00
+382	Benedick Frigout	strength training	662-104-4309	83.44	Mon-Wed-Fri: 9:00-11:00
+383	Lesli Denisovich	TRX	530-255-7381	56.19	Mon: 12:00-14:00
+384	Germaine Lince	dance	739-126-8846	44.97	Mon-Tue-Thu: 9:30-11:30
+385	Kerrill Dumbellow	strength training	352-342-9253	56.77	Thu: 10:00-12:00
+386	Ladonna Doughton	crossfit	680-735-1187	81.20	Tue: 14:00-16:00
+387	Cahra Parman	yoga	780-376-0184	92.60	Wed: 13:00-15:00
+388	Elysee Gailor	pilates	192-854-6726	68.62	Wed: 10:00-14:00
+389	Carr Franzolini	zumba	605-435-4735	36.12	Mon-Fri: 7:00-9:00
+390	Benedicta Willans	yoga	991-457-3825	63.51	Wed: 13:00-15:00
+391	Frasier McKerlie	swimming	235-719-9229	49.41	Mon-Thu: 16:00-18:00
+392	Peta Waycott	HIIT	774-174-6083	89.22	Mon-Fri: 8:00-12:00
+393	Weidar Camilio	swimming	422-148-7824	83.46	Tue: 14:00-16:00
+394	Lennard Paddock	strength training	364-581-1019	94.09	Tue: 14:00-16:00
+395	Mohandis Malyon	crossfit	336-164-3770	91.78	Fri: 14:00-16:00
+396	Royall McEwen	cycling	445-106-7597	64.54	Mon-Thu: 14:30-16:30
+397	Oona Cobley	bodyweight exercises	806-349-1795	50.14	Mon-Wed: 11:30-13:30
+398	Carmine Basley	kickboxing	497-664-3817	62.07	Wed: 10:00-14:00
+399	Toinette Reglar	stretching	174-959-9008	95.94	Mon-Wed-Fri: 9:00-11:00
+400	Myles Winchester	zumba	243-302-4673	99.22	Thu: 10:00-12:00
+401	Mallory Girard	HIIT	689-628-1215	66.17	Fri: 14:00-16:00
+402	Gage Hutten	stretching	115-621-7761	76.22	Thu-Fri: 17:00-19:00
+403	Tamarra Goves	pilates	566-835-8344	55.41	Fri: 14:00-16:00
+\.
+
+
+--
+-- TOC entry 3418 (class 0 OID 16720)
+-- Dependencies: 220
+-- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.members (memberid, name, birth_date, email, phone, membershiptype, join_date) FROM stdin;
+1	John Doe	1990-05-15	john.doe@example.com	123-456-7890	1	2024-01-10
+2	Jane Smith	1985-08-22	jane.smith@example.com	987-654-3210	2	2024-02-05
+3	Michael Johnson	1993-11-30	michael.johnson@example.com	555-123-4567	3	2024-03-01
+4	Travis Hunt	2025-12-10	suspendisse.sed@protonmail.com	(546) 746-2767	1	2024-01-16
+5	Vivien Mcdaniel	2025-06-09	est.vitae@hotmail.couk	1-715-353-3367	3	2024-01-04
+6	Caleb West	2025-06-02	praesent@protonmail.couk	(371) 435-6263	2	2026-06-20
+7	Colt Sargent	2024-09-02	nunc@protonmail.edu	(744) 913-6895	2	2025-10-29
+8	Quentin Peters	2025-11-17	mi.duis.risus@google.edu	(458) 548-7781	3	2026-11-16
+9	Darrel Sandoval	2026-02-22	eget.dictum@yahoo.couk	1-461-372-8460	3	2024-05-22
+10	Boris Jarvis	2025-08-21	integer.id@google.edu	1-668-246-8363	2	2026-10-22
+11	Acton Blevins	2025-08-10	varius.ultrices.mauris@aol.com	(583) 390-1176	3	2024-06-18
+12	Autumn Holmes	2025-08-13	vivamus.sit@hotmail.ca	(574) 164-3674	2	2024-02-29
+13	Len Key	2024-12-17	lacus.varius.et@icloud.org	1-723-143-5898	3	2026-03-11
+14	Jason Roth	2025-07-07	malesuada.vel@google.ca	1-885-851-2372	2	2024-01-05
+15	Tamara Sandoval	2024-12-03	mauris.eu.turpis@hotmail.net	1-217-132-8187	3	2026-12-06
+16	Nadine Franks	2024-04-09	nulla.eu@protonmail.ca	1-823-164-7184	1	2026-11-18
+17	Portia Cabrera	2025-10-12	mauris.id.sapien@hotmail.net	1-527-272-7483	2	2025-05-08
+18	Garrison Cooper	2025-02-20	maecenas.ornare@yahoo.edu	1-638-931-5294	2	2024-06-12
+19	Kristen Flynn	2025-03-02	torquent.per@icloud.couk	(927) 379-2917	2	2026-12-07
+20	Harlan Hahn	2025-04-10	tempor.bibendum@icloud.edu	(327) 769-0206	1	2026-08-06
+21	Gray Miller	2025-02-22	id.enim.curabitur@google.org	(822) 441-6123	3	2025-10-27
+22	Nelle Barton	2024-03-28	etiam.imperdiet.dictum@aol.net	1-252-415-3565	1	2025-08-31
+23	Althea Vincent	2025-12-01	proin.ultrices.duis@icloud.com	1-776-140-8238	1	2024-02-02
+24	Adele Solomon	2025-05-26	facilisis.non.bibendum@icloud.couk	(302) 542-6777	3	2026-03-30
+25	Callum Merritt	2025-05-10	nulla.eu@aol.edu	(985) 131-6787	2	2025-04-06
+26	Ray Larson	2024-10-08	fames@outlook.ca	(676) 967-8427	3	2024-11-05
+27	Kellie Velasquez	2025-12-28	lobortis.quis@google.edu	1-862-462-8180	3	2024-06-06
+28	Scarlet Harris	2026-02-23	lorem.tristique.aliquet@hotmail.net	(474) 778-2534	2	2025-07-27
+29	Elliott Leon	2024-08-18	vivamus.euismod.urna@outlook.org	(653) 628-4952	3	2024-02-04
+30	Scarlet Oliver	2024-12-13	at.fringilla.purus@hotmail.org	(845) 491-3365	3	2024-01-12
+31	Leilani Head	2025-01-12	lorem.eget@yahoo.com	(425) 323-3534	2	2024-04-29
+32	Macey Sullivan	2024-04-30	iaculis.aliquet@yahoo.edu	(559) 568-3546	1	2026-06-07
+33	MacKenzie Lloyd	2025-05-26	risus.morbi@aol.edu	1-855-948-4045	2	2025-11-04
+34	Jeanette Schmidt	2025-07-28	pellentesque@protonmail.ca	(694) 576-8401	2	2026-12-29
+35	Garrett Decker	2024-03-30	risus.quis@yahoo.com	1-138-242-1262	3	2025-11-28
+36	Fiona Kirkland	2025-11-08	odio.auctor.vitae@hotmail.ca	(235) 705-8455	3	2024-03-07
+37	Fletcher Paul	2024-06-10	odio.phasellus@aol.com	(330) 436-5331	1	2025-07-04
+38	Jillian Lyons	2024-11-02	aliquet.molestie@icloud.edu	(633) 351-1792	2	2024-03-17
+39	Anika Sexton	2025-12-12	quam@protonmail.couk	1-602-805-2236	3	2026-02-09
+40	Chiquita Pope	2024-11-01	molestie.arcu@hotmail.com	(581) 277-4735	3	2024-04-29
+41	Iliana Hammond	2025-11-21	nascetur.ridiculus@yahoo.couk	(865) 867-8989	3	2025-05-16
+42	Bianca Schmidt	2024-05-18	tempor.diam.dictum@hotmail.couk	(611) 658-1338	2	2026-05-31
+43	Ralph King	2025-12-25	eleifend@yahoo.com	1-359-464-5837	2	2024-06-07
+44	Skyler Sanford	2025-11-26	et.magnis@outlook.couk	(351) 238-2282	3	2024-10-08
+45	Xenos Hall	2024-07-04	eleifend.cras.sed@icloud.net	(172) 971-5429	3	2026-06-24
+46	Melyssa Mcfadden	2026-02-28	est@aol.couk	1-465-257-9445	1	2025-05-14
+47	Lareina Powers	2024-05-17	consectetuer.adipiscing@yahoo.couk	(303) 266-1417	2	2025-07-20
+48	Ishmael Morton	2025-07-14	est.mollis.non@aol.edu	(847) 638-9325	2	2026-05-16
+49	Carly Ramos	2025-02-16	justo.sit@icloud.couk	1-310-536-7928	1	2024-01-12
+50	Winifred Case	2025-07-18	turpis@outlook.ca	1-663-598-6487	2	2024-07-07
+51	Ciara Johns	2025-06-25	magna.tellus@hotmail.net	1-277-820-5171	2	2024-11-04
+52	Nolan Palmer	2024-11-16	amet@icloud.edu	(266) 882-0118	2	2026-05-07
+53	Steven Palmer	2026-01-26	vivamus@hotmail.ca	(635) 913-2493	2	2025-04-18
+54	Dante Oneil	2026-01-17	a@icloud.org	1-251-723-5675	3	2025-04-12
+55	Garrett May	2026-01-05	enim.suspendisse@yahoo.org	1-540-564-5067	1	2026-06-01
+56	Haviva Campbell	2024-04-28	neque.sed.dictum@protonmail.com	1-818-912-4647	3	2026-11-08
+57	Leilani Vincent	2024-11-24	ante.dictum.mi@outlook.edu	(282) 741-5276	3	2025-12-22
+58	Ethan Hoffman	2025-06-13	mauris.integer.sem@aol.org	1-624-382-8567	3	2024-11-27
+59	Zane Pennington	2025-08-11	amet.diam@aol.org	(253) 354-1971	3	2026-12-10
+60	Callie Koch	2025-03-28	aenean.gravida@google.com	1-731-415-1619	2	2026-05-17
+61	Aileen Ross	2025-08-24	ut.quam@google.net	(666) 784-6146	2	2025-11-08
+62	Candace Hansen	2024-09-07	vitae@yahoo.org	1-358-822-3223	1	2025-06-16
+63	Yuri Kerr	2025-12-21	proin.velit@aol.edu	(182) 927-3761	2	2025-04-18
+64	Uriah Mcknight	2025-01-25	duis@google.couk	(441) 375-5407	2	2025-03-23
+65	Naida Greene	2025-10-09	diam.dictum@icloud.org	(254) 171-1671	2	2024-01-13
+66	Flavia Barker	2025-06-24	diam.proin@aol.edu	1-234-893-6431	1	2026-01-01
+67	Kylan Lara	2024-12-01	nunc.quisque.ornare@protonmail.edu	(752) 905-6999	3	2024-03-12
+68	Tanner Graves	2025-03-06	penatibus@google.couk	(859) 407-8319	2	2026-03-08
+69	Tatum Hopper	2024-04-03	lectus.a@google.ca	1-181-871-2513	3	2024-10-21
+70	Noelle Watkins	2024-07-11	pede.cum@outlook.org	1-916-882-5342	2	2026-10-21
+71	Zachary Miranda	2024-05-31	vel.turpis@protonmail.org	(596) 363-1016	2	2026-01-31
+72	Stephanie Velez	2024-05-16	nulla@outlook.net	1-822-575-6663	1	2025-06-12
+73	Iliana Buchanan	2024-11-08	urna.et@hotmail.couk	(250) 757-6822	1	2026-06-15
+74	Dane Townsend	2025-06-13	in@hotmail.couk	(879) 890-2642	2	2026-08-08
+75	Kieran Koch	2026-01-26	duis.sit@google.ca	1-933-337-3966	3	2024-12-17
+76	Renee Rowland	2025-11-06	in@hotmail.com	(131) 424-4438	1	2025-12-24
+77	Libby Solomon	2026-03-01	pretium.et@yahoo.ca	(239) 631-3442	3	2024-07-13
+78	Latifah Powell	2025-05-28	sit.amet.consectetuer@yahoo.ca	(642) 888-3175	1	2025-03-09
+79	Hop Alston	2025-11-09	et.lacinia.vitae@aol.net	1-412-485-4336	1	2024-03-03
+80	Griffith Dunn	2024-11-18	tellus.phasellus@hotmail.edu	1-804-485-3197	2	2025-02-03
+81	Kaye Hutchinson	2024-05-07	nulla.at.sem@hotmail.ca	(155) 854-2821	2	2025-05-03
+82	Gary Wiggins	2025-11-29	eros.turpis.non@protonmail.edu	(628) 687-9889	2	2025-01-12
+83	Jerome Boyle	2024-10-05	donec.nibh@hotmail.edu	(306) 820-1723	2	2024-03-11
+84	Merritt Snyder	2024-05-08	lacus.aliquam.rutrum@hotmail.net	1-556-862-8225	2	2026-09-28
+85	Serena Hodge	2024-06-22	non.sapien.molestie@aol.com	1-459-681-3521	1	2026-09-14
+86	Lilah Sanders	2025-12-07	amet.nulla@protonmail.org	1-775-854-1774	2	2026-07-21
+87	Marcia Parks	2024-08-07	ipsum.primis@outlook.ca	1-306-317-3821	1	2026-04-10
+88	Griffith Velasquez	2025-03-24	nam.consequat@icloud.edu	(482) 431-2200	1	2024-03-30
+89	Zane Meadows	2024-09-06	litora.torquent@outlook.com	1-356-207-9616	3	2026-11-13
+90	Theodore Simpson	2024-04-17	tempor.arcu@aol.net	1-975-690-2873	1	2025-06-01
+91	Anjolie Jensen	2026-03-14	dapibus.rutrum.justo@google.org	1-405-913-4413	2	2024-01-26
+92	Azalia Le	2025-01-25	non.justo@hotmail.net	1-977-288-8512	2	2025-04-01
+93	Lamar Jefferson	2025-06-21	lobortis.mauris.suspendisse@aol.org	(821) 882-0486	2	2025-11-30
+94	Brian Jenkins	2024-08-17	vestibulum.accumsan@aol.edu	1-350-737-6303	1	2024-06-18
+95	Wing Hughes	2025-04-01	in.faucibus@yahoo.net	(984) 773-6530	1	2024-03-16
+96	Sybill Kinney	2025-02-21	integer.mollis@icloud.couk	(263) 494-4826	2	2025-09-01
+97	Summer Curry	2025-10-01	adipiscing.lobortis.risus@protonmail.couk	1-575-487-7854	2	2025-05-24
+98	Logan Johnston	2026-01-10	sodales.at.velit@google.edu	(199) 187-5878	2	2025-08-07
+99	Jackson Greene	2024-03-29	purus@outlook.ca	1-631-543-2967	3	2026-06-29
+100	Freya Delgado	2025-11-01	at.velit.cras@protonmail.net	(475) 516-9817	1	2026-05-04
+101	Remedios Alston	2025-05-05	non.massa@yahoo.edu	(325) 519-2704	3	2026-02-25
+102	Kuame Burch	2025-01-17	leo.in@yahoo.ca	1-283-762-4252	1	2024-11-26
+103	Riley Warren	2025-07-10	sagittis.lobortis@google.net	(917) 325-2033	1	2026-07-12
+104	Todd Buck	2024-11-15	consectetuer.rhoncus@google.edu	1-523-560-5843	3	2025-04-29
+105	Macy Dennis	2024-09-06	lectus.convallis.est@outlook.net	(804) 768-5260	1	2025-09-12
+106	Alec Giles	2024-12-02	sodales.purus@outlook.couk	(873) 822-3281	2	2024-12-24
+107	Eve Daugherty	2025-08-18	orci@google.com	(221) 474-8187	1	2024-09-10
+108	Martina Myers	2025-11-07	ante.iaculis@google.net	(315) 716-6666	1	2025-09-23
+109	Preston England	2026-03-25	facilisi.sed@hotmail.edu	(353) 921-1745	1	2024-05-06
+110	Kasper Sandoval	2025-04-28	libero.integer@yahoo.couk	1-366-891-5982	1	2024-08-25
+111	Roanna Ward	2025-02-21	fringilla.est.mauris@outlook.org	1-867-592-8225	1	2024-09-14
+112	Elton Ballard	2024-08-12	mauris.morbi@google.net	1-668-118-2365	2	2024-01-09
+113	Timothy Fox	2025-10-24	consequat.auctor@hotmail.edu	1-818-317-8724	1	2024-02-13
+114	Dacey Reynolds	2025-12-07	luctus.lobortis@yahoo.couk	1-380-633-1928	1	2024-07-28
+115	Adam Francis	2025-07-28	mauris.sapien@outlook.couk	(523) 535-1973	2	2026-01-19
+116	Alice Hampton	2025-08-14	vel.pede@hotmail.ca	1-366-807-1823	2	2026-06-27
+117	Courtney Camacho	2025-10-28	nam.tempor@icloud.couk	1-161-347-1229	1	2025-11-29
+118	Elijah Avery	2024-11-18	ut.semper@hotmail.org	1-408-532-3618	2	2025-11-30
+119	Odessa Mcneil	2024-11-26	purus.ac@hotmail.ca	1-604-272-7716	2	2025-07-03
+120	Halla Manning	2024-06-10	tristique@protonmail.ca	(461) 833-6643	2	2026-03-11
+121	Raymond Nolan	2024-04-01	quisque@google.com	1-831-917-6655	3	2025-05-06
+122	Hope Gill	2026-01-28	egestas.sed.pharetra@google.net	1-750-456-4705	1	2026-01-18
+123	Zelda Wiley	2026-01-08	dictum@outlook.edu	1-653-196-8664	1	2026-11-04
+124	Samantha Kennedy	2026-01-24	massa.vestibulum@outlook.net	(954) 803-5052	3	2024-02-09
+125	Gabriel Gay	2025-03-01	tincidunt.dui.augue@icloud.com	1-899-934-1674	3	2024-03-25
+126	Rosalyn Terrell	2025-09-26	tortor.nunc.commodo@protonmail.ca	(503) 542-7274	2	2026-07-09
+127	Rhona Simmons	2025-10-26	vel.mauris.integer@protonmail.org	(295) 235-6331	2	2025-08-24
+128	Petra Horn	2024-08-02	proin.velit@icloud.ca	(166) 787-3545	1	2025-02-18
+129	Carol Huffman	2026-02-26	integer.mollis@google.couk	1-486-247-4134	2	2025-01-02
+130	Vance Miranda	2025-03-03	eu.eleifend@google.ca	1-826-335-1473	2	2026-05-20
+131	Lacey Best	2024-05-02	enim.etiam@icloud.com	1-632-163-7567	2	2025-03-23
+132	Quamar Rios	2026-01-13	non@icloud.net	1-696-346-2625	2	2024-04-17
+133	Kaseem Watkins	2024-11-20	phasellus.dapibus.quam@protonmail.edu	1-183-410-1866	2	2026-10-15
+134	Briar Wilson	2024-11-09	mattis.velit@outlook.edu	1-522-296-3367	2	2026-04-26
+135	Kristen Butler	2025-06-27	massa.lobortis@aol.ca	1-354-583-5741	3	2025-12-30
+136	Candice Frye	2025-07-11	diam.eu@icloud.net	(937) 856-6446	2	2026-02-13
+137	Amity Benton	2026-01-12	ut.erat@hotmail.com	(648) 277-1835	1	2025-10-24
+138	Reece Webster	2024-05-18	urna@hotmail.com	1-764-707-7836	3	2025-03-16
+139	Baker Gaines	2026-03-22	tortor.dictum.eu@google.couk	1-311-848-2417	2	2026-05-03
+140	Wilma Weber	2024-12-06	egestas@google.edu	1-755-233-3233	2	2024-06-02
+141	Inez Leon	2024-05-04	urna.justo.faucibus@hotmail.com	(157) 458-0378	2	2025-08-21
+142	Alisa Woodward	2025-02-12	in.sodales.elit@outlook.org	1-981-472-1821	2	2025-03-21
+143	Frances Manning	2025-12-08	auctor.ullamcorper@icloud.com	(351) 473-7439	3	2025-09-02
+144	Kiara Golden	2024-04-25	mollis.vitae.posuere@icloud.org	1-484-884-2515	3	2024-08-18
+145	Desirae Andrews	2025-08-15	nullam.enim@yahoo.couk	1-354-811-2709	2	2025-11-13
+146	Isaac Patterson	2026-01-27	ipsum.phasellus.vitae@protonmail.ca	(643) 791-2118	1	2026-10-25
+147	Carol Hendrix	2025-04-22	in.ornare@outlook.com	(413) 187-5338	2	2026-11-12
+148	Mollie Perry	2025-01-15	aliquet.sem@aol.com	1-732-965-9379	3	2024-04-07
+149	Rogan Petty	2024-07-30	ipsum.cursus.vestibulum@yahoo.couk	(257) 497-2127	1	2025-07-27
+150	Reece Page	2024-07-10	mauris.sagittis.placerat@hotmail.ca	1-895-772-6163	2	2024-06-17
+151	Eagan Dominguez	2025-07-02	quam.a@protonmail.net	1-538-166-6251	2	2025-11-08
+152	Whitney Estes	2025-01-12	dolor.fusce@yahoo.ca	(988) 231-6343	3	2025-12-24
+153	Aileen Zamora	2026-01-23	scelerisque@yahoo.com	1-646-592-3735	3	2026-12-18
+154	Theodore Maldonado	2025-09-11	curabitur.dictum.phasellus@aol.edu	1-275-572-3577	2	2024-06-22
+155	Veronica Mann	2025-07-01	tristique.pharetra@google.edu	(724) 380-7137	3	2026-12-14
+156	Emery Case	2024-09-09	arcu.vestibulum.ante@outlook.net	(695) 453-6825	3	2024-09-16
+157	Sawyer Conley	2024-05-29	donec.nibh@google.ca	(587) 518-1748	2	2026-08-18
+158	Yvette Randall	2026-01-04	facilisis@protonmail.couk	1-605-608-5126	2	2026-02-06
+159	Alana Hayes	2024-07-19	porttitor@protonmail.com	1-342-114-3221	1	2025-04-07
+160	Samuel Mckenzie	2025-04-26	sed@aol.net	1-233-575-2557	1	2024-12-10
+161	Phyllis Lamb	2025-09-01	cum.sociis@yahoo.edu	1-702-915-3313	2	2025-08-12
+162	Natalie Gray	2025-04-03	suspendisse.aliquet@hotmail.edu	1-146-462-3353	2	2025-03-15
+163	Jane Oliver	2024-09-14	ultrices.posuere@outlook.couk	1-377-376-2928	1	2024-12-27
+164	Madaline Vincent	2024-08-22	vitae.sodales@protonmail.net	(809) 955-1380	2	2025-06-15
+165	Harriet Carson	2024-11-16	in.consequat.enim@icloud.com	(485) 303-1022	2	2025-12-18
+166	Maxwell Cameron	2025-12-27	cras.convallis@protonmail.net	(327) 728-2652	1	2025-04-01
+167	Marshall Justice	2025-09-21	aenean@protonmail.org	(104) 288-0574	3	2025-05-31
+168	Kylee Morgan	2025-04-07	molestie@outlook.org	(146) 486-8157	1	2024-06-29
+169	Gabriel Ryan	2025-02-18	nam.porttitor.scelerisque@outlook.ca	(615) 459-3335	2	2026-02-13
+170	Akeem Hays	2024-07-17	etiam.bibendum.fermentum@hotmail.com	(309) 236-1352	2	2025-04-11
+171	Leroy Kinney	2024-12-28	tincidunt@protonmail.com	1-632-437-1854	2	2024-08-26
+172	Marsden Pickett	2024-05-23	accumsan.laoreet.ipsum@outlook.edu	1-645-964-9368	2	2026-01-12
+173	Wynne Henson	2024-08-03	nunc.mauris@hotmail.edu	1-248-363-6975	2	2024-10-02
+174	Trevor Robertson	2025-09-07	orci.donec@icloud.net	(215) 912-3297	2	2025-06-05
+175	Brenda Suarez	2025-11-21	semper.cursus@protonmail.couk	(571) 748-4363	1	2025-08-03
+176	Brianna Parsons	2025-11-19	facilisis.suspendisse.commodo@protonmail.org	(742) 668-7266	2	2024-08-02
+177	Quinn Melendez	2024-12-09	mus.proin.vel@google.couk	1-638-915-2597	3	2026-12-09
+178	Remedios Randall	2025-07-24	pede.et@hotmail.net	1-567-952-6536	2	2025-07-13
+179	Bryar Baker	2025-10-12	sollicitudin.orci@protonmail.ca	(677) 566-4203	3	2024-11-23
+180	Elmo Booker	2024-04-19	ut.molestie@aol.com	(863) 277-8976	3	2025-05-11
+181	Latifah Mcleod	2025-11-29	curae@google.ca	(836) 847-3452	2	2026-03-11
+182	Dalton Hawkins	2025-01-13	suspendisse.non.leo@aol.couk	(422) 207-2736	3	2025-05-06
+183	Catherine Little	2024-04-06	luctus.curabitur.egestas@icloud.net	1-534-135-8570	2	2026-10-11
+184	Ori Guerra	2025-10-23	neque.vitae@hotmail.couk	1-432-275-1371	2	2024-02-12
+185	Melissa Erickson	2024-10-11	ornare@icloud.couk	(671) 635-4483	2	2026-11-21
+186	Henry Randolph	2025-04-09	sollicitudin.orci.sem@google.ca	(219) 871-6646	2	2024-07-12
+187	Ulla Higgins	2024-05-28	adipiscing.non@icloud.couk	1-233-665-1666	1	2024-05-10
+188	Laurel Keith	2024-11-27	etiam.ligula@outlook.edu	1-484-368-2664	3	2025-12-21
+189	Andrew Johns	2025-04-25	felis.nulla@protonmail.com	1-647-632-9898	2	2024-02-28
+190	Declan Rosales	2024-08-31	congue@aol.ca	1-967-686-1568	2	2026-06-14
+191	Paula Mcclure	2025-04-08	fringilla.est.mauris@yahoo.edu	1-754-603-6133	1	2025-12-27
+192	Zephania Christian	2024-10-05	parturient.montes@yahoo.ca	(814) 711-6155	3	2025-05-09
+193	Igor Burton	2024-05-03	sed.sapien@protonmail.edu	(977) 521-1472	2	2024-12-13
+194	Meredith Shepard	2025-03-01	ornare.elit@google.ca	(470) 736-2313	3	2024-05-23
+195	Gary Little	2024-12-15	sem.ut.dolor@yahoo.couk	(925) 788-7281	2	2024-05-25
+196	Ifeoma Kim	2025-03-21	malesuada.ut.sem@yahoo.edu	1-480-416-2418	1	2025-02-25
+197	Adele Hahn	2025-06-27	euismod.urna.nullam@protonmail.org	(455) 483-5884	2	2026-07-24
+198	Skyler Stone	2024-09-23	vestibulum.nec@hotmail.couk	1-746-669-7747	3	2025-11-19
+199	Florence Rowland	2025-07-25	elit@yahoo.edu	(322) 869-5946	3	2024-06-18
+200	Hanna Fleming	2025-01-22	consectetuer.rhoncus@google.com	(725) 582-9311	2	2024-09-17
+201	Noble Barnes	2026-02-27	porttitor.vulputate@yahoo.ca	(763) 573-4218	2	2026-09-29
+202	May Hansen	2024-10-07	phasellus.dolor@protonmail.edu	1-504-582-5080	2	2026-01-15
+203	Belle Newman	2025-10-26	phasellus.nulla@outlook.edu	1-623-531-5770	3	2025-10-16
+204	Samantha Jacobs	2025-03-07	tellus@protonmail.org	1-462-434-3667	1	2025-10-28
+205	Beau Wise	2025-12-01	egestas@protonmail.com	1-480-242-6022	3	2026-10-23
+206	Walter Howell	2025-09-28	consectetuer.adipiscing@google.edu	1-658-537-6674	2	2024-07-18
+207	Kiona Solomon	2025-08-13	sem.ut@icloud.net	(371) 942-8567	1	2026-06-04
+208	Leah Wall	2025-05-25	ipsum.curabitur.consequat@aol.org	1-483-456-0717	2	2024-03-25
+209	Alyssa Bauer	2024-04-15	ultrices.duis.volutpat@hotmail.org	(366) 368-1149	2	2026-11-27
+210	Jennifer Fields	2024-08-09	proin.ultrices@aol.ca	(157) 555-4677	2	2024-06-11
+211	Cain Rowe	2024-05-28	rutrum.non.hendrerit@yahoo.ca	(347) 825-7274	2	2024-03-06
+212	Brynn Manning	2026-01-23	phasellus.dapibus@outlook.ca	(799) 781-0617	2	2026-04-17
+213	Hedda Vazquez	2025-06-10	vulputate.nisi@outlook.org	(334) 571-5741	3	2026-01-06
+214	Armand Vance	2024-11-06	eu@hotmail.couk	(733) 258-5153	3	2025-07-11
+215	Clinton Mcdaniel	2025-01-28	tincidunt.pede.ac@protonmail.edu	1-880-522-7171	1	2026-11-30
+216	Carly Harrington	2025-07-13	iaculis@hotmail.org	(692) 602-5885	2	2026-10-05
+217	Buckminster Garrett	2025-04-29	et.commodo@yahoo.edu	1-641-471-1752	2	2026-11-17
+218	Jack Wood	2024-11-02	ac.urna.ut@yahoo.com	(248) 936-2225	2	2025-10-13
+219	Noble Lambert	2024-12-28	imperdiet@icloud.couk	1-641-127-6745	2	2026-02-13
+220	Bradley Maddox	2024-09-15	nisi.dictum@yahoo.com	1-553-210-6447	1	2024-02-13
+221	Ezekiel Frye	2024-08-14	sapien@hotmail.couk	1-828-411-1661	1	2026-12-22
+222	Brody Bartlett	2024-10-28	lorem.auctor.quis@protonmail.org	1-901-492-1817	1	2025-12-17
+223	Bell Hoffman	2025-04-03	ut@hotmail.org	1-468-576-0007	1	2024-12-13
+224	Lester Maddox	2025-07-01	magna@hotmail.ca	(999) 601-3568	2	2025-04-16
+225	Ethan Mclean	2025-01-01	facilisis@aol.couk	(311) 661-2223	1	2026-03-22
+226	Constance Montoya	2026-02-28	nec.metus@icloud.couk	1-757-798-1262	1	2026-09-04
+227	Glenna Montoya	2024-04-07	suspendisse@google.org	1-732-279-6582	2	2025-09-27
+228	Alyssa Francis	2024-10-12	arcu.curabitur@outlook.com	(648) 446-6613	3	2024-12-03
+229	Delilah Rojas	2024-12-08	felis.purus.ac@yahoo.net	(265) 248-7165	2	2025-07-17
+230	Octavius Walton	2025-07-19	rutrum.urna.nec@hotmail.couk	1-524-528-5214	2	2024-12-30
+231	Jaime Payne	2024-12-24	egestas.lacinia@icloud.net	1-728-773-7623	2	2026-09-30
+232	Nissim Mendez	2025-02-06	leo.morbi.neque@yahoo.com	(672) 631-7808	1	2025-01-13
+233	Christopher O'connor	2025-10-22	lacus.aliquam.rutrum@aol.edu	(655) 595-1736	1	2026-03-05
+234	Ayanna Hernandez	2025-03-01	feugiat@aol.com	1-912-874-6683	2	2024-03-26
+235	Camilla Gordon	2025-10-16	dignissim.pharetra.nam@yahoo.org	1-668-611-8577	2	2025-10-19
+236	Angela Padilla	2024-09-08	felis@hotmail.com	(533) 311-4093	2	2025-08-31
+237	Eliana Miller	2025-02-24	vehicula@protonmail.couk	(258) 933-6529	3	2024-01-20
+238	Wang Hartman	2025-07-09	ipsum.non@yahoo.couk	(615) 926-3629	2	2026-11-20
+239	Chaney Holland	2024-11-17	vitae.diam@outlook.com	(338) 226-0170	2	2025-01-25
+240	Benedict Abbott	2024-11-12	duis.risus@google.ca	1-573-836-8241	2	2025-01-04
+241	Lara Kramer	2025-05-14	amet.metus@hotmail.ca	1-129-522-8878	3	2025-06-06
+242	Mira Gonzales	2026-03-08	accumsan@aol.com	(388) 128-1266	3	2026-04-22
+243	Ishmael Hernandez	2024-04-17	lorem.luctus@google.net	1-747-445-1892	1	2025-05-09
+244	Cain Myers	2026-03-03	egestas.nunc@hotmail.net	1-328-548-4444	2	2025-10-03
+245	Imani Leon	2025-10-27	mi.tempor@protonmail.edu	1-653-363-7205	2	2026-02-12
+246	Joy Schwartz	2024-08-30	nunc.sed.libero@yahoo.couk	1-984-342-7439	2	2025-06-22
+247	Samson Kramer	2024-09-07	convallis@aol.com	(455) 574-0366	2	2026-08-28
+248	Richard Parrish	2026-01-29	et.ipsum@google.couk	1-374-446-9510	1	2024-03-06
+249	Holmes Pratt	2024-06-03	consectetuer.mauris@google.org	1-333-782-4653	3	2025-01-21
+250	Hilary Lawson	2025-09-21	nec@aol.com	(292) 868-7822	3	2026-11-06
+251	Martin Brock	2026-01-15	vestibulum.accumsan@google.org	1-464-258-0615	1	2024-07-25
+252	Alyssa Rodriguez	2025-04-10	nulla@hotmail.net	(446) 784-3631	3	2025-06-16
+253	Cathleen Hewitt	2026-02-05	erat.neque@hotmail.couk	1-263-448-4124	2	2026-01-23
+254	Cody Reeves	2024-04-21	dolor@outlook.couk	1-847-274-4171	2	2026-11-23
+255	Honorato Mays	2025-12-13	vel.sapien@hotmail.ca	1-991-455-8628	1	2024-02-13
+256	Hayley Cervantes	2024-07-02	donec.est@yahoo.couk	1-227-222-2302	1	2026-01-02
+257	Gareth Park	2024-12-12	semper@yahoo.ca	(266) 561-3888	3	2025-09-07
+258	Jael Raymond	2025-08-15	nunc.id@hotmail.couk	(905) 419-5181	3	2024-06-22
+259	Davis Mcdowell	2024-09-06	non@yahoo.net	1-378-450-2756	2	2025-02-07
+260	Brenda O'Neill	2024-08-20	adipiscing.elit.etiam@yahoo.org	(834) 283-7211	2	2025-01-23
+261	Tarik Keith	2024-06-14	arcu.vel.quam@google.ca	1-332-608-7418	2	2025-04-24
+262	Jesse Joyner	2025-01-22	sodales@yahoo.couk	(520) 440-7017	1	2025-05-10
+263	Merritt Barlow	2024-06-05	diam@google.couk	1-336-570-8816	2	2025-01-13
+264	Vielka Velazquez	2024-11-03	porta@icloud.net	(551) 475-3333	1	2026-03-09
+265	Alika Wilkinson	2024-10-20	luctus.felis@outlook.edu	1-354-348-7336	2	2026-01-23
+266	Violet Bright	2024-11-11	gravida.sagittis.duis@hotmail.org	(136) 121-2774	2	2026-06-05
+267	Alisa Warner	2024-07-13	auctor.vitae.aliquet@icloud.com	(285) 813-2131	2	2026-10-03
+268	Fletcher Casey	2025-07-29	sem.magna@google.couk	(903) 674-5570	3	2024-05-28
+269	Herrod Palmer	2025-11-13	vehicula.aliquet.libero@hotmail.couk	(671) 394-1383	2	2025-01-23
+270	Knox Johns	2024-07-25	id@yahoo.com	(648) 761-3337	3	2026-03-31
+271	Kevyn Albert	2025-08-31	id.risus@outlook.edu	1-216-671-7670	2	2024-05-15
+272	Shoshana Murphy	2024-07-13	nec.tempus.scelerisque@hotmail.com	(435) 314-1416	2	2025-03-11
+273	Ishmael Forbes	2025-09-24	felis.orci.adipiscing@icloud.com	1-162-478-6874	2	2025-02-10
+274	Robert Randall	2026-03-13	mauris@yahoo.edu	(571) 264-5642	2	2025-05-09
+275	Lars Eaton	2024-09-29	pellentesque.ultricies.dignissim@yahoo.com	(937) 232-6522	3	2024-02-13
+276	Ima Middleton	2024-09-05	risus.a@protonmail.org	(394) 857-8390	2	2026-06-12
+277	Duncan Mueller	2025-08-21	vulputate.nisi@hotmail.org	1-548-354-1952	2	2025-11-05
+278	Fleur Schmidt	2024-11-15	mi.felis.adipiscing@protonmail.com	1-527-616-8437	3	2025-03-03
+279	Glenna Hutchinson	2024-12-08	volutpat.nulla.facilisis@hotmail.ca	(561) 295-8454	3	2025-11-14
+280	Stewart Atkinson	2026-02-03	ante.vivamus@aol.com	1-383-562-4230	2	2024-11-21
+281	Alden Compton	2025-06-16	volutpat.ornare@outlook.com	1-434-728-5954	2	2024-08-04
+282	Lyle Stout	2024-06-02	suspendisse.aliquet.sem@outlook.edu	(116) 957-1761	2	2024-12-27
+283	Iona Wright	2025-03-30	rutrum.fusce@hotmail.ca	(481) 306-8764	2	2026-03-31
+284	Hilary Lang	2025-01-29	ante@aol.org	(121) 453-1594	2	2025-01-01
+285	Baker Cotton	2024-09-22	sed@icloud.edu	1-713-687-3326	2	2024-01-26
+286	Nissim Blair	2024-06-10	mattis.ornare.lectus@protonmail.ca	1-426-257-5350	3	2026-08-05
+287	Jada Phelps	2026-01-31	sit@hotmail.couk	(813) 736-7250	2	2024-08-09
+288	Clinton Wagner	2024-07-27	libero.morbi@icloud.com	1-266-837-2422	1	2026-02-01
+289	Kyle Mueller	2024-05-21	a.neque@hotmail.ca	1-685-284-5227	2	2026-03-13
+290	Alden Walters	2025-10-29	ac.mi.eleifend@outlook.edu	1-451-378-7446	2	2025-07-29
+291	Bradley Atkinson	2025-07-24	molestie@icloud.ca	1-262-547-3367	2	2025-07-21
+292	Allegra Hansen	2024-10-18	magna@yahoo.edu	(461) 519-7663	1	2026-11-16
+293	Connor Ortega	2025-03-18	lectus.pede.ultrices@aol.couk	(882) 871-3911	1	2025-11-21
+294	Sydney Castro	2025-05-29	cursus@aol.ca	(588) 688-6535	1	2025-07-26
+295	Francis Vincent	2024-07-28	justo.sit@outlook.ca	1-281-423-6338	2	2024-01-22
+296	Pearl Collins	2024-10-16	blandit.viverra@icloud.ca	1-216-333-8356	2	2026-09-18
+297	Alden Price	2025-05-08	molestie.sed.id@yahoo.edu	(838) 797-6805	2	2024-01-18
+298	Walter Reid	2024-08-21	et@protonmail.edu	(667) 803-9063	2	2026-08-31
+299	Kadeem Romero	2025-03-13	nonummy.fusce@hotmail.couk	(874) 260-1097	1	2024-08-11
+300	Blake Bruce	2025-10-17	ut.mi@yahoo.edu	(235) 184-2545	2	2026-04-15
+301	Hyacinth Ray	2024-11-06	sed.diam@google.org	1-269-711-7205	1	2025-03-20
+302	Daniel Conway	2024-12-30	sit.amet@hotmail.couk	(667) 663-2547	3	2024-05-08
+303	Gloria Pena	2026-02-24	luctus.aliquet@icloud.net	1-620-453-5430	2	2026-08-31
+304	Emma Cannon	2025-06-14	in@yahoo.com	1-417-760-2378	1	2025-01-02
+305	Neil Downs	2024-09-16	fermentum.metus@protonmail.com	(878) 316-3042	2	2026-08-12
+306	Hamilton Kelley	2026-01-11	integer.aliquam.adipiscing@outlook.edu	(291) 887-9132	2	2026-09-04
+307	Colleen Mosley	2025-01-24	velit@aol.edu	(605) 795-5749	1	2026-05-26
+308	Channing Ewing	2025-02-15	dolor.quam.elementum@hotmail.ca	(989) 663-3679	1	2025-08-18
+309	Rigel Lawson	2025-03-21	cubilia.curae@protonmail.org	(455) 660-8268	3	2025-08-25
+310	Kirk Kemp	2024-11-27	dis@yahoo.couk	(554) 854-7139	3	2025-04-25
+311	Quinn Stevenson	2025-09-24	eu.ultrices@yahoo.net	1-142-369-0413	1	2025-02-14
+312	Yasir Pratt	2024-11-04	libero.lacus@hotmail.ca	(501) 374-9747	3	2024-06-11
+313	Bo Justice	2024-05-08	sit.amet@icloud.net	1-602-446-7557	1	2026-02-08
+314	Riley Ray	2024-04-08	lorem.auctor@hotmail.ca	1-983-568-7979	2	2026-05-19
+315	Chanda Chan	2024-04-03	diam.dictum.sapien@hotmail.couk	(352) 178-8221	2	2024-08-26
+316	Margaret Bryant	2025-12-20	morbi.vehicula@icloud.org	(788) 870-8022	1	2025-02-02
+317	Burke Mcclain	2025-02-02	dapibus.ligula.aliquam@outlook.com	(686) 468-5250	2	2024-12-19
+318	Sybil Ryan	2025-03-23	consectetuer.adipiscing@google.net	1-591-757-2836	3	2024-09-15
+319	Abel Edwards	2024-07-19	enim.non@outlook.ca	(347) 587-8821	2	2025-07-15
+320	Raya Wells	2025-03-04	cursus.purus@outlook.net	1-728-336-6134	2	2024-07-28
+321	Adria Dotson	2024-05-11	tortor.nibh.sit@protonmail.net	(818) 806-5958	3	2024-05-11
+322	Warren Hartman	2024-03-31	egestas.ligula.nullam@hotmail.couk	1-685-279-8361	1	2025-03-30
+323	Emerson Foreman	2025-04-01	nec@icloud.net	(249) 984-1656	2	2024-04-15
+324	Hasad Mcdonald	2025-08-24	interdum.sed@outlook.ca	1-322-444-0545	1	2025-08-02
+325	Nyssa Pitts	2025-11-21	augue.eu@yahoo.com	(647) 520-3534	2	2025-12-10
+326	Ruth Barr	2025-07-27	sem.ut@protonmail.couk	1-326-943-7506	1	2026-09-05
+327	Troy Larsen	2026-01-20	tincidunt@yahoo.edu	1-387-292-3834	3	2024-08-16
+328	Allistair Castro	2024-10-11	maecenas.iaculis@aol.net	1-748-761-3325	1	2026-12-03
+329	Stephen Riddle	2026-01-01	nisi@aol.couk	1-411-520-5027	1	2024-11-03
+330	Candice Dalton	2025-08-21	aliquet.odio@yahoo.net	(922) 686-3730	3	2026-06-11
+331	Timon Hester	2025-06-15	pellentesque.ultricies@google.couk	(292) 514-6287	1	2025-09-19
+332	Britanney Glenn	2025-05-14	donec.vitae@google.net	1-666-515-8824	3	2026-09-30
+333	Buckminster Farmer	2025-08-07	magnis.dis@aol.ca	1-602-850-6751	1	2024-06-04
+334	Dominique Hughes	2025-01-01	cursus@google.ca	(287) 489-7946	1	2026-05-13
+335	Jason Hicks	2025-01-23	montes.nascetur@yahoo.edu	1-223-538-6787	3	2025-06-11
+336	Keefe Bryant	2025-01-25	cursus.non@hotmail.net	(241) 852-8579	2	2026-09-13
+337	Camille Gates	2025-01-14	nibh@yahoo.org	1-533-376-3011	3	2025-08-03
+338	Samson Talley	2025-10-28	dui.augue.eu@hotmail.com	1-708-763-2357	1	2024-05-30
+339	Jakeem Wood	2025-04-12	morbi@aol.edu	(506) 534-3326	3	2026-11-30
+340	Alice Stuart	2025-08-06	curabitur@hotmail.com	(336) 154-7469	3	2024-01-24
+341	Donovan Burgess	2025-10-31	blandit.congue@yahoo.couk	1-142-366-8745	1	2025-11-16
+342	Megan Russo	2026-03-22	odio@outlook.org	1-270-238-7287	3	2025-08-06
+343	Aladdin Turner	2025-02-20	felis.orci.adipiscing@icloud.ca	1-622-468-1682	3	2025-10-18
+344	Zane Daniels	2025-10-24	vel.mauris@aol.edu	(733) 538-7716	1	2026-06-19
+345	Ima Blair	2024-06-11	turpis.nulla@icloud.net	1-734-766-5502	1	2026-11-13
+346	Teagan Byers	2025-07-26	at@protonmail.org	1-434-785-6875	2	2026-05-18
+347	Dorian Juarez	2025-03-13	viverra.donec.tempus@protonmail.net	1-845-694-5341	2	2025-02-01
+348	Bruce Drake	2024-06-06	felis.purus@protonmail.org	1-322-807-2757	1	2026-06-12
+349	Olga Burke	2025-02-14	nam.ac@google.com	1-647-926-9673	2	2025-02-10
+350	Yen Bruce	2024-07-28	fusce.feugiat.lorem@hotmail.edu	1-348-864-7604	1	2025-08-20
+351	Petra Edwards	2024-04-30	donec.luctus.aliquet@aol.com	(843) 820-7829	3	2026-10-29
+352	Alec Prince	2025-02-28	eu.elit.nulla@google.org	(121) 443-1249	2	2024-05-24
+353	Lev Potter	2025-10-03	ut@outlook.com	1-504-615-7326	3	2025-03-15
+354	Xantha Barry	2024-12-21	lectus@outlook.net	1-716-838-7982	2	2026-09-07
+355	Sawyer Curtis	2025-06-20	ornare.fusce.mollis@outlook.org	(725) 126-5507	3	2025-10-01
+356	Libby Kelly	2025-02-25	auctor.velit@icloud.couk	(410) 475-4317	2	2025-07-03
+357	Cheyenne Benson	2024-10-05	orci@yahoo.couk	1-446-624-0433	2	2025-12-14
+358	Eric Lopez	2026-01-07	nulla@google.net	(190) 987-2756	1	2024-05-26
+359	Keegan Roth	2026-01-13	viverra.donec@protonmail.com	1-777-858-2516	3	2024-04-18
+360	Demetria Morse	2024-05-25	duis.mi.enim@yahoo.ca	(263) 876-9756	3	2025-10-13
+361	Serena Newman	2025-07-24	auctor.mauris@yahoo.com	(869) 895-6240	2	2025-12-07
+362	Lucas Sykes	2025-08-16	dis@protonmail.org	1-862-780-1856	2	2024-01-23
+363	Doris Owens	2024-06-23	vitae.erat@outlook.org	1-547-592-8182	2	2026-01-22
+364	Wyatt Hogan	2025-03-11	commodo.auctor.velit@protonmail.ca	1-331-366-7894	2	2025-11-11
+365	Jorden Martin	2024-05-29	ipsum@yahoo.ca	(735) 733-4345	1	2025-10-17
+366	Kathleen Stanley	2025-09-14	phasellus.fermentum@icloud.edu	1-814-402-6606	2	2024-06-14
+367	Fritz Henry	2024-08-31	eu.augue.porttitor@yahoo.edu	(532) 539-2552	3	2026-03-20
+368	Ian Reilly	2024-11-16	semper.rutrum@outlook.com	1-247-217-2023	3	2026-08-07
+369	Todd Lowery	2026-01-08	proin.non@protonmail.couk	1-670-877-4801	3	2026-07-17
+370	Charde Humphrey	2024-05-12	pharetra.ut.pharetra@google.com	(289) 189-5672	2	2024-06-20
+371	Justin Pace	2026-03-21	neque.sed.sem@yahoo.net	(403) 924-0810	2	2026-12-24
+372	Graiden Kline	2025-01-07	non.vestibulum@icloud.couk	(514) 282-0671	1	2024-08-21
+373	Robin Fletcher	2024-09-22	eu@google.com	1-202-548-0723	2	2024-08-31
+374	Lareina Horne	2025-02-03	rutrum.lorem.ac@protonmail.org	1-746-654-5187	2	2026-06-04
+375	Claudia Travis	2025-06-17	ligula@google.com	(796) 696-4534	1	2024-06-02
+376	Fulton Trevino	2025-07-27	faucibus@outlook.ca	1-522-402-1887	2	2025-01-06
+377	Willow Donovan	2026-01-05	massa.quisque.porttitor@icloud.couk	(281) 844-5370	1	2025-08-21
+378	Nadine Logan	2024-08-11	massa@outlook.edu	(637) 948-8557	1	2025-01-14
+379	Jordan Blankenship	2024-11-21	orci.lacus@outlook.couk	1-880-477-5061	1	2026-02-23
+380	Ria Lucas	2024-04-24	risus.nunc@protonmail.couk	1-220-876-2532	2	2026-12-01
+381	Lucas Stewart	2025-01-20	nulla.facilisis@aol.ca	1-544-527-7049	2	2026-12-09
+382	Inga Copeland	2024-10-03	malesuada.fames@hotmail.ca	(854) 875-4209	1	2026-10-07
+383	Kim Shelton	2025-04-17	laoreet@protonmail.ca	(519) 519-2499	3	2025-01-19
+384	MacKensie Ruiz	2024-09-03	magna@icloud.org	1-525-637-2101	1	2025-06-01
+385	MacKensie Joyner	2025-12-22	ornare.in@icloud.couk	(490) 704-8247	2	2025-02-19
+386	Ezekiel William	2024-07-17	aliquam@google.edu	(793) 733-8037	2	2025-10-31
+387	Arden Mullen	2025-09-27	nullam.lobortis@icloud.couk	1-285-636-5864	2	2024-05-28
+388	Plato Russell	2024-06-06	mi.enim.condimentum@aol.couk	1-388-942-8655	3	2025-03-06
+389	Doris Hanson	2026-03-06	semper.auctor.mauris@google.com	1-383-338-1434	2	2026-12-15
+390	Keely Leblanc	2025-01-18	aliquam.adipiscing.lobortis@protonmail.com	(741) 981-1626	1	2026-01-28
+391	Noelle Pena	2024-06-02	arcu@protonmail.net	(475) 319-2748	1	2025-02-11
+392	Hu Pearson	2026-02-14	morbi.tristique.senectus@outlook.edu	(340) 861-8443	2	2026-11-19
+393	Moana Wilcox	2024-05-19	enim@google.couk	1-951-277-8331	2	2024-03-07
+394	Brynn Michael	2024-10-31	sed.turpis.nec@aol.com	1-868-341-0579	2	2026-03-20
+395	Audrey Gay	2025-06-19	amet.orci@aol.edu	1-483-842-4787	2	2024-12-08
+396	Alexa Hancock	2024-06-30	malesuada.ut.sem@outlook.couk	(894) 574-0252	1	2026-09-13
+397	Hashim Suarez	2025-10-15	eros.turpis@hotmail.edu	(608) 238-3593	2	2025-10-23
+398	Breanna Nicholson	2025-05-28	in@outlook.edu	1-732-451-1774	3	2026-05-25
+399	Channing Jarvis	2025-10-25	tincidunt.donec@hotmail.couk	(756) 539-9947	3	2026-01-19
+400	Bruno Bullock	2025-05-27	augue.malesuada.malesuada@yahoo.net	(286) 823-2795	1	2026-03-27
+401	Quinn Cardenas	2025-03-11	nunc.sit@outlook.net	(710) 764-7363	3	2024-01-02
+402	Lillian Conrad	2026-01-02	molestie.in@google.com	1-817-741-2631	1	2024-09-04
+403	Tamara Clark	2024-05-20	ligula.nullam@outlook.net	1-566-333-8604	3	2024-07-12
+\.
+
+
+--
+-- TOC entry 3416 (class 0 OID 16712)
+-- Dependencies: 218
+-- Data for Name: memberships; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.memberships (membershipid, type, price, duration, isactive) FROM stdin;
+1	Basic	50.00	30	t
+2	Premium	100.00	90	t
+3	Annual	300.00	365	t
+\.
+
+
+--
+-- TOC entry 3426 (class 0 OID 16769)
+-- Dependencies: 228
+-- Data for Name: payments; Type: TABLE DATA; Schema: public; Owner: azriel
+--
+
+COPY public.payments (paymentid, memberid, amount, paymentdate) FROM stdin;
+1	1	50.00	2024-02-10
+2	2	100.00	2024-02-15
+3	3	300.00	2024-03-01
+4	331	100.00	2025-02-08
+5	190	100.00	2024-06-17
+6	228	100.00	2024-06-10
+7	108	50.00	2024-07-26
+8	245	100.00	2024-09-01
+9	52	100.00	2024-10-21
+10	66	50.00	2025-02-15
+11	150	300.00	2024-12-29
+12	372	50.00	2024-02-24
+13	30	300.00	2025-03-31
+14	381	100.00	2024-11-21
+15	208	300.00	2025-02-01
+16	35	50.00	2024-03-19
+17	8	100.00	2024-11-16
+18	124	50.00	2025-02-22
+19	353	100.00	2024-12-13
+20	251	50.00	2024-12-12
+21	298	100.00	2024-10-07
+22	109	300.00	2024-09-30
+23	114	100.00	2024-06-28
+24	309	50.00	2024-10-01
+25	223	300.00	2025-03-03
+26	117	100.00	2025-01-23
+27	151	50.00	2024-06-19
+28	118	300.00	2025-04-07
+29	10	100.00	2024-12-24
+30	75	300.00	2024-10-28
+31	351	100.00	2025-01-06
+32	156	50.00	2024-05-16
+33	190	50.00	2024-09-27
+34	271	300.00	2024-08-21
+35	41	50.00	2024-11-01
+36	111	100.00	2024-07-05
+37	329	50.00	2024-08-05
+38	40	50.00	2025-03-12
+39	387	50.00	2024-09-20
+40	358	50.00	2024-06-17
+41	227	100.00	2024-05-11
+42	69	300.00	2024-05-02
+43	226	300.00	2024-04-14
+44	251	300.00	2024-07-08
+45	42	50.00	2024-09-02
+46	393	300.00	2025-03-25
+47	219	100.00	2024-08-20
+48	17	50.00	2025-03-18
+49	4	100.00	2025-03-31
+50	256	300.00	2024-04-02
+51	383	300.00	2024-12-09
+52	332	100.00	2024-07-24
+53	13	50.00	2024-11-04
+54	334	100.00	2024-07-07
+55	90	300.00	2024-07-08
+56	391	50.00	2025-03-24
+57	263	300.00	2025-02-22
+58	8	300.00	2024-06-21
+59	332	300.00	2025-01-25
+60	20	100.00	2024-08-01
+61	269	50.00	2024-06-07
+62	156	300.00	2024-03-12
+63	27	100.00	2025-02-21
+64	110	50.00	2024-04-01
+65	322	100.00	2025-04-15
+66	145	50.00	2024-03-07
+67	381	50.00	2024-07-16
+68	199	50.00	2024-09-11
+69	312	100.00	2024-04-01
+70	30	300.00	2024-07-22
+71	76	300.00	2024-06-14
+72	397	300.00	2024-12-11
+73	196	100.00	2025-01-30
+74	392	100.00	2024-05-24
+75	206	50.00	2024-03-26
+76	326	100.00	2025-01-15
+77	98	100.00	2024-06-12
+78	32	50.00	2024-05-09
+79	104	100.00	2025-02-02
+80	402	300.00	2024-09-12
+81	166	100.00	2024-10-05
+82	338	50.00	2024-09-04
+83	104	300.00	2024-09-11
+84	78	300.00	2024-10-07
+85	173	100.00	2024-12-29
+86	90	50.00	2024-08-21
+87	269	300.00	2024-07-24
+88	282	300.00	2024-03-21
+89	126	300.00	2025-01-31
+90	195	300.00	2025-01-22
+91	363	50.00	2024-06-16
+92	306	100.00	2024-10-01
+93	215	50.00	2025-02-10
+94	284	100.00	2025-02-11
+95	100	100.00	2025-03-18
+96	251	100.00	2024-10-09
+97	198	100.00	2024-10-08
+98	243	100.00	2025-03-18
+99	230	100.00	2025-03-06
+100	143	100.00	2024-06-09
+101	143	100.00	2024-11-07
+102	354	300.00	2025-03-23
+103	34	50.00	2024-09-23
+104	302	300.00	2024-02-13
+105	318	50.00	2024-03-01
+106	127	300.00	2024-06-01
+107	80	100.00	2024-09-08
+108	137	50.00	2024-06-23
+109	253	100.00	2024-08-24
+110	98	100.00	2025-02-27
+111	186	300.00	2024-09-29
+112	231	50.00	2024-08-14
+113	49	100.00	2024-11-20
+114	294	100.00	2024-02-11
+115	318	50.00	2025-04-25
+116	125	300.00	2025-01-27
+117	26	50.00	2025-02-27
+118	359	50.00	2024-02-16
+119	14	100.00	2024-10-06
+120	221	100.00	2024-06-06
+121	225	300.00	2024-03-06
+122	209	100.00	2024-11-19
+123	322	100.00	2024-02-29
+124	293	50.00	2024-05-13
+125	333	50.00	2025-01-23
+126	162	300.00	2024-12-21
+127	146	100.00	2024-03-20
+128	55	100.00	2024-09-20
+129	189	50.00	2024-12-31
+130	207	100.00	2025-01-18
+131	308	100.00	2024-03-26
+132	114	300.00	2024-10-09
+133	330	100.00	2024-04-27
+134	72	100.00	2024-03-26
+135	177	50.00	2024-10-21
+136	209	100.00	2024-12-10
+137	271	50.00	2024-04-28
+138	19	300.00	2024-07-23
+139	325	100.00	2024-06-03
+140	230	300.00	2024-05-04
+141	98	50.00	2024-11-04
+142	49	300.00	2025-03-07
+143	274	100.00	2024-08-09
+144	245	100.00	2024-03-30
+145	212	50.00	2024-06-04
+146	40	50.00	2024-05-22
+147	362	100.00	2024-09-17
+148	231	50.00	2024-08-24
+149	167	100.00	2025-01-01
+150	118	100.00	2024-07-03
+151	395	50.00	2024-02-16
+152	390	300.00	2025-04-22
+153	278	50.00	2024-04-14
+154	30	100.00	2024-04-13
+155	394	50.00	2024-04-02
+156	374	100.00	2024-12-21
+157	86	50.00	2024-10-01
+158	305	300.00	2025-01-01
+159	182	50.00	2024-09-17
+160	294	100.00	2024-07-08
+161	41	300.00	2024-06-03
+162	83	50.00	2024-06-08
+163	112	100.00	2024-06-09
+164	79	100.00	2024-04-06
+165	246	100.00	2024-02-23
+166	197	100.00	2024-05-02
+167	279	300.00	2024-11-18
+168	155	100.00	2024-08-15
+169	401	100.00	2024-04-09
+170	312	300.00	2024-05-14
+171	183	100.00	2025-01-22
+172	208	100.00	2024-02-22
+173	369	100.00	2025-02-04
+174	156	100.00	2025-02-15
+175	209	300.00	2024-07-18
+176	21	100.00	2024-12-12
+177	186	100.00	2025-03-13
+178	51	300.00	2024-04-20
+179	399	50.00	2024-12-14
+180	52	100.00	2025-02-19
+181	31	100.00	2025-04-27
+182	329	300.00	2024-10-22
+183	192	50.00	2025-01-21
+184	125	100.00	2024-10-30
+185	129	300.00	2024-06-10
+186	87	50.00	2024-12-23
+187	254	50.00	2024-02-23
+188	326	50.00	2025-02-14
+189	348	100.00	2024-07-08
+190	351	100.00	2024-08-03
+191	393	100.00	2024-02-28
+192	82	300.00	2024-11-14
+193	362	100.00	2024-12-18
+194	192	300.00	2024-09-21
+195	79	100.00	2024-08-27
+196	79	300.00	2024-06-07
+197	345	300.00	2025-01-06
+198	240	300.00	2025-01-24
+199	317	50.00	2024-04-10
+200	340	300.00	2025-04-02
+201	110	300.00	2024-10-31
+202	46	300.00	2024-02-21
+203	384	100.00	2024-10-07
+204	17	300.00	2024-10-29
+205	249	300.00	2025-03-27
+206	322	50.00	2024-12-29
+207	379	50.00	2024-08-08
+208	296	50.00	2024-04-21
+209	54	50.00	2024-04-21
+210	365	50.00	2024-08-24
+211	159	50.00	2024-03-04
+212	18	50.00	2025-03-19
+213	314	50.00	2024-11-13
+214	14	50.00	2024-07-26
+215	12	300.00	2024-11-04
+216	47	50.00	2024-03-11
+217	141	100.00	2024-09-24
+218	66	100.00	2024-12-21
+219	374	300.00	2024-09-13
+220	261	50.00	2024-10-17
+221	346	50.00	2024-10-15
+222	379	50.00	2024-03-24
+223	305	100.00	2025-01-08
+224	34	50.00	2024-04-04
+225	347	50.00	2025-03-10
+226	130	300.00	2024-05-31
+227	267	300.00	2025-02-28
+228	40	300.00	2024-11-19
+229	361	100.00	2025-01-03
+230	54	100.00	2024-03-28
+231	86	50.00	2024-12-02
+232	267	50.00	2024-04-17
+233	88	100.00	2024-12-03
+234	210	100.00	2024-09-12
+235	85	300.00	2024-07-08
+236	361	100.00	2025-01-23
+237	359	50.00	2024-07-25
+238	252	50.00	2024-08-06
+239	274	300.00	2025-02-23
+240	378	100.00	2024-12-17
+241	348	50.00	2025-03-03
+242	342	300.00	2024-06-14
+243	73	300.00	2024-05-06
+244	59	50.00	2024-07-21
+245	89	300.00	2025-04-17
+246	162	300.00	2024-04-18
+247	28	300.00	2024-08-03
+248	387	50.00	2024-06-19
+249	34	100.00	2024-11-02
+250	137	50.00	2024-10-07
+251	264	50.00	2024-04-29
+252	268	100.00	2024-11-19
+253	250	50.00	2025-02-21
+254	152	300.00	2024-09-08
+255	372	50.00	2024-11-25
+256	55	50.00	2024-03-06
+257	336	50.00	2025-01-01
+258	134	300.00	2024-02-14
+259	316	300.00	2025-04-25
+260	255	50.00	2025-04-23
+261	50	100.00	2024-06-21
+262	75	50.00	2025-04-12
+263	300	300.00	2024-10-27
+264	38	300.00	2024-12-10
+265	12	50.00	2025-01-18
+266	262	300.00	2024-10-25
+267	88	100.00	2024-12-13
+268	163	100.00	2024-04-02
+269	201	50.00	2025-04-13
+270	284	300.00	2024-09-10
+271	248	100.00	2024-02-27
+272	343	50.00	2024-05-10
+273	184	100.00	2024-08-11
+274	377	100.00	2024-10-01
+275	355	100.00	2024-10-22
+276	11	300.00	2024-08-30
+277	164	100.00	2024-04-26
+278	380	50.00	2025-03-19
+279	284	100.00	2024-05-30
+280	386	300.00	2024-03-31
+281	23	100.00	2024-06-11
+282	182	100.00	2025-03-07
+283	65	300.00	2024-11-01
+284	144	300.00	2024-12-07
+285	85	300.00	2024-12-29
+286	29	100.00	2025-01-21
+287	141	50.00	2024-02-12
+288	216	50.00	2024-12-22
+289	244	50.00	2024-06-29
+290	355	100.00	2024-12-30
+291	30	100.00	2024-05-27
+292	72	50.00	2024-10-08
+293	345	300.00	2024-08-06
+294	199	300.00	2025-04-14
+295	97	100.00	2024-10-21
+296	160	50.00	2024-08-21
+297	19	300.00	2024-04-25
+298	370	300.00	2024-06-17
+299	339	100.00	2024-05-29
+300	206	100.00	2024-12-25
+301	344	50.00	2024-09-14
+302	227	300.00	2024-03-11
+303	277	300.00	2024-04-14
+304	94	300.00	2024-12-31
+305	32	50.00	2024-12-03
+306	338	50.00	2024-05-01
+307	394	50.00	2024-05-08
+308	363	50.00	2024-02-19
+309	309	100.00	2025-03-18
+310	182	300.00	2024-06-10
+311	333	300.00	2024-04-22
+312	73	300.00	2024-05-20
+313	372	100.00	2025-04-02
+314	38	300.00	2025-04-17
+315	233	100.00	2024-11-25
+316	342	100.00	2024-12-10
+317	294	300.00	2024-05-25
+318	33	100.00	2024-03-13
+319	155	50.00	2024-09-01
+320	272	50.00	2024-02-22
+321	38	300.00	2025-01-01
+322	193	50.00	2024-07-14
+323	347	50.00	2024-12-23
+324	135	100.00	2025-04-17
+325	235	100.00	2025-02-02
+326	254	100.00	2024-02-25
+327	316	50.00	2024-09-15
+328	312	50.00	2024-09-24
+329	18	50.00	2025-04-12
+330	4	300.00	2024-11-19
+331	324	50.00	2024-02-19
+332	51	300.00	2024-05-25
+333	348	300.00	2024-05-16
+334	55	300.00	2025-02-28
+335	375	300.00	2024-07-07
+336	250	50.00	2025-03-31
+337	303	100.00	2024-12-06
+338	355	50.00	2024-12-01
+339	321	50.00	2025-04-27
+340	392	100.00	2025-02-03
+341	85	50.00	2024-11-30
+342	240	50.00	2024-09-13
+343	332	300.00	2024-08-12
+344	82	100.00	2024-04-14
+345	236	50.00	2024-09-11
+346	370	100.00	2025-01-20
+347	206	50.00	2024-12-13
+348	186	300.00	2024-12-27
+349	316	50.00	2025-04-23
+350	386	300.00	2024-11-25
+351	265	50.00	2024-06-03
+352	179	300.00	2024-07-30
+353	120	50.00	2024-08-13
+354	227	100.00	2024-03-24
+355	312	100.00	2025-03-08
+356	381	50.00	2024-11-22
+357	326	100.00	2024-03-16
+358	339	50.00	2024-12-20
+359	300	100.00	2025-04-11
+360	253	100.00	2024-04-25
+361	229	300.00	2024-05-01
+362	147	50.00	2024-03-14
+363	73	100.00	2024-09-24
+364	370	100.00	2024-12-25
+365	156	300.00	2024-10-06
+366	108	100.00	2024-04-21
+367	184	50.00	2024-05-11
+368	155	100.00	2024-06-02
+369	48	50.00	2024-06-05
+370	309	100.00	2024-02-14
+371	379	50.00	2024-05-15
+372	112	50.00	2024-10-01
+373	192	50.00	2024-07-09
+374	134	300.00	2024-03-30
+375	232	300.00	2024-09-14
+376	211	300.00	2024-11-18
+377	379	50.00	2025-03-01
+378	355	300.00	2024-10-06
+379	109	50.00	2024-05-17
+380	319	50.00	2024-12-20
+381	141	100.00	2025-01-20
+382	277	100.00	2025-01-29
+383	269	100.00	2025-03-18
+384	77	100.00	2024-04-17
+385	20	50.00	2024-09-30
+386	5	50.00	2024-10-14
+387	27	50.00	2024-08-13
+388	201	300.00	2025-01-08
+389	344	50.00	2024-03-09
+390	168	50.00	2024-08-01
+391	166	50.00	2024-12-03
+392	151	50.00	2025-03-19
+393	320	100.00	2025-04-05
+394	95	100.00	2025-04-02
+395	373	300.00	2025-01-12
+396	355	100.00	2025-02-26
+397	9	50.00	2024-06-29
+398	372	100.00	2024-05-13
+399	16	50.00	2024-08-01
+400	11	300.00	2024-07-14
+401	133	50.00	2024-09-07
+402	173	50.00	2024-04-19
+403	242	50.00	2024-05-17
+\.
+
+
+--
+-- TOC entry 3440 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: attendance_attendanceid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.attendance_attendanceid_seq', 403, true);
+
+
+--
+-- TOC entry 3441 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: classes_classid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.classes_classid_seq', 753, true);
+
+
+--
+-- TOC entry 3442 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: instructors_instructorid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.instructors_instructorid_seq', 403, true);
+
+
+--
+-- TOC entry 3443 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: members_memberid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.members_memberid_seq', 403, true);
+
+
+--
+-- TOC entry 3444 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: memberships_membershipid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.memberships_membershipid_seq', 3, true);
+
+
+--
+-- TOC entry 3445 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: payments_paymentid_seq; Type: SEQUENCE SET; Schema: public; Owner: azriel
+--
+
+SELECT pg_catalog.setval('public.payments_paymentid_seq', 403, true);
+
+
+--
+-- TOC entry 3259 (class 2606 OID 16762)
+-- Name: attendance attendance_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.attendance
+    ADD CONSTRAINT attendance_pkey PRIMARY KEY (attendanceid);
+
+
+--
+-- TOC entry 3263 (class 2606 OID 16784)
+-- Name: class_membership class_membership_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.class_membership
+    ADD CONSTRAINT class_membership_pkey PRIMARY KEY (memberid, classid);
+
+
+--
+-- TOC entry 3257 (class 2606 OID 16750)
+-- Name: classes classes_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.classes
+    ADD CONSTRAINT classes_pkey PRIMARY KEY (classid);
+
+
+--
+-- TOC entry 3255 (class 2606 OID 16743)
+-- Name: instructors instructors_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.instructors
+    ADD CONSTRAINT instructors_pkey PRIMARY KEY (instructorid);
+
+
+--
+-- TOC entry 3249 (class 2606 OID 16727)
+-- Name: members members_email_key; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.members
+    ADD CONSTRAINT members_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3251 (class 2606 OID 16729)
+-- Name: members members_phone_key; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.members
+    ADD CONSTRAINT members_phone_key UNIQUE (phone);
+
+
+--
+-- TOC entry 3253 (class 2606 OID 16725)
+-- Name: members members_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.members
+    ADD CONSTRAINT members_pkey PRIMARY KEY (memberid);
+
+
+--
+-- TOC entry 3247 (class 2606 OID 16718)
+-- Name: memberships memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.memberships
+    ADD CONSTRAINT memberships_pkey PRIMARY KEY (membershipid);
+
+
+--
+-- TOC entry 3261 (class 2606 OID 16774)
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (paymentid);
+
+
+--
+-- TOC entry 3266 (class 2606 OID 16763)
+-- Name: attendance attendance_memberid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.attendance
+    ADD CONSTRAINT attendance_memberid_fkey FOREIGN KEY (memberid) REFERENCES public.members(memberid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3268 (class 2606 OID 16790)
+-- Name: class_membership class_membership_classid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.class_membership
+    ADD CONSTRAINT class_membership_classid_fkey FOREIGN KEY (classid) REFERENCES public.classes(classid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3269 (class 2606 OID 16785)
+-- Name: class_membership class_membership_memberid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.class_membership
+    ADD CONSTRAINT class_membership_memberid_fkey FOREIGN KEY (memberid) REFERENCES public.members(memberid) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3265 (class 2606 OID 16751)
+-- Name: classes classes_instructorid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.classes
+    ADD CONSTRAINT classes_instructorid_fkey FOREIGN KEY (instructorid) REFERENCES public.instructors(instructorid) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3264 (class 2606 OID 16730)
+-- Name: members members_membershiptype_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.members
+    ADD CONSTRAINT members_membershiptype_fkey FOREIGN KEY (membershiptype) REFERENCES public.memberships(membershipid) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3267 (class 2606 OID 16775)
+-- Name: payments payments_memberid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: azriel
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_memberid_fkey FOREIGN KEY (memberid) REFERENCES public.members(memberid) ON DELETE CASCADE;
+
+
+-- Completed on 2025-03-26 21:51:10 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database "postgres" dump
+--
+
+\connect postgres
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.4 (Debian 17.4-1.pgdg120+2)
+-- Dumped by pg_dump version 17.4
+
+-- Started on 2025-03-26 21:51:10 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2025-03-26 21:51:10 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+-- Completed on 2025-03-26 21:51:10 UTC
+
+--
+-- PostgreSQL database cluster dump complete
+--
+

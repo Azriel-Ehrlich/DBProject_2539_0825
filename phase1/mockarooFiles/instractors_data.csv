@@ -1,0 +1,401 @@
+name,expertise,phone,hourlyRate,schedule
+Byram Puddicombe,boxing,992-387-1303,43.82,Fri: 14:00-16:00
+Rossy Alwin,spin,532-984-2488,48.86,Mon: 12:00-14:00
+Dodie Piburn,swimming,312-993-8752,95.43,Mon-Wed: 16:00-18:00
+Tory Crews,aerobics,235-647-3229,38.83,Mon-Wed: 11:30-13:30
+Melita Redman,powerlifting,287-108-8696,86.26,Wed: 10:00-14:00
+Marnia Studders,crossfit,976-901-8622,38.73,Wed: 13:00-15:00
+Danielle Taggert,spin,723-240-7303,60.57,Mon-Wed-Fri: 9:00-11:00
+Raoul Mounsie,bootcamp,893-932-4945,71.24,Wed-Fri: 15:00-17:00
+Consolata Avramov,functional training,769-282-4405,43.4,Mon-Thu: 16:00-18:00
+Tori Solano,bootcamp,792-102-4817,64.43,Thu-Fri: 17:00-19:00
+Curcio McGilleghole,powerlifting,550-686-7420,76.49,Tue-Thu: 12:00-14:00
+Jephthah Gardener,TRX,346-385-3818,85.33,Mon-Tue-Thu: 9:30-11:30
+Windy Gorges,TRX,826-863-5234,88.94,Mon: 8:30-10:30
+Andie Stoyle,boxing,279-639-6335,61.19,Mon-Wed: 11:30-13:30
+Marlin Dorin,cycling,577-131-8535,62.51,Mon-Wed: 11:30-13:30
+Stevana Evreux,cardio,941-969-1613,94.15,Mon-Tue-Thu: 9:30-11:30
+Sigismondo Wedgwood,barre,205-748-4282,56.61,Wed-Fri: 15:00-17:00
+Farand Craig,aerobics,367-923-9598,51.53,Tue-Fri: 18:00-20:00
+Diahann MacKniely,zumba,387-658-0834,54.4,Tue-Thu: 13:00-15:00
+Stu Ogbourne,dance,313-938-6352,91.3,Mon-Fri: 8:00-12:00
+Davon Pepin,bootcamp,844-381-7686,42.2,Tue-Fri: 18:00-20:00
+Tildi Janny,strength training,486-256-5761,67.79,Mon-Wed: 11:30-13:30
+Gareth Checchetelli,pilates,267-783-4110,44.99,Tue: 9:00-10:30
+Lou Devenny,powerlifting,331-814-0434,69.31,Mon-Tue-Thu: 9:30-11:30
+Violante Mignot,strength training,963-436-6000,63.85,Wed: 10:00-14:00
+Selinda Skelding,pilates,428-163-8691,68.5,Wed-Fri: 15:00-17:00
+Sydney Haryngton,spin,345-651-1391,99.98,Mon-Thu: 16:00-18:00
+Art Daniells,strength training,203-692-4048,81.48,Tue: 14:00-16:00
+Valaree Ugoni,spin,223-732-9062,40.96,Mon-Fri: 7:00-9:00
+Clerc Lagen,pilates,523-535-6546,91.28,Mon-Wed-Fri: 9:00-11:00
+Monah Kitching,pilates,229-349-4444,36.33,Tue-Thu: 12:00-14:00
+Tedra Dryden,functional training,535-412-4804,81.08,Mon-Fri: 8:00-12:00
+Bernardine Tithecott,dance,174-797-3000,84.71,Mon: 12:00-14:00
+Sansone Rabbet,crossfit,491-216-3924,84.24,Mon-Fri: 8:00-12:00
+Luella Darling,crossfit,955-929-1010,41.73,Mon-Wed: 16:00-18:00
+Austin Clemits,yoga,777-798-7696,70.8,Mon: 12:00-14:00
+Richmound Lobley,weightlifting,189-175-4158,70.7,Mon-Tue-Thu: 9:30-11:30
+Monika Forten,swimming,547-332-6383,78.16,Mon: 12:00-14:00
+Wendel Gunn,cardio,182-836-9066,58.78,Wed-Fri: 15:00-17:00
+Chrisse Brigdale,HIIT,956-449-5791,75.12,Tue-Thu: 12:00-14:00
+Malinda Farney,bodyweight exercises,313-622-0246,72.32,Mon: 8:30-10:30
+Wilt Jeandeau,kickboxing,750-371-2239,73.42,Wed: 10:00-14:00
+Audrey Jakaway,HIIT,174-706-8389,85.35,Wed-Fri: 15:00-17:00
+Augustin Braime,strength training,691-793-6744,96.41,Tue: 14:00-16:00
+Felike Longthorn,yoga,400-344-6868,42.86,Mon-Wed: 11:30-13:30
+Tamra O' Scallan,bodyweight exercises,678-891-5852,76.31,Fri: 11:00-13:00
+Wyatt Lempenny,swimming,365-902-6113,69.3,Thu: 10:00-12:00
+Des Landrick,spin,384-110-0246,63.91,Tue: 14:00-16:00
+Benson Sisselot,swimming,779-808-5906,44.92,Mon-Thu: 14:30-16:30
+Farrell Lindberg,barre,633-271-9998,69.52,Mon-Wed-Fri: 9:00-11:00
+Vern MacKall,crossfit,214-214-7537,88.09,Mon-Fri: 8:00-12:00
+Trude Gansbuhler,crossfit,698-309-3994,65.86,Mon-Fri: 8:00-12:00
+Denney Temperton,HIIT,341-613-8832,66.25,Tue: 14:00-16:00
+Chicky Skule,dance,146-543-4630,51.6,Tue-Thu: 12:00-14:00
+Phyllys Pacher,pilates,433-380-3239,88.59,Mon-Wed: 16:00-18:00
+Dominick Godin,bootcamp,714-456-3474,75.34,Mon: 8:30-10:30
+Fiona Nozzolii,crossfit,859-932-5993,81.2,Thu-Fri: 17:00-19:00
+Nichol Sawforde,functional training,619-493-2619,75.11,Mon: 8:30-10:30
+Lanny Cordero,dance,202-680-3033,89.01,Mon-Wed: 11:30-13:30
+Haily Costock,bootcamp,816-769-4675,82.11,Tue-Thu: 13:00-15:00
+Far Akroyd,barre,746-648-9469,82.19,Mon-Wed: 11:30-13:30
+Monica Rosenfield,weightlifting,214-866-2029,89.65,Mon-Thu: 14:30-16:30
+Ermentrude Pozzi,pilates,218-679-7125,96.17,Tue: 9:00-10:30
+Taffy Wagen,yoga,394-621-9539,66.87,Mon-Fri: 8:00-12:00
+Franky Inkster,cardio,275-625-9371,58.42,Tue-Fri: 18:00-20:00
+Torrin Fellon,strength training,255-329-5241,36.17,Mon-Wed-Fri: 9:00-11:00
+Etan Thomen,weightlifting,420-196-4790,84.52,Tue-Thu: 12:00-14:00
+Frazer Cannon,stretching,893-396-6298,85.75,Mon-Thu: 14:30-16:30
+Nariko Brodhead,pilates,545-444-2465,82.58,Mon-Thu: 16:00-18:00
+Wylie Horley,barre,599-866-7395,44.28,Thu: 10:00-12:00
+Luce Abramamov,functional training,410-140-5078,81.73,Mon-Fri: 8:00-12:00
+Maria Clerke,swimming,542-175-5902,66.98,Tue-Thu: 12:00-14:00
+Jandy Lesor,bodyweight exercises,161-601-9951,87.8,Mon-Tue-Thu: 9:30-11:30
+Hana Presswell,powerlifting,917-992-0906,85.57,Wed-Fri: 15:00-17:00
+Emilio McCurdy,aerobics,207-572-9724,83.18,Wed: 13:00-15:00
+Denni Coushe,dance,809-793-0658,50.59,Mon-Wed: 16:00-18:00
+Kerwin Lyst,crossfit,537-182-7405,72.41,Wed: 13:00-15:00
+Tyson Gurys,yoga,858-620-1515,59.06,Mon-Thu: 16:00-18:00
+Walker Adran,cycling,757-425-6264,69.22,Fri: 14:00-16:00
+Tito McElree,bodyweight exercises,908-411-9617,66.8,Fri: 11:00-13:00
+Packston Chuney,barre,883-270-8705,61.41,Mon-Tue-Thu: 9:30-11:30
+Fidelia Nelius,functional training,373-364-6544,64.28,Mon: 8:30-10:30
+Hugh Dennant,cardio,482-816-0641,38.54,Mon-Thu: 16:00-18:00
+Reeba Blamey,bootcamp,785-896-9992,88.96,Mon-Wed: 16:00-18:00
+Lonny Morforth,boxing,622-140-0913,48.74,Mon-Wed-Fri: 9:00-11:00
+Jarad Penylton,TRX,472-923-5514,70.24,Fri: 11:00-13:00
+Emory Drohane,barre,366-392-0356,98.41,Tue: 9:00-10:30
+Ed Bounde,crossfit,306-645-6346,92.54,Thu: 10:00-12:00
+Camey Munroe,strength training,137-143-1266,41.3,Mon-Tue-Thu: 9:30-11:30
+Bren MacFadyen,kickboxing,582-705-2321,69.03,Fri: 11:00-13:00
+Iona Watsam,cardio,874-440-9824,58.95,Wed-Fri: 15:00-17:00
+Cordell Berriball,boxing,685-857-7333,69.9,Mon-Tue-Thu: 9:30-11:30
+Curr Merigeau,zumba,114-187-2720,43.45,Mon-Wed: 16:00-18:00
+Ibbie Nesby,TRX,189-678-0668,74.05,Mon-Fri: 8:00-12:00
+Almeta Collinette,barre,165-975-5799,43.5,Tue: 14:00-16:00
+Jordain Grigoire,yoga,757-191-9152,75.94,Tue: 14:00-16:00
+Giuditta Witnall,TRX,591-452-4313,99.06,Thu-Fri: 17:00-19:00
+Morie Witherup,swimming,309-197-4099,70.4,Wed: 10:00-14:00
+Bernard Garwill,stretching,420-487-8949,60.4,Fri: 14:00-16:00
+York Newarte,swimming,580-204-3157,78.86,Wed-Fri: 15:00-17:00
+Calhoun Linch,barre,424-308-1408,65.09,Mon-Tue-Thu: 9:30-11:30
+Claybourne Hatliffe,strength training,222-684-2311,74.2,Mon-Wed-Fri: 9:00-11:00
+Ellynn Barrar,boxing,876-423-5610,44.98,Fri: 14:00-16:00
+Tripp Brass,stretching,721-554-8680,72.02,Thu-Fri: 17:00-19:00
+Maddi Aizkovitch,dance,147-230-3847,40.56,Thu: 10:00-12:00
+Anya Huntington,weightlifting,993-411-3483,60.56,Fri: 14:00-16:00
+Ezequiel McClifferty,swimming,237-169-9213,67.77,Thu: 10:00-12:00
+Geneva Kleinberer,cycling,946-504-4795,59.43,Mon-Fri: 8:00-12:00
+Elisabeth Bacchus,functional training,764-662-6346,63.59,Mon-Wed-Fri: 9:00-11:00
+Verney Moyser,cycling,901-120-4127,49.37,Wed: 13:00-15:00
+Carmela Docherty,barre,863-329-2162,47.13,Fri: 14:00-16:00
+Matilda Agglio,stretching,625-613-7283,64.46,Tue-Thu: 13:00-15:00
+Jodi Waterman,kickboxing,525-125-7547,83.49,Tue-Thu: 12:00-14:00
+Amanda Davison,swimming,467-478-6081,62.13,Mon: 12:00-14:00
+Amabelle Luttgert,stretching,223-282-5096,85.56,Wed: 13:00-15:00
+Clarence Greggor,boxing,522-489-3152,58.19,Mon-Wed: 16:00-18:00
+Aryn Agglione,aerobics,276-912-8183,73.13,Wed-Fri: 15:00-17:00
+Binny Malecky,pilates,860-918-1735,68.63,Fri: 14:00-16:00
+Sandra Elflain,boxing,253-655-6124,97.79,Tue-Thu: 13:00-15:00
+Clarence Greville,dance,593-967-0147,90.12,Tue-Fri: 18:00-20:00
+Henryetta Schimek,bootcamp,673-449-9833,69.75,Thu-Fri: 17:00-19:00
+Elnora Fandrey,bootcamp,302-234-9838,59.57,Fri: 14:00-16:00
+Ruthe Connechie,spin,121-118-1266,37.91,Mon: 12:00-14:00
+Leesa Biddiss,strength training,781-241-7470,36.03,Mon-Thu: 14:30-16:30
+Lynnet Winterbottom,crossfit,354-632-0007,76.12,Mon-Thu: 14:30-16:30
+Antonie Gallelli,weightlifting,823-903-2936,97.25,Mon-Wed: 11:30-13:30
+Barrie Tod,kickboxing,130-709-9418,78.78,Thu: 10:00-12:00
+Ingra Beidebeke,yoga,593-420-6187,40.75,Mon-Thu: 16:00-18:00
+Josefa Camden,stretching,590-562-4128,49.71,Mon-Tue-Thu: 9:30-11:30
+Ricky Stokey,functional training,938-419-5685,97.92,Tue-Fri: 18:00-20:00
+Windy Gouny,crossfit,989-462-9936,77.35,Thu-Fri: 17:00-19:00
+Gan Magee,aerobics,687-198-9245,37.52,Fri: 14:00-16:00
+Imelda Gowdy,bodyweight exercises,186-412-2348,83.82,Thu: 10:00-12:00
+Temple Lanning,dance,139-867-8674,78.52,Tue-Thu: 13:00-15:00
+Cinnamon Casari,bootcamp,459-847-4514,40.05,Mon-Wed-Fri: 9:00-11:00
+Knox Doxsey,swimming,844-217-4861,39.62,Wed: 13:00-15:00
+Jacinthe Yerill,crossfit,385-556-7423,63.63,Tue-Thu: 12:00-14:00
+Yardley MacHostie,barre,212-225-4007,49.27,Mon-Wed: 11:30-13:30
+Danell Soles,powerlifting,176-425-2249,36.06,Thu: 10:00-12:00
+Kylila Gashion,dance,768-439-3386,50.75,Mon-Thu: 14:30-16:30
+Dinny Eby,yoga,148-249-4801,61.83,Tue: 9:00-10:30
+Victoria Jeff,strength training,176-814-3989,60.61,Fri: 14:00-16:00
+Nertie Lideard,boxing,579-594-6602,94.16,Mon-Tue-Thu: 9:30-11:30
+Sheff Priest,pilates,155-327-1711,81.84,Mon-Fri: 8:00-12:00
+Bernelle Acres,cardio,603-877-3079,51.12,Mon: 8:30-10:30
+Cynthie Cominoli,weightlifting,949-939-0326,66.69,Tue-Thu: 13:00-15:00
+Ingunna Werrett,pilates,601-232-3832,58.31,Mon-Tue-Thu: 9:30-11:30
+Annette Newcombe,cardio,919-307-6437,72.8,Mon: 12:00-14:00
+Issie Lehemann,pilates,460-204-2783,71.57,Wed-Fri: 15:00-17:00
+Eb Eake,pilates,111-340-0507,56.01,Mon: 12:00-14:00
+Blinnie Dana,bodyweight exercises,744-367-1448,91.63,Mon: 12:00-14:00
+Melosa Newns,zumba,266-980-6386,38.71,Wed-Fri: 15:00-17:00
+Karlee Czajka,strength training,291-521-2762,52.71,Mon-Thu: 14:30-16:30
+Fax Duigan,yoga,933-694-9942,77.94,Thu: 10:00-12:00
+Jonell Mashro,crossfit,932-231-9477,75.96,Tue-Thu: 13:00-15:00
+Marina Bonham,aerobics,936-661-7695,60.04,Fri: 14:00-16:00
+Laney Valentinuzzi,strength training,914-621-2420,44.6,Mon-Thu: 14:30-16:30
+Ebeneser Dabs,crossfit,255-171-6768,40.39,Wed: 13:00-15:00
+Sharline Checklin,strength training,221-475-7604,93.38,Fri: 14:00-16:00
+Jackelyn Colbron,strength training,425-791-9731,74.72,Wed-Fri: 15:00-17:00
+Mathian Poser,barre,632-847-5761,60.01,Mon-Thu: 14:30-16:30
+Mauricio Ede,bootcamp,763-866-3311,55.12,Wed: 10:00-14:00
+Alexis Heys,aerobics,765-291-1599,53.42,Mon: 12:00-14:00
+Melisa Lefwich,aerobics,403-435-3421,40.18,Tue: 9:00-10:30
+Lenard Ilyuchyov,powerlifting,932-845-5361,80.93,Fri: 11:00-13:00
+Eda Tallow,yoga,477-597-4448,77.1,Mon-Thu: 16:00-18:00
+Waly Sweetnam,swimming,400-421-3491,49.64,Mon-Wed: 11:30-13:30
+Connie Crosthwaite,barre,196-905-7077,96.67,Tue-Thu: 13:00-15:00
+Ciel Marrett,functional training,314-285-2738,71.39,Mon-Thu: 14:30-16:30
+Edna Antonomolii,TRX,925-385-6882,95.77,Tue-Thu: 13:00-15:00
+Sybille Fynan,stretching,905-653-2309,75.38,Tue-Thu: 12:00-14:00
+Jacinta Marklin,yoga,345-130-0441,73.82,Mon: 12:00-14:00
+Moishe Koomar,functional training,369-380-6056,60.76,Tue-Thu: 12:00-14:00
+Jocelin Bentzen,barre,903-960-7772,85.68,Thu-Fri: 17:00-19:00
+Miguelita Courtenay,crossfit,694-812-7517,56.61,Tue-Fri: 18:00-20:00
+Lewiss Lidgate,kickboxing,847-745-8931,58.18,Thu-Fri: 17:00-19:00
+Maxy Gubbins,crossfit,403-993-4491,78.16,Mon: 12:00-14:00
+Ruby Smieton,dance,215-992-0704,49.53,Tue: 9:00-10:30
+Trace Boxhill,dance,818-125-1317,65.67,Fri: 14:00-16:00
+Mayer Bew,aerobics,122-791-4546,58.44,Mon: 8:30-10:30
+Gerhardt Cregin,TRX,318-112-7827,63.19,Mon: 12:00-14:00
+Rowan Sowerbutts,swimming,635-196-8805,96.94,Mon-Thu: 16:00-18:00
+Bernelle Chaster,TRX,935-735-8359,65.37,Mon-Wed: 11:30-13:30
+Tonye O'Hartigan,cycling,123-381-0689,73.11,Tue-Fri: 18:00-20:00
+Eleni Overnell,kickboxing,340-103-5749,49.19,Tue-Thu: 12:00-14:00
+David Espinet,kickboxing,589-525-3121,69.73,Tue-Thu: 12:00-14:00
+Bord Jertz,zumba,829-392-6817,83.56,Mon: 12:00-14:00
+Eldridge Edsell,yoga,222-169-5021,45.49,Mon-Wed: 11:30-13:30
+Francisca McCambrois,yoga,475-671-8484,41.83,Thu-Fri: 17:00-19:00
+Agatha Mitham,strength training,895-698-0941,72.81,Mon-Fri: 7:00-9:00
+Sarge Dary,boxing,628-372-9089,78.32,Tue: 14:00-16:00
+Pierrette Glanz,bootcamp,253-680-3885,91.0,Mon: 8:30-10:30
+Dolores Kamienski,weightlifting,112-869-2560,67.13,Tue-Fri: 18:00-20:00
+Rickey Greene,spin,858-801-6032,36.94,Tue: 14:00-16:00
+Carey Cobello,swimming,543-547-0330,55.69,Mon-Thu: 14:30-16:30
+Grace Hambling,bootcamp,294-213-1692,39.39,Thu: 10:00-12:00
+Cody McVicker,kickboxing,179-433-5452,96.84,Mon: 12:00-14:00
+Clem Brammall,HIIT,141-180-5111,92.88,Wed: 10:00-14:00
+Weylin Daymont,kickboxing,701-716-0018,81.62,Fri: 14:00-16:00
+Gerry Trighton,bootcamp,180-160-4003,54.35,Mon-Fri: 8:00-12:00
+Reginald Sondland,kickboxing,646-121-0859,48.13,Mon-Thu: 14:30-16:30
+Sheela Ingall,swimming,228-275-7060,61.48,Mon-Wed: 11:30-13:30
+Sawyer McClelland,bodyweight exercises,273-977-0702,64.65,Mon-Wed: 11:30-13:30
+Norean Gownge,stretching,706-423-8162,70.99,Mon-Fri: 8:00-12:00
+Janith Kopec,weightlifting,737-271-8137,78.81,Wed: 10:00-14:00
+Colet Hesbrook,aerobics,562-956-9151,99.73,Fri: 11:00-13:00
+Kendre Petit,weightlifting,455-741-7652,88.53,Mon-Tue-Thu: 9:30-11:30
+Alejandra Ternault,boxing,216-648-1371,52.23,Mon: 12:00-14:00
+Karissa Mycock,cycling,412-771-5353,43.68,Mon-Wed-Fri: 9:00-11:00
+Afton Gulleford,functional training,983-419-4114,76.87,Mon-Wed: 11:30-13:30
+Jamal Tomaini,TRX,333-538-1347,90.62,Mon: 12:00-14:00
+Jdavie Stormouth,crossfit,209-483-1757,36.24,Fri: 14:00-16:00
+Rebecca Samsin,bootcamp,866-864-8626,58.28,Fri: 11:00-13:00
+Filmore Woltman,pilates,630-500-8927,56.56,Tue: 14:00-16:00
+Frankie Knappitt,TRX,282-614-6207,38.01,Tue-Fri: 18:00-20:00
+Viole Rodrig,powerlifting,410-313-0620,69.2,Tue: 14:00-16:00
+Barnett Feria,aerobics,721-501-8892,97.54,Fri: 11:00-13:00
+Gisela Cowthard,crossfit,647-777-7714,57.07,Mon-Tue-Thu: 9:30-11:30
+Katalin Sinderland,yoga,825-995-4682,38.77,Mon-Tue-Thu: 9:30-11:30
+Merrile Waddilow,functional training,478-659-0361,90.12,Tue: 9:00-10:30
+Gerhardine Streader,barre,573-168-6693,59.31,Tue-Thu: 13:00-15:00
+Lettie Le Barre,boxing,192-134-9915,46.42,Tue-Fri: 18:00-20:00
+Stuart Rey,strength training,985-478-3070,98.32,Mon-Thu: 16:00-18:00
+Ursala Walsham,cardio,114-571-3214,85.55,Wed: 13:00-15:00
+Wylma Savins,yoga,255-194-2149,68.82,Mon: 12:00-14:00
+West Nabbs,spin,716-954-8811,83.45,Thu-Fri: 17:00-19:00
+Mychal Lipp,strength training,193-904-4981,82.46,Mon-Tue-Thu: 9:30-11:30
+Zondra Rubberts,weightlifting,303-991-6525,88.84,Mon-Fri: 7:00-9:00
+Rivi Dring,kickboxing,892-318-0982,73.24,Wed-Fri: 15:00-17:00
+Sidnee Haskew,crossfit,372-307-2935,58.65,Tue-Thu: 12:00-14:00
+Nahum Undrell,kickboxing,995-877-6138,64.17,Mon-Wed: 16:00-18:00
+Otho Eade,dance,701-591-2544,38.55,Mon-Thu: 16:00-18:00
+Gus Pietsma,aerobics,790-170-9897,68.08,Tue: 14:00-16:00
+Marcelo Andrei,powerlifting,159-780-9566,81.8,Tue-Fri: 18:00-20:00
+Thadeus Eagan,strength training,792-878-4520,40.24,Mon-Fri: 8:00-12:00
+Jehu Van Schafflaer,powerlifting,206-104-0183,78.75,Fri: 11:00-13:00
+Schuyler Eckh,pilates,204-127-8016,90.35,Mon-Thu: 14:30-16:30
+Jorie Ferminger,zumba,940-964-5617,84.93,Mon-Fri: 7:00-9:00
+Aaren Grunder,aerobics,495-170-2082,98.27,Tue-Fri: 18:00-20:00
+Franklin Kemish,cardio,739-953-1975,53.59,Fri: 11:00-13:00
+Sammy Blastock,stretching,956-268-2544,55.86,Wed: 10:00-14:00
+Shanon Cartner,powerlifting,710-170-2261,54.94,Fri: 14:00-16:00
+Ynez Stonestreet,swimming,499-189-5417,85.85,Mon-Tue-Thu: 9:30-11:30
+Leif Bellino,bodyweight exercises,931-996-4855,55.64,Tue-Thu: 13:00-15:00
+Orazio Opy,crossfit,487-115-4417,55.32,Wed-Fri: 15:00-17:00
+Tim Denis,functional training,761-522-5414,96.93,Mon-Wed: 16:00-18:00
+Falito Cowlam,functional training,502-483-6633,66.62,Mon-Thu: 16:00-18:00
+Helge Duffet,strength training,430-125-2523,53.72,Tue-Thu: 12:00-14:00
+Jecho Borley,kickboxing,569-438-7277,72.39,Tue: 14:00-16:00
+Gabriel Klejin,barre,746-449-0061,78.9,Thu-Fri: 17:00-19:00
+Kristen Surmeir,aerobics,751-572-3020,44.14,Thu-Fri: 17:00-19:00
+Kesley Cuddy,dance,164-215-6796,63.46,Tue: 9:00-10:30
+Glennis Clewarth,strength training,910-535-4600,53.48,Mon: 8:30-10:30
+Dom Galpin,bootcamp,106-666-6169,62.69,Fri: 11:00-13:00
+Rudolph Childes,functional training,537-385-8424,36.52,Mon-Fri: 8:00-12:00
+Robers Roumier,HIIT,701-799-0935,55.99,Mon-Wed: 16:00-18:00
+Clive Selliman,boxing,584-703-9777,48.41,Mon: 8:30-10:30
+Oberon Clemmey,cardio,712-671-4949,79.6,Mon-Tue-Thu: 9:30-11:30
+Perkin Karolczyk,HIIT,761-745-9440,71.03,Mon-Thu: 14:30-16:30
+Janie Crole,crossfit,582-271-7753,36.92,Tue-Thu: 12:00-14:00
+Rhonda Pereira,strength training,372-879-7515,48.39,Tue: 9:00-10:30
+Bondy Woollaston,powerlifting,332-966-0667,49.35,Tue-Thu: 13:00-15:00
+Ellette Pedreschi,functional training,851-319-5549,57.33,Wed: 13:00-15:00
+Darrick Ferretti,pilates,599-583-2262,88.51,Mon-Thu: 14:30-16:30
+Jed Padginton,bodyweight exercises,519-387-8707,79.21,Mon: 8:30-10:30
+Rhett Ricardot,barre,358-689-4635,82.61,Mon-Tue-Thu: 9:30-11:30
+Chrissie Eddolls,bootcamp,411-242-3350,82.24,Mon-Wed: 11:30-13:30
+Kelsey Kolodziej,kickboxing,728-795-6176,68.0,Wed-Fri: 15:00-17:00
+Eberhard Cowlas,boxing,168-317-5670,71.38,Tue: 9:00-10:30
+Randell Faltin,pilates,139-747-5229,73.11,Mon-Tue-Thu: 9:30-11:30
+Hatti Borrington,barre,349-118-8348,66.11,Mon-Wed: 11:30-13:30
+Carmina Vassman,barre,865-873-1504,70.98,Mon: 8:30-10:30
+Roselia O'Crevy,pilates,660-438-4933,52.23,Mon-Wed-Fri: 9:00-11:00
+Berkie Kingzeth,cycling,114-760-4899,66.88,Mon: 12:00-14:00
+Pamelina Bartoszek,barre,633-110-0294,99.35,Mon: 8:30-10:30
+Cherie Franies,cardio,472-911-3535,73.35,Mon: 12:00-14:00
+Humphrey Bartaloni,cardio,499-239-5225,59.12,Tue: 9:00-10:30
+Sheela Bartomieu,HIIT,992-136-9917,65.17,Mon-Fri: 8:00-12:00
+Mag Whyler,crossfit,243-987-6277,40.87,Wed-Fri: 15:00-17:00
+Aveline Shillitto,spin,259-306-1102,55.39,Mon-Fri: 7:00-9:00
+Sophia McGrill,spin,773-189-9136,56.18,Tue: 9:00-10:30
+Elvira Schimek,bodyweight exercises,415-256-2240,43.65,Mon-Thu: 16:00-18:00
+Garnette Dearth,HIIT,722-253-1174,38.06,Tue: 14:00-16:00
+Aurelea Joselin,cycling,403-226-9759,80.97,Tue: 14:00-16:00
+Hamel Sinnie,cardio,111-672-7442,38.62,Wed: 13:00-15:00
+Zoe Beckey,stretching,346-142-6621,35.21,Mon-Fri: 7:00-9:00
+Foster Hickin,TRX,347-756-1734,70.28,Tue: 9:00-10:30
+Daveta Iggalden,pilates,447-716-4164,56.19,Thu-Fri: 17:00-19:00
+Sada Hamill,aerobics,599-538-5457,86.71,Mon: 12:00-14:00
+Klemens Gillitt,pilates,950-466-4580,92.49,Mon-Fri: 7:00-9:00
+Luise Tipling,functional training,267-366-7427,96.24,Mon-Wed-Fri: 9:00-11:00
+Terrill Townrow,dance,415-711-7137,37.99,Wed: 13:00-15:00
+Harley Lilloe,zumba,644-877-9826,84.58,Mon-Wed-Fri: 9:00-11:00
+Charin Ulyet,barre,998-350-3264,38.28,Mon-Fri: 8:00-12:00
+Errol Oluwatoyin,pilates,273-527-6598,75.88,Mon-Wed-Fri: 9:00-11:00
+Benito Tendahl,functional training,312-457-3662,48.14,Fri: 11:00-13:00
+Elvera Chillingworth,pilates,817-799-7258,50.66,Mon-Wed: 16:00-18:00
+Allina Broadbridge,pilates,823-376-3589,78.16,Mon: 8:30-10:30
+Stan Desvignes,bodyweight exercises,177-292-1148,64.27,Wed-Fri: 15:00-17:00
+Sergent Ipplett,spin,402-517-5024,64.0,Wed: 10:00-14:00
+Lindsay Catmull,boxing,980-652-8597,80.25,Mon-Thu: 14:30-16:30
+Prisca Brigstock,TRX,820-595-8614,65.12,Tue-Thu: 12:00-14:00
+Hunfredo Fretter,TRX,889-413-2150,79.19,Tue-Thu: 13:00-15:00
+Demetri McSkin,cycling,702-183-7364,38.54,Mon-Fri: 7:00-9:00
+Pippy Joire,TRX,846-693-4055,44.16,Thu: 10:00-12:00
+Cele Robatham,pilates,671-386-6954,61.7,Mon-Tue-Thu: 9:30-11:30
+Wilone Cullinan,dance,657-303-2663,39.73,Mon: 8:30-10:30
+Ronnie O' Neligan,barre,793-999-3798,91.48,Mon-Tue-Thu: 9:30-11:30
+Robert Borres,HIIT,487-677-3758,88.31,Wed: 10:00-14:00
+Donna Pirozzi,strength training,518-935-2828,56.44,Mon: 8:30-10:30
+Cthrine Gilgryst,crossfit,285-645-7264,59.04,Mon-Thu: 14:30-16:30
+Mike Dominique,TRX,928-174-0745,55.58,Wed-Fri: 15:00-17:00
+Fredric Gratrex,bootcamp,287-624-2212,46.15,Fri: 11:00-13:00
+Fay Domnick,TRX,419-740-1034,63.57,Mon-Thu: 16:00-18:00
+Filia Topley,functional training,470-501-9154,43.17,Wed: 13:00-15:00
+Cynthy Blacktin,aerobics,731-953-1170,66.76,Mon-Tue-Thu: 9:30-11:30
+Jess Coleford,yoga,950-543-9596,83.64,Wed-Fri: 15:00-17:00
+Fransisco Edge,spin,276-616-9086,92.19,Mon-Thu: 16:00-18:00
+Denyse Flegg,strength training,668-764-1432,71.54,Wed: 10:00-14:00
+Montgomery Enders,bodyweight exercises,603-820-0050,84.23,Fri: 11:00-13:00
+Lanette Bollam,yoga,808-854-4974,48.83,Tue: 14:00-16:00
+Matti Leward,strength training,620-861-5854,99.32,Mon-Wed-Fri: 9:00-11:00
+Ernestus Lockhurst,weightlifting,639-109-7282,80.13,Tue-Thu: 12:00-14:00
+Marty Midner,crossfit,752-447-7155,48.28,Tue-Fri: 18:00-20:00
+Ashien Birtchnell,HIIT,246-541-6427,98.05,Tue: 14:00-16:00
+Niccolo Guise,swimming,764-566-3721,64.8,Wed: 10:00-14:00
+Blinni Rapp,zumba,468-947-8082,52.76,Fri: 11:00-13:00
+Lock Flasby,bootcamp,395-385-4544,53.58,Tue-Thu: 13:00-15:00
+Janine Grivori,strength training,308-640-7876,91.64,Wed-Fri: 15:00-17:00
+Hillier Forten,cycling,137-471-6139,59.87,Mon-Thu: 14:30-16:30
+Babs Tethacot,crossfit,312-529-8952,82.93,Tue: 14:00-16:00
+Ezechiel MacArd,barre,988-207-7890,78.9,Wed: 10:00-14:00
+Yves Miklem,bootcamp,488-821-8193,48.11,Thu-Fri: 17:00-19:00
+Jdavie Ridgley,weightlifting,275-986-4573,85.81,Mon-Wed-Fri: 9:00-11:00
+Nyssa Lentsch,spin,998-875-8160,59.77,Tue-Thu: 12:00-14:00
+Berne Mourant,dance,934-288-9881,55.91,Wed: 13:00-15:00
+Caresse Buye,functional training,569-951-9060,89.17,Fri: 11:00-13:00
+Frederick Southard,bodyweight exercises,785-976-0499,89.72,Wed: 13:00-15:00
+Lew Barthelemy,strength training,281-308-0735,61.64,Wed-Fri: 15:00-17:00
+Antoni Sycamore,boxing,177-856-5615,74.57,Thu-Fri: 17:00-19:00
+Charmain Chyuerton,functional training,776-851-8225,51.59,Mon-Thu: 16:00-18:00
+Osbourne Munnery,strength training,933-994-2430,85.11,Tue: 9:00-10:30
+Tailor Addenbrooke,dance,600-763-7413,44.98,Thu-Fri: 17:00-19:00
+Merrilee Cruddas,dance,431-188-7741,52.82,Mon-Fri: 7:00-9:00
+Bridget Raisher,cardio,599-552-9837,42.05,Fri: 11:00-13:00
+Bibbie Wickardt,spin,821-464-8775,52.13,Mon-Fri: 7:00-9:00
+Shirlene Craxford,strength training,191-985-6729,98.25,Tue-Fri: 18:00-20:00
+Christy Adamovich,strength training,820-159-1458,94.92,Tue-Fri: 18:00-20:00
+Florence Calvie,boxing,415-503-8352,68.48,Tue-Thu: 12:00-14:00
+Hanni Ziem,pilates,494-536-6311,64.77,Wed-Fri: 15:00-17:00
+Pearce Morforth,strength training,775-512-7500,88.36,Fri: 14:00-16:00
+Joye Rankin,stretching,156-400-7509,93.22,Mon-Fri: 7:00-9:00
+Barby Thews,aerobics,145-551-4525,76.02,Fri: 11:00-13:00
+Sidoney Willavize,stretching,978-383-0356,96.84,Mon: 8:30-10:30
+Tod Frantsev,HIIT,220-525-2208,95.21,Tue-Fri: 18:00-20:00
+Kristoffer Hanhardt,TRX,524-695-0123,66.71,Tue-Fri: 18:00-20:00
+Sterling Tripon,zumba,915-182-1163,36.92,Wed: 10:00-14:00
+Ninnetta Nusche,strength training,205-905-4885,75.36,Mon: 8:30-10:30
+Reese Burleigh,boxing,988-476-0863,95.57,Tue-Thu: 12:00-14:00
+Mischa Berrigan,functional training,716-281-4996,68.55,Tue-Fri: 18:00-20:00
+Bengt Ducaen,aerobics,504-909-6275,66.19,Wed: 13:00-15:00
+Calli Puckham,crossfit,107-331-4090,63.53,Mon-Wed: 16:00-18:00
+Chery Preon,bootcamp,851-895-3953,95.28,Mon-Thu: 16:00-18:00
+Muire Roderham,TRX,801-716-0199,54.84,Fri: 14:00-16:00
+Melissa Gookey,TRX,858-762-4042,66.89,Mon: 8:30-10:30
+Lance Lamborne,cycling,148-316-1641,82.7,Wed: 10:00-14:00
+Claudie Mateus,kickboxing,780-619-8110,78.91,Thu-Fri: 17:00-19:00
+Chiquita Wolfart,aerobics,603-155-1930,43.73,Fri: 14:00-16:00
+Tasia Francey,HIIT,182-676-4555,78.02,Mon-Wed: 11:30-13:30
+Yolande O' Reagan,cardio,759-320-6308,77.39,Tue: 9:00-10:30
+Hieronymus Dundendale,swimming,965-936-9400,54.38,Mon-Fri: 7:00-9:00
+Thaddus Kirtley,swimming,474-932-5893,91.52,Wed: 10:00-14:00
+Alvera Gerriet,functional training,153-650-9366,73.16,Thu-Fri: 17:00-19:00
+Yance Smallacombe,crossfit,527-428-9331,65.46,Mon-Thu: 14:30-16:30
+Wit Bloss,dance,908-253-7245,66.12,Tue-Fri: 18:00-20:00
+Lacy Wabersinke,pilates,137-264-2450,59.37,Tue: 14:00-16:00
+Britni Peddowe,aerobics,315-129-3874,89.21,Tue-Fri: 18:00-20:00
+Gaby Haquin,stretching,208-915-4831,56.93,Thu-Fri: 17:00-19:00
+Benedick Frigout,strength training,662-104-4309,83.44,Mon-Wed-Fri: 9:00-11:00
+Lesli Denisovich,TRX,530-255-7381,56.19,Mon: 12:00-14:00
+Germaine Lince,dance,739-126-8846,44.97,Mon-Tue-Thu: 9:30-11:30
+Kerrill Dumbellow,strength training,352-342-9253,56.77,Thu: 10:00-12:00
+Ladonna Doughton,crossfit,680-735-1187,81.2,Tue: 14:00-16:00
+Cahra Parman,yoga,780-376-0184,92.6,Wed: 13:00-15:00
+Elysee Gailor,pilates,192-854-6726,68.62,Wed: 10:00-14:00
+Carr Franzolini,zumba,605-435-4735,36.12,Mon-Fri: 7:00-9:00
+Benedicta Willans,yoga,991-457-3825,63.51,Wed: 13:00-15:00
+Frasier McKerlie,swimming,235-719-9229,49.41,Mon-Thu: 16:00-18:00
+Peta Waycott,HIIT,774-174-6083,89.22,Mon-Fri: 8:00-12:00
+Weidar Camilio,swimming,422-148-7824,83.46,Tue: 14:00-16:00
+Lennard Paddock,strength training,364-581-1019,94.09,Tue: 14:00-16:00
+Mohandis Malyon,crossfit,336-164-3770,91.78,Fri: 14:00-16:00
+Royall McEwen,cycling,445-106-7597,64.54,Mon-Thu: 14:30-16:30
+Oona Cobley,bodyweight exercises,806-349-1795,50.14,Mon-Wed: 11:30-13:30
+Carmine Basley,kickboxing,497-664-3817,62.07,Wed: 10:00-14:00
+Toinette Reglar,stretching,174-959-9008,95.94,Mon-Wed-Fri: 9:00-11:00
+Myles Winchester,zumba,243-302-4673,99.22,Thu: 10:00-12:00
+Mallory Girard,HIIT,689-628-1215,66.17,Fri: 14:00-16:00
+Gage Hutten,stretching,115-621-7761,76.22,Thu-Fri: 17:00-19:00
+Tamarra Goves,pilates,566-835-8344,55.41,Fri: 14:00-16:00
