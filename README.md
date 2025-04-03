@@ -109,7 +109,7 @@ Provide the following SQL scripts:
 ### Backup 
 -   backups files are kept with the date and hour of the backup:  
 
-[payments_directory](Phase1/Backup)
+[backup_directory](phase1/backup)
 
 
 
