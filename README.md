@@ -18,23 +18,25 @@ Itamar Haimov
 
 ### Introduction
 
-The **Nursery School Database** is designed to efficiently manage information related to children, parents, nannies, and nursery groups. This system ensures smooth organization and tracking of essential details such as group assignments, caregiver experience, child-parent relationships, and contact information.
+### Gym Management Database
+
+The **Gym Management Database** is designed to efficiently manage information related to gym members, staff, and memberships. This system ensures smooth organization and tracking of essential details such as membership plans, staff assignments, member contact information, and fitness progress.
 
 #### Purpose of the Database
-This database serves as a structured and reliable solution for nursery schools to:  
-- **Organize groups** of children based on age, availability, and special needs.  
-- **Manage caregiver assignments** by linking experienced nannies to specific groups.  
-- **Maintain parent-child relationships**, ensuring smooth communication and accessibility.  
-- **Store contact information**, including addresses, phone numbers, and emails.  
-- **Track essential details** such as children's birthdates, allergies, and caregiver experience.  
+This database serves as a structured and reliable solution for gyms to:  
+- **Organize memberships** by type (e.g., monthly, annual) and status (active, expired).  
+- **Manage staff assignments** by linking trainers and other staff to specific tasks or clients.  
+- **Maintain member details**, including contact information, membership history, and fitness goals.  
+- **Store contact information**, including addresses, phone numbers, and emails for members and staff.  
+- **Track fitness progress**, such as training routines, goals, and attendance records.
 
 #### Potential Use Cases
-- **Nursery School Administrators** can use this database to efficiently allocate children to groups, assign caregivers, and store emergency contacts.  
-- **Parents** can track their child's assigned group, caregiver details, and provide important information about allergies or special needs.  
-- **Nannies** can view their assigned groups and the children under their care.  
-- **Staff and Management** can use the system for record-keeping, scheduling, and communication.  
+- **Gym Administrators** can use this database to efficiently manage membership plans, assign staff to clients, and store emergency contacts.  
+- **Members** can track their membership status, view assigned trainers, and update personal fitness goals.  
+- **Trainers and Staff** can view their assigned clients, schedule sessions, and monitor client progress.  
+- **Management** can use the system for record-keeping, scheduling, and communication with both staff and members.  
 
-This structured database helps streamline nursery school operations, improving organization, safety, and communication among all parties involved.
+This structured database helps streamline gym operations, improving organization, member satisfaction, and communication among all parties involved.
 
 ###  ERD (Entity-Relationship Diagram)    
 ![ERD Diagram](phase1/resources/erd.png)  
