@@ -1,9 +1,10 @@
 
 
-# Nursery School 
+# Gym Management System
 
-Azriel Ehrlich
-Itamar Haimov
+#### Azriel Ehrlich  
+#### Itamar Haimov
+
 
 ## Table of Contents  
 - [Phase 1: Design and Build the Database](#phase-1-design-and-build-the-database)  
