@@ -20,6 +20,16 @@
   - [UPDATE Operations](#update-operations)  
   - [Constraints using ALTER TABLE](#constraints-using-alter-table)  
   - [Transaction Management - COMMIT and ROLLBACK](#transaction-management---commit-and-rollback)  
+- [Phase 3: Integration and Views](#phase-3-integration-and-views)
+  - [ERD Diagram - Received Department](#erd-diagram---received-department)
+  - [DSD Diagram - Received Department](#dsd-diagram---received-department)
+  - [ERD Diagram - Unified Database (Post-Integration)](#erd-diagram---unified-database-post-integration)
+  - [DSD Diagram - After Integration](#dsd-diagram---after-integration)
+  - [Integration Decisions and Explanations](#integration-decisions-and-explanations)
+  - [Views and Queries](#views-and-queries)
+    - [View 1 – `instructor_classes_view` (Instructor Classes View)](#view-1--instructor_classes_view-instructor-classes-view)
+    - [View 2 – `cashier_orders_view` (Cashier Orders View)](#view-2--cashier_orders_view-cashier-orders-view)
+  - 
 
 ## Phase 1: Design and Build the Database  
 
@@ -421,3 +431,143 @@ WHERE memberID = 1;
 
 ---
 
+# Phase 3: Integration and Views
+---
+## 1. DSD Diagram – Received Department
+![new_dsd.jpg](phase3/resources/new_dsd.jpg)
+---
+
+## 2. ERD Diagram – Received Department
+![new_erd.jpg](phase3/resources/new_erd.jpg)
+---
+## 3. ERD Diagram – Unified Database (Post-Integration)
+![integrated_erd.jpg](phase3/resources/integrated_erd.jpg)
+---
+## 4. DSD Diagram – After Integration
+![integrated_dsd.png](phase3/resources/integrated_dsd.png)
+---
+## 5. Integration Decisions and Explanations
+
+### Integration Strategy:
+- We received a system with two different employee-related tables: `instructors` and `cashiers`.
+- To unify them, we created a new table: `employees`, containing the shared fields: `name`, `phone`, and `hourlyrate`.
+- We added `employeeid` as a foreign key to both `instructors` and `cashiers`, and migrated the data accordingly.
+- We dropped the duplicate fields from the original tables to avoid redundancy.
+- We updated foreign keys in related tables (`classes` and `orders`) to reference `employees` instead of the old IDs.
+
+### Key Decisions:
+- We avoided creating a junction table and used foreign keys directly.
+- Table names were unified (`cashiers` → `cashier`) for clarity and consistency.
+- Referential integrity was preserved using `FOREIGN KEY` constraints.
+---
+## 6. Explanation of SQL Commands
+
+**File:** `Integrate.sql`
+
+- Create new `employees` table.
+- Copy relevant data from `instructors` and `cashiers`.
+- Set `employeeid` in both original tables.
+- Remove redundant columns and add foreign key constraints.
+- Update `classes` and `orders` to reference the unified `employeeid`.
+- Rename `cashiers` table to `cashier`.
+
+*Each command is explained with comments directly in the script.*
+---
+## 7. Views and Queries
+
+### View 1 – `instructor_classes_view` (Instructor Classes View)
+
+```sql
+CREATE OR REPLACE VIEW instructor_classes_view AS
+SELECT
+    e.employeeid,
+    e.name AS instructor_name,
+    e.phone,
+    e.hourlyrate,
+    c.classid,
+    c.classname,
+    c.classtime
+FROM employees e
+JOIN instructors i ON e.employeeid = i.employeeid
+JOIN classes c ON e.employeeid = c.employeeid;
+```
+
+**Explanation:**
+This view shows instructors and the classes they teach, including class details and their hourly rate. It combines data from `employees`, `instructors`, and `classes` tables.
+
+#### Query 1.1 – List all instructors and the number of classes they teach
+
+```sql
+SELECT
+    instructor_name,
+    COUNT(*) AS total_classes
+FROM instructor_classes_view
+GROUP BY instructor_name
+ORDER BY total_classes DESC;
+```
+
+Returns all instructors ordered by the number of classes they teach, descending.
+![query1.1.png](phase3/resources/query1.1.png)
+
+#### Query 1.2 – List all instructors and their estimated total income
+
+```sql
+SELECT
+    instructor_name,
+    hourlyrate,
+    COUNT(*) AS total_classes,
+    ROUND(COUNT(*) * hourlyrate, 2) AS estimated_total_income
+FROM instructor_classes_view
+GROUP BY instructor_name, hourlyrate
+ORDER BY estimated_total_income DESC;
+```
+
+Shows instructors' total income based on their hourly rate and number of classes they teach.
+![query1.2.png](phase3/resources/query1.2.png)
+---
+### View 2 – `cashier_orders_view` (Cashier Orders View)
+
+```sql
+CREATE VIEW cashier_orders_view AS
+SELECT
+    e.employeeid,
+    e.name AS cashier_name,
+    o.orderid,
+    o.orderdate
+FROM orders o
+JOIN employees e ON o.cashierid = e.employeeid;
+```
+
+**Explanation:**
+This view displays each cashier (employee) and the orders they handled. It joins the `orders` table with the `employees` table using the employee ID.
+
+#### Query 2.1 – Number of orders handled per cashier
+
+```sql
+SELECT
+    cashier_name,
+    COUNT(orderid) AS total_orders
+FROM cashier_orders_view
+GROUP BY cashier_name
+ORDER BY total_orders DESC;
+```
+
+Returns how many orders each cashier processed, ordered by total orders descending.
+![query2.1.png](phase3/resources/query2.1.png)
+
+#### Query 2.2 – Count the number of orders handled by each cashier (Alternative approach)
+
+```sql
+SELECT 
+    c.cashier_name,
+    COUNT(o.orderid) AS total_orders_handled
+FROM 
+    cashier_orders_view c
+JOIN 
+    orders o ON c.employeeid = o.cashierid
+GROUP BY 
+    c.cashier_name;
+```
+
+Alternative method to count orders per cashier using a join with the orders table.
+![query2.2.png](phase3/resources/query2.2.png)
