@@ -29,7 +29,16 @@
   - [Views and Queries](#views-and-queries)
     - [View 1 – `instructor_classes_view` (Instructor Classes View)](#view-1--instructor_classes_view-instructor-classes-view)
     - [View 2 – `cashier_orders_view` (Cashier Orders View)](#view-2--cashier_orders_view-cashier-orders-view)
-  - 
+- [Phase 4: Programming with PL/pgSQL](#phase-4-programming-with-plpgsql)  
+  - [Function: `calc_weekly_hours`](#function-calc_weekly_hours)  
+  - [Function: `get_cashier_orders`](#function-get_cashier_orders)  
+  - [Procedure: `add_attendance`](#procedure-add_attendance)  
+  - [Procedure: `update_hourly_rate`](#procedure-update_hourly_rate)  
+  - [Trigger: `trg_default_checkout`](#trigger-trg_default_checkout)  
+  - [Trigger: `trg_validate_cashier`](#trigger-trg_validate_cashier)  
+  - [Main Block 1: Attendance Tracking](#main-block-1-attendance-tracking)  
+  - [Main Block 2: Cashier Orders Report](#main-block-2-cashier-orders-report)  
+  - [Summary](#summary)
 
 ## Phase 1: Design and Build the Database  
 
@@ -571,3 +580,267 @@ GROUP BY
 
 Alternative method to count orders per cashier using a join with the orders table.
 ![query2.2.png](phase3/resources/query2.2.png)
+
+# Phase 4: Programming with PL/pgSQL
+
+This phase focuses on writing PL/pgSQL functions, procedures, and triggers based on the integrated gym database. The goal is to demonstrate advanced server-side logic using the following features:
+
+* Explicit and implicit cursors
+* Returning refcursors
+* DML operations
+* Conditionals
+* Loops
+* Exception handling
+* Records
+
+We implemented:
+
+* 2 Functions
+* 2 Procedures
+* 2 Triggers
+* 2 Main test blocks (each invoking one function and one procedure)
+
+---
+
+## 1. Function: `calc_weekly_hours`
+
+**Description:**
+Calculates the total number of attendance hours for a given member within a specified 7-day window.
+
+**Features used:**
+Loop, conditionals, record, exception handling, date arithmetic.
+
+```sql
+CREATE OR REPLACE FUNCTION calc_weekly_hours(p_memberid INT, p_week_start DATE)
+RETURNS NUMERIC AS $$
+DECLARE
+    total_hours NUMERIC := 0;
+    rec RECORD;
+BEGIN
+    FOR rec IN
+        SELECT checkin, checkout
+        FROM attendance
+        WHERE memberid = p_memberid
+          AND date >= p_week_start
+          AND date < p_week_start + INTERVAL '7 days'
+    LOOP
+        IF rec.checkout IS NOT NULL THEN
+            total_hours := total_hours + EXTRACT(EPOCH FROM (rec.checkout - rec.checkin)) / 3600;
+        END IF;
+    END LOOP;
+
+    RETURN total_hours;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+---
+
+## 2. Function: `get_cashier_orders`
+
+**Description:**
+Returns a refcursor with all orders handled by a specific cashier.
+
+**Features used:**
+Refcursor, dynamic query, returning from function.
+
+```sql
+CREATE OR REPLACE FUNCTION get_cashier_orders(p_cashierid INT)
+RETURNS REFCURSOR AS $$
+DECLARE
+    cur_orders REFCURSOR;
+BEGIN
+    OPEN cur_orders FOR
+        SELECT *
+        FROM orders
+        WHERE cashierid = p_cashierid;
+    RETURN cur_orders;
+END;
+$$ LANGUAGE plpgsql;
+```
+---
+
+## 3. Procedure: `add_attendance`
+
+**Description:**
+Adds an attendance record for a member, preventing duplicates on the same date. Raises an exception if a record already exists.
+
+**Features used:**
+Conditionals, exception, DML, record check.
+
+```sql
+CREATE OR REPLACE PROCEDURE add_attendance(
+    p_memberid INT,
+    p_date     DATE,
+    p_checkin  TIME,
+    p_checkout TIME
+)
+LANGUAGE plpgsql AS $$
+DECLARE
+    row_exists INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO row_exists
+    FROM attendance
+    WHERE memberid = p_memberid AND date = p_date;
+
+    IF row_exists > 0 THEN
+        RAISE EXCEPTION 'Attendance already recorded for member % on %', p_memberid, p_date;
+    END IF;
+
+    INSERT INTO attendance(attendanceid, memberid, date, checkin, checkout)
+    VALUES (nextval('attendance_attendanceid_seq'), p_memberid, p_date, p_checkin, p_checkout);
+END;
+$$;
+```
+
+**Screenshot of failed attempt of inserting duplicate**
+![duplicate_attandence](phase4/photos/duplicate_attandence_procedure.png)
+---
+
+## 4. Procedure: `update_hourly_rate`
+
+**Description:**
+Updates the hourly rate for an employee. Validates that the new rate is positive.
+
+**Features used:**
+Conditionals, DML, exception handling, `NOT FOUND`.
+
+```sql
+CREATE OR REPLACE PROCEDURE update_hourly_rate(p_empid INT, p_new_rate NUMERIC)
+LANGUAGE plpgsql AS $$
+BEGIN
+    IF p_new_rate <= 0 THEN
+        RAISE EXCEPTION 'Hourly rate must be positive (got %)', p_new_rate;
+    END IF;
+
+    UPDATE employees
+    SET hourlyrate = p_new_rate
+    WHERE employeeid = p_empid;
+
+    IF NOT FOUND THEN
+        RAISE NOTICE 'No employee with id % found – nothing updated', p_empid;
+    END IF;
+END;
+$$;
+```
+
+**Screenshot of exception when trying to change hourly rate to negative number**
+![hourly_rate](phase4/photos/hourly_rate_procedure.png)
+---
+
+## 5. Trigger: `trg_default_checkout`
+
+**Description:**
+Sets the `checkout` value to one hour after `checkin` if it is missing, before insert.
+
+```sql
+CREATE OR REPLACE FUNCTION default_checkout()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.checkout IS NULL THEN
+        NEW.checkout := NEW.checkin + INTERVAL '1 hour';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_default_checkout
+BEFORE INSERT ON attendance
+FOR EACH ROW
+EXECUTE FUNCTION default_checkout();
+```
+
+**Screenshot of insert without checkout and the result**
+![insert.png](phase4/photos/insert.png)
+![insert_result](phase4/photos/insert_triger.png)
+---
+
+## 6. Trigger: `trg_validate_cashier`
+
+**Description:**
+Ensures that an order references an existing cashier. If the cashier ID does not exist, the trigger blocks the insert.
+
+```sql
+CREATE OR REPLACE FUNCTION validate_cashier()
+RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM 1 FROM employees WHERE employeeid = NEW.cashierid;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Cashier id % does not exist in employees', NEW.cashierid;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_validate_cashier
+BEFORE INSERT ON orders
+FOR EACH ROW
+EXECUTE FUNCTION validate_cashier();
+```
+
+**Screenshot of insert with bad cashier id**
+![cashier_triger.png](phase4/photos/cashier_triger.png)
+
+---
+
+## 7. Main Block 1: Attendance Tracking
+
+**Description:**
+Demonstrates inserting an attendance record and calculating total hours worked.
+
+```sql
+DO $$
+DECLARE
+    v_total NUMERIC;
+BEGIN
+    BEGIN
+        CALL add_attendance(1, CURRENT_DATE, '08:00', NULL);
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE NOTICE 'Skipping attendance insert: %', SQLERRM;
+    END;
+
+    v_total := calc_weekly_hours(1, (CURRENT_DATE - INTERVAL '7 days')::DATE);
+    RAISE NOTICE 'Total hours for member 1 in past 7 days: %', v_total;
+END;
+$$;
+```
+
+**Screenshot of result:**
+![main1.png](phase4/photos/main1.png)
+---
+
+## 8. Main Block 2: Cashier Orders Report
+
+**Description:**
+Fetches orders handled by a specific cashier using a refcursor.
+
+```sql
+DO $$
+DECLARE
+    order_cursor REFCURSOR;
+    rec RECORD;
+BEGIN
+    order_cursor := get_cashier_orders(455);
+
+    LOOP
+        FETCH order_cursor INTO rec;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE 'Order: (%)', rec;
+    END LOOP;
+
+    CLOSE order_cursor;
+END;
+$$;
+```
+
+**Screenshot of result:**
+![main2.png](phase4/photos/main2.png)
+---
+
+## Summary
+
+All programs were tested and executed successfully. The output and behavior matched expectations, including proper use of triggers, exception handling, and cursors. Screenshots above demonstrate these behaviors.

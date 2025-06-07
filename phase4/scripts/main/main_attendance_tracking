@@ -1,0 +1,46 @@
+-- main_attendance_tracking: Demonstrates attendance insertion and weekly hours calculation
+DO $$
+DECLARE
+    v_total NUMERIC;
+BEGIN
+    -- Attempt to add attendance (may raise exception if duplicate)
+    BEGIN
+        CALL add_attendance(
+            1,
+            CURRENT_DATE,
+            '08:00',
+            NULL  -- checkout will be set by trigger
+        );
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE NOTICE 'Skipping attendance insert: %', SQLERRM;
+    END;
+
+    -- Calculate total hours for the past 7 days
+    v_total := calc_weekly_hours(
+        1,
+        (CURRENT_DATE - INTERVAL '7 days')::DATE
+    );
+
+    RAISE NOTICE 'Total hours for member 1 in past 7 days: %', v_total;
+END;
+$$;
+
+-- main_cashier_orders_report: Demonstrates fetching orders handled by a specific cashier
+DO $$
+DECLARE
+    order_cursor REFCURSOR;
+    rec RECORD;
+BEGIN
+    -- Open cursor with all orders by cashier 455 (adjust ID as needed)
+    order_cursor := get_cashier_orders(455);
+
+    LOOP
+        FETCH order_cursor INTO rec;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE 'Order: (%)', rec;
+    END LOOP;
+
+    CLOSE order_cursor;
+END;
+$$;
