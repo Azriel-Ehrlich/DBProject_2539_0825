@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Users, Plus, Search, Edit, Trash2, Eye, Filter } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, Plus, Search, Edit, Trash2, Filter } from 'lucide-react';
 import Modal from './ui/Modal';
 import Button from './ui/Button';
+import { db } from '../services/database';
 
 interface Member {
   memberid: number;
@@ -12,42 +13,20 @@ interface Member {
   membershiptype: number;
   join_date: string;
   status: string;
+  membership_type?: string;
+}
+
+interface Membership {
+  membershipid: number;
+  type: string;
+  price: number;
+  duration: number;
 }
 
 export default function Members() {
-  const [members, setMembers] = useState<Member[]>([
-    {
-      memberid: 1,
-      name: 'Travis Hunt',
-      birth_date: '2006-12-10',
-      email: 'travis.hunt@email.com',
-      phone: '(546) 746-2767',
-      membershiptype: 1,
-      join_date: '2003-01-16',
-      status: 'Active'
-    },
-    {
-      memberid: 2,
-      name: 'Vivien Mcdaniel',
-      birth_date: '2006-06-09',
-      email: 'vivien.mcdaniel@email.com',
-      phone: '1-715-353-3367',
-      membershiptype: 3,
-      join_date: '2003-01-04',
-      status: 'Active'
-    },
-    {
-      memberid: 3,
-      name: 'Caleb West',
-      birth_date: '2006-06-02',
-      email: 'caleb.west@email.com',
-      phone: '(371) 435-6263',
-      membershiptype: 2,
-      join_date: '2007-06-20',
-      status: 'Active'
-    }
-  ]);
-
+  const [members, setMembers] = useState<Member[]>([]);
+  const [memberships, setMemberships] = useState<Membership[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<Member | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,10 +41,24 @@ export default function Members() {
     status: 'Active'
   });
 
-  const membershipTypes = {
-    1: 'Basic',
-    2: 'Premium',
-    3: 'Annual'
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [membersData, membershipsData] = await Promise.all([
+        db.getMembers(),
+        db.getMemberships()
+      ]);
+      setMembers(membersData);
+      setMemberships(membershipsData);
+    } catch (error) {
+      console.error('Failed to load data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredMembers = members.filter(member => {
@@ -80,7 +73,7 @@ export default function Members() {
       setEditingMember(member);
       setFormData({
         name: member.name,
-        birth_date: member.birth_date,
+        birth_date: member.birth_date.split('T')[0], // Format date for input
         email: member.email,
         phone: member.phone,
         membershiptype: member.membershiptype,
@@ -93,7 +86,7 @@ export default function Members() {
         birth_date: '',
         email: '',
         phone: '',
-        membershiptype: 1,
+        membershiptype: memberships[0]?.membershipid || 1,
         status: 'Active'
       });
     }
@@ -105,45 +98,59 @@ export default function Members() {
     setEditingMember(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (editingMember) {
-      // Update existing member
-      setMembers(members.map(member => 
-        member.memberid === editingMember.memberid 
-          ? { ...member, ...formData }
-          : member
-      ));
-    } else {
-      // Add new member
-      const newMember: Member = {
-        memberid: Math.max(...members.map(m => m.memberid)) + 1,
-        ...formData,
-        join_date: new Date().toISOString().split('T')[0]
-      };
-      setMembers([...members, newMember]);
+    try {
+      if (editingMember) {
+        await db.updateMember(editingMember.memberid, formData);
+      } else {
+        await db.createMember(formData);
+      }
+      await loadData();
+      closeModal();
+    } catch (error) {
+      console.error('Failed to save member:', error);
+      alert('Failed to save member. Please try again.');
     }
-    
-    closeModal();
   };
 
-  const deleteMember = (id: number) => {
+  const deleteMember = async (id: number) => {
     if (confirm('Are you sure you want to delete this member?')) {
-      setMembers(members.filter(member => member.memberid !== id));
+      try {
+        await db.deleteMember(id);
+        await loadData();
+      } catch (error) {
+        console.error('Failed to delete member:', error);
+        alert('Failed to delete member. Please try again.');
+      }
     }
   };
+
+  const getMembershipTypeName = (membershiptype: number) => {
+    const membership = memberships.find(m => m.membershipid === membershiptype);
+    return membership?.type || 'Unknown';
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <span className="ml-3 text-gray-600 dark:text-gray-400">Loading members...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
             <Users className="w-8 h-8 mr-3 text-blue-600" />
             Members Management
           </h1>
-          <p className="text-gray-600 mt-1">Manage gym members and their information</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage gym members and their information</p>
         </div>
         <Button onClick={() => openModal()} className="mt-4 sm:mt-0">
           <Plus className="w-4 h-4 mr-2" />
@@ -151,8 +158,55 @@ export default function Members() {
         </Button>
       </div>
 
+      {/* Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+              <Users className="w-6 h-6 text-blue-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Members</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{members.length}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+              <Users className="w-6 h-6 text-green-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Members</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {members.filter(m => m.status === 'Active').length}
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+              <Users className="w-6 h-6 text-purple-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">New This Month</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {members.filter(m => {
+                  const joinDate = new Date(m.join_date);
+                  const now = new Date();
+                  return joinDate.getMonth() === now.getMonth() && joinDate.getFullYear() === now.getFullYear();
+                }).length}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
@@ -162,7 +216,7 @@ export default function Members() {
                 placeholder="Search members..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
           </div>
@@ -171,7 +225,7 @@ export default function Members() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -182,57 +236,57 @@ export default function Members() {
       </div>
 
       {/* Members Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Member
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Membership
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Join Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
               {filteredMembers.map((member) => (
-                <tr key={member.memberid} className="hover:bg-gray-50">
+                <tr key={member.memberid} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{member.name}</div>
-                      <div className="text-sm text-gray-500">ID: {member.memberid}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{member.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">ID: {member.memberid}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{member.email}</div>
-                    <div className="text-sm text-gray-500">{member.phone}</div>
+                    <div className="text-sm text-gray-900 dark:text-white">{member.email}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{member.phone}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {membershipTypes[member.membershiptype as keyof typeof membershipTypes]}
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                      {getMembershipTypeName(member.membershiptype)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {new Date(member.join_date).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       member.status === 'Active' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                     }`}>
                       {member.status}
                     </span>
@@ -240,13 +294,13 @@ export default function Members() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                     <button
                       onClick={() => openModal(member)}
-                      className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => deleteMember(member.memberid)}
-                      className="text-red-600 hover:text-red-900 p-1 rounded"
+                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -262,87 +316,89 @@ export default function Members() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
               {editingMember ? 'Edit Member' : 'Add New Member'}
             </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Full Name
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Birth Date
               </label>
               <input
                 type="date"
                 value={formData.birth_date}
                 onChange={(e) => setFormData({ ...formData, birth_date: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email
               </label>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Phone
               </label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Membership Type
               </label>
               <select
                 value={formData.membershiptype}
                 onChange={(e) => setFormData({ ...formData, membershiptype: parseInt(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
-                <option value={1}>Basic</option>
-                <option value={2}>Premium</option>
-                <option value={3}>Annual</option>
+                {memberships.map((membership) => (
+                  <option key={membership.membershipid} value={membership.membershipid}>
+                    {membership.type} - ${membership.price}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Status
               </label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>

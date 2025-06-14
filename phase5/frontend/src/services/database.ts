@@ -246,6 +246,19 @@ export class DatabaseService {
     });
     if (!response.ok) throw new Error('Failed to delete class membership');
   }
+
+  // Helper methods for dropdowns
+  async getMemberships(): Promise<any[]> {
+    const response = await fetch(`${this.baseUrl}/memberships`);
+    if (!response.ok) throw new Error('Failed to fetch memberships');
+    return response.json();
+  }
+
+  async getInstructors(): Promise<any[]> {
+    const response = await fetch(`${this.baseUrl}/instructors`);
+    if (!response.ok) throw new Error('Failed to fetch instructors');
+    return response.json();
+  }
 }
 
 // Create database service instance

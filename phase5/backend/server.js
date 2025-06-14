@@ -76,8 +76,18 @@ app.post('/api/function/:name', async (req, res) => {
         query = 'SELECT calc_weekly_hours($1, $2) as total_hours';
         break;
       case 'get_cashier_orders':
-        query = 'SELECT * FROM get_cashier_orders($1)';
-        break;
+        // For refcursor functions, we need to handle them differently
+        const client = await pool.connect();
+        try {
+          await client.query('BEGIN');
+          const cursorResult = await client.query('SELECT get_cashier_orders($1)', params);
+          const cursorName = cursorResult.rows[0].get_cashier_orders;
+          const dataResult = await client.query(`FETCH ALL FROM "${cursorName}"`);
+          await client.query('COMMIT');
+          return res.json({ success: true, data: dataResult.rows });
+        } finally {
+          client.release();
+        }
       default:
         return res.status(400).json({ success: false, error: 'Unknown function' });
     }
@@ -92,7 +102,12 @@ app.post('/api/function/:name', async (req, res) => {
 // MEMBERS CRUD
 app.get('/api/members', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM members ORDER BY memberid');
+    const result = await pool.query(`
+      SELECT m.*, ms.type as membership_type 
+      FROM members m 
+      LEFT JOIN memberships ms ON m.membershiptype = ms.membershipid 
+      ORDER BY m.memberid
+    `);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -104,7 +119,7 @@ app.post('/api/members', async (req, res) => {
     const { name, birth_date, email, phone, membershiptype, status } = req.body;
     const result = await pool.query(
       'INSERT INTO members (name, birth_date, email, phone, membershiptype, join_date, status) VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, $6) RETURNING *',
-      [name, birth_date, email, phone, membershiptype, status]
+      [name, birth_date, email, phone, membershiptype, status || 'Active']
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -139,7 +154,12 @@ app.delete('/api/members/:id', async (req, res) => {
 // CLASSES CRUD
 app.get('/api/classes', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM classes ORDER BY classid');
+    const result = await pool.query(`
+      SELECT c.*, e.name as instructor_name 
+      FROM classes c 
+      LEFT JOIN employees e ON c.employeeid = e.employeeid 
+      ORDER BY c.classid
+    `);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -148,10 +168,10 @@ app.get('/api/classes', async (req, res) => {
 
 app.post('/api/classes', async (req, res) => {
   try {
-    const { classname, instructorid, schedule, capacity, price } = req.body;
+    const { classname, classtime, employeeid } = req.body;
     const result = await pool.query(
-      'INSERT INTO classes (classname, instructorid, schedule, capacity, price) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [classname, instructorid, schedule, capacity, price]
+      'INSERT INTO classes (classname, classtime, employeeid) VALUES ($1, $2, $3) RETURNING *',
+      [classname, classtime, employeeid]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -162,10 +182,10 @@ app.post('/api/classes', async (req, res) => {
 app.put('/api/classes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { classname, instructorid, schedule, capacity, price } = req.body;
+    const { classname, classtime, employeeid } = req.body;
     const result = await pool.query(
-      'UPDATE classes SET classname = $1, instructorid = $2, schedule = $3, capacity = $4, price = $5 WHERE classid = $6 RETURNING *',
-      [classname, instructorid, schedule, capacity, price, id]
+      'UPDATE classes SET classname = $1, classtime = $2, employeeid = $3 WHERE classid = $4 RETURNING *',
+      [classname, classtime, employeeid, id]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -186,7 +206,18 @@ app.delete('/api/classes/:id', async (req, res) => {
 // EMPLOYEES CRUD
 app.get('/api/employees', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM employees ORDER BY employeeid');
+    const result = await pool.query(`
+      SELECT e.*, 
+        CASE 
+          WHEN i.employeeid IS NOT NULL THEN 'Instructor'
+          WHEN c.employeeid IS NOT NULL THEN 'Cashier'
+          ELSE 'Employee'
+        END as role
+      FROM employees e 
+      LEFT JOIN instructors i ON e.employeeid = i.employeeid
+      LEFT JOIN cashier c ON e.employeeid = c.employeeid
+      ORDER BY e.employeeid
+    `);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -195,12 +226,42 @@ app.get('/api/employees', async (req, res) => {
 
 app.post('/api/employees', async (req, res) => {
   try {
-    const { name, role, hourly_rate, email, phone } = req.body;
-    const result = await pool.query(
-      'INSERT INTO employees (name, role, hourly_rate, hire_date, email, phone) VALUES ($1, $2, $3, CURRENT_DATE, $4, $5) RETURNING *',
-      [name, role, hourly_rate, email, phone]
-    );
-    res.json(result.rows[0]);
+    const { name, phone, hourlyrate, role } = req.body;
+    
+    // Start transaction
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      
+      // Insert into employees table
+      const empResult = await client.query(
+        'INSERT INTO employees (name, phone, hourlyrate) VALUES ($1, $2, $3) RETURNING *',
+        [name, phone, hourlyrate]
+      );
+      
+      const employeeid = empResult.rows[0].employeeid;
+      
+      // Insert into role-specific table
+      if (role === 'Instructor') {
+        await client.query(
+          'INSERT INTO instructors (employeeid, expertise, schedule) VALUES ($1, $2, $3)',
+          [employeeid, '', ''] // Default empty values
+        );
+      } else if (role === 'Cashier') {
+        await client.query(
+          'INSERT INTO cashier (employeeid) VALUES ($1)',
+          [employeeid]
+        );
+      }
+      
+      await client.query('COMMIT');
+      res.json({ ...empResult.rows[0], role });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -209,10 +270,10 @@ app.post('/api/employees', async (req, res) => {
 app.put('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, role, hourly_rate, email, phone } = req.body;
+    const { name, phone, hourlyrate } = req.body;
     const result = await pool.query(
-      'UPDATE employees SET name = $1, role = $2, hourly_rate = $3, email = $4, phone = $5 WHERE employeeid = $6 RETURNING *',
-      [name, role, hourly_rate, email, phone, id]
+      'UPDATE employees SET name = $1, phone = $2, hourlyrate = $3 WHERE employeeid = $4 RETURNING *',
+      [name, phone, hourlyrate, id]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -233,7 +294,7 @@ app.delete('/api/employees/:id', async (req, res) => {
 // PRODUCTS CRUD
 app.get('/api/products', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products ORDER BY productid');
+    const result = await pool.query('SELECT * FROM products ORDER BY prodid');
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -242,10 +303,10 @@ app.get('/api/products', async (req, res) => {
 
 app.post('/api/products', async (req, res) => {
   try {
-    const { name, price, stock, category } = req.body;
+    const { name, price, stock, aisle } = req.body;
     const result = await pool.query(
-      'INSERT INTO products (name, price, stock, category) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, price, stock, category]
+      'INSERT INTO products (name, price, stock, aisle) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, price, stock, aisle]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -256,10 +317,10 @@ app.post('/api/products', async (req, res) => {
 app.put('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, price, stock, category } = req.body;
+    const { name, price, stock, aisle } = req.body;
     const result = await pool.query(
-      'UPDATE products SET name = $1, price = $2, stock = $3, category = $4 WHERE productid = $5 RETURNING *',
-      [name, price, stock, category, id]
+      'UPDATE products SET name = $1, price = $2, stock = $3, aisle = $4 WHERE prodid = $5 RETURNING *',
+      [name, price, stock, aisle, id]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -270,7 +331,7 @@ app.put('/api/products/:id', async (req, res) => {
 app.delete('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await pool.query('DELETE FROM products WHERE productid = $1', [id]);
+    await pool.query('DELETE FROM products WHERE prodid = $1', [id]);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -281,7 +342,7 @@ app.delete('/api/products/:id', async (req, res) => {
 app.get('/api/class-membership', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT cm.*, m.name as member_name, c.classname 
+      SELECT cm.*, m.name as member_name, c.classname, c.classtime
       FROM class_membership cm 
       JOIN members m ON cm.memberid = m.memberid 
       JOIN classes c ON cm.classid = c.classid 
@@ -297,7 +358,7 @@ app.post('/api/class-membership', async (req, res) => {
   try {
     const { memberid, classid } = req.body;
     const result = await pool.query(
-      'INSERT INTO class_membership (memberid, classid, registration_date) VALUES ($1, $2, CURRENT_DATE) RETURNING *',
+      'INSERT INTO class_membership (memberid, classid) VALUES ($1, $2) RETURNING *',
       [memberid, classid]
     );
     res.json(result.rows[0]);
@@ -311,6 +372,31 @@ app.delete('/api/class-membership/:memberid/:classid', async (req, res) => {
     const { memberid, classid } = req.params;
     await pool.query('DELETE FROM class_membership WHERE memberid = $1 AND classid = $2', [memberid, classid]);
     res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get memberships for dropdowns
+app.get('/api/memberships', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM memberships ORDER BY membershipid');
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get instructors for dropdowns
+app.get('/api/instructors', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT e.employeeid, e.name 
+      FROM employees e 
+      JOIN instructors i ON e.employeeid = i.employeeid 
+      ORDER BY e.name
+    `);
+    res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -1,5 +1,3 @@
-
-
 # Gym Management System
 
 #### Azriel Ehrlich  
@@ -39,6 +37,12 @@
   - [Main Block 1: Attendance Tracking](#main-block-1-attendance-tracking)  
   - [Main Block 2: Cashier Orders Report](#main-block-2-cashier-orders-report)  
   - [Summary](#summary)
+- [Phase 5: Web Application Interface](#phase-5-web-application-interface)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Technology Stack](#technology-stack)
+  - [Database Integration](#database-integration)
+  - [Setup Instructions](#setup-instructions)
 
 ## Phase 1: Design and Build the Database  
 
@@ -60,7 +64,7 @@ This database serves as a structured and reliable solution for gyms to:
 - **Gym Administrators** can use this database to efficiently manage membership plans, assign staff to clients, and store emergency contacts.  
 - **Members** can track their membership status, view assigned trainers, and update personal fitness goals.  
 - **Trainers and Staff** can view their assigned clients, schedule sessions, and monitor client progress.  
-- **Management** can use the system for record-keeping, scheduling, and communication with both staff and members.  
+- **Management** can use the system for record-keeping, scheduling, and communication among all parties involved.  
 
 This structured database helps streamline gym operations, improving organization, member satisfaction, and communication among all parties involved.
 
@@ -844,3 +848,214 @@ $$;
 ## Summary
 
 All programs were tested and executed successfully. The output and behavior matched expectations, including proper use of triggers, exception handling, and cursors. Screenshots above demonstrate these behaviors.
+
+---
+
+# Phase 5: Web Application Interface
+
+## Overview
+
+Phase 5 introduces a comprehensive web application interface for the Gym Management System. This modern, responsive web application provides a complete frontend for managing all aspects of the gym database, including members, classes, employees, products, and advanced reporting capabilities.
+
+## Features
+
+### Core Functionality
+- **Complete CRUD Operations**: Full Create, Read, Update, Delete functionality for all entities
+- **Real-time Database Integration**: Direct connection to PostgreSQL database via REST API
+- **Advanced Reporting**: Execute custom SQL queries, stored procedures, and functions
+- **Interactive Analytics**: Charts and visualizations for business insights
+- **Dark Mode Support**: Toggle between light and dark themes with persistent preferences
+
+### User Interface
+- **Modern Design**: Clean, professional interface with smooth animations
+- **Responsive Layout**: Optimized for desktop, tablet, and mobile devices
+- **Intuitive Navigation**: Easy-to-use sidebar navigation with clear visual indicators
+- **Search and Filtering**: Advanced search capabilities across all data tables
+- **Modal Forms**: User-friendly forms for data entry and editing
+
+### Database Integration
+- **Live Data**: All CRUD operations pull data directly from the PostgreSQL database
+- **Stored Procedures**: Execute the custom procedures developed in Phase 4
+- **Database Functions**: Call and display results from custom PL/pgSQL functions
+- **Custom Queries**: Run any SQL query and view results in formatted tables
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+
+## Technology Stack
+
+### Frontend
+- **React 18**: Modern React with hooks and functional components
+- **TypeScript**: Type-safe development with full IntelliSense support
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Vite**: Fast build tool and development server
+- **Recharts**: Beautiful, responsive charts for data visualization
+- **Lucide React**: Modern icon library with consistent design
+
+### Backend
+- **Node.js**: JavaScript runtime for server-side development
+- **Express.js**: Web application framework for REST API
+- **PostgreSQL**: Robust relational database management system
+- **pg**: PostgreSQL client for Node.js with connection pooling
+- **CORS**: Cross-origin resource sharing for secure API access
+
+### Development Tools
+- **ESLint**: Code linting for consistent code quality
+- **PostCSS**: CSS processing with Autoprefixer
+- **Hot Module Replacement**: Instant updates during development
+
+## Database Integration
+
+### API Endpoints
+The application provides comprehensive REST API endpoints for all database operations:
+
+#### Members Management
+- `GET /api/members` - Retrieve all members with membership details
+- `POST /api/members` - Create new member
+- `PUT /api/members/:id` - Update existing member
+- `DELETE /api/members/:id` - Delete member
+
+#### Classes Management
+- `GET /api/classes` - Retrieve all classes with instructor information
+- `POST /api/classes` - Create new class
+- `PUT /api/classes/:id` - Update existing class
+- `DELETE /api/classes/:id` - Delete class
+
+#### Employees Management
+- `GET /api/employees` - Retrieve all employees with role information
+- `POST /api/employees` - Create new employee (with role assignment)
+- `PUT /api/employees/:id` - Update existing employee
+- `DELETE /api/employees/:id` - Delete employee
+
+#### Products Management
+- `GET /api/products` - Retrieve all products
+- `POST /api/products` - Create new product
+- `PUT /api/products/:id` - Update existing product
+- `DELETE /api/products/:id` - Delete product
+
+#### Class Membership Management
+- `GET /api/class-membership` - Retrieve all class enrollments
+- `POST /api/class-membership` - Enroll member in class
+- `DELETE /api/class-membership/:memberid/:classid` - Remove enrollment
+
+#### Advanced Database Operations
+- `POST /api/query` - Execute custom SQL queries
+- `POST /api/procedure/:name` - Call stored procedures
+- `POST /api/function/:name` - Execute database functions
+
+### Stored Procedures Integration
+The application integrates with the PL/pgSQL procedures developed in Phase 4:
+
+#### `add_attendance`
+- **Purpose**: Insert attendance record with duplicate prevention
+- **Parameters**: member_id, date, checkin_time, checkout_time
+- **Error Handling**: Displays user-friendly error messages for duplicates
+
+#### `update_hourly_rate`
+- **Purpose**: Update employee hourly rate with validation
+- **Parameters**: employee_id, new_rate
+- **Validation**: Ensures positive rates and employee existence
+
+### Database Functions Integration
+The application can execute the custom functions from Phase 4:
+
+#### `calc_weekly_hours`
+- **Purpose**: Calculate total attendance hours for a member in a week
+- **Parameters**: member_id, week_start_date
+- **Output**: Total hours worked displayed in formatted table
+
+#### `get_cashier_orders`
+- **Purpose**: Retrieve all orders handled by a specific cashier
+- **Parameters**: cashier_id
+- **Output**: Complete order list with details
+
+## Setup Instructions
+
+### Prerequisites
+- Node.js (v16 or higher)
+- PostgreSQL database with the gym management schema
+- Git for version control
+
+### Backend Setup
+
+1. **Navigate to backend directory**:
+   ```bash
+   cd phase5/backend
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure database connection**:
+   Update the database configuration in `server.js`:
+   ```javascript
+   const pool = new Pool({
+     host: 'localhost',
+     port: 5432,
+     database: 'mydatabase',
+     user: 'azriel',
+     password: 'A227Y8751'
+   });
+   ```
+
+4. **Start the backend server**:
+   ```bash
+   node server.js
+   ```
+   The server will start on `http://localhost:3001`
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**:
+   ```bash
+   cd phase5/frontend
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5173`
+
+### Database Requirements
+
+Ensure your PostgreSQL database includes:
+- All tables from Phase 1-3 (members, classes, employees, etc.)
+- All stored procedures from Phase 4 (`add_attendance`, `update_hourly_rate`)
+- All functions from Phase 4 (`calc_weekly_hours`, `get_cashier_orders`)
+- All triggers from Phase 4 (`trg_default_checkout`, `trg_validate_cashier`)
+
+### Login Credentials
+
+The application includes a demo authentication system:
+- **Username**: `admin`
+- **Password**: `password`
+
+### Features Demonstration
+
+#### CRUD Operations
+- Navigate to any section (Members, Classes, Employees, Products)
+- Use the "Add" button to create new records
+- Click edit icons to modify existing records
+- Use delete icons to remove records
+- All operations are immediately reflected in the database
+
+#### Advanced Reporting
+- Go to "Reports & Analytics" section
+- Execute predefined queries by clicking "Run" buttons
+- Use the procedure section to call stored procedures with parameters
+- Execute functions with custom parameters
+- View results in formatted, sortable tables
+
+#### Real-time Analytics
+- View membership distribution charts
+- Monitor weekly attendance patterns
+- Track revenue trends over time
+- All charts update based on actual database data
+
+This comprehensive web application provides a complete interface for managing the gym database, demonstrating the practical application of all the database concepts, procedures, and functions developed throughout the previous phases.

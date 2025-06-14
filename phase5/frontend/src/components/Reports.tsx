@@ -41,60 +41,66 @@ export default function Reports() {
       id: 'members-with-membership',
       name: 'Members with Membership Details',
       description: 'List all members with their membership type, including price and duration',
-      sql: `SELECT m.memberID, m.name, m.email, m.phone, ms.type AS membership_type, ms.price, ms.duration
+      sql: `SELECT m.memberid, m.name, m.email, m.phone, ms.type AS membership_type, ms.price, ms.duration
             FROM members m
-            LEFT JOIN memberships ms ON m.membershipType = ms.membershipID`
+            LEFT JOIN memberships ms ON m.membershiptype = ms.membershipid
+            LIMIT 10`
     },
     {
       id: 'monthly-revenue',
       name: 'Monthly Revenue Report',
       description: 'Total revenue from payments per month and year',
-      sql: `SELECT EXTRACT(YEAR FROM paymentDate) AS year, EXTRACT(MONTH FROM paymentDate) AS month, SUM(amount) AS total_income
+      sql: `SELECT EXTRACT(YEAR FROM paymentdate) AS year, EXTRACT(MONTH FROM paymentdate) AS month, SUM(amount) AS total_income
             FROM payments
             GROUP BY year, month
-            ORDER BY year DESC, month DESC`
+            ORDER BY year DESC, month DESC
+            LIMIT 10`
     },
     {
       id: 'member-attendance',
       name: 'Member Attendance Statistics',
       description: 'Number of check-ins per member per month and year',
-      sql: `SELECT m.memberID, m.name, EXTRACT(YEAR FROM a.date) AS year, EXTRACT(MONTH FROM a.date) AS month, COUNT(a.attendanceID) AS visits
+      sql: `SELECT m.memberid, m.name, EXTRACT(YEAR FROM a.date) AS year, EXTRACT(MONTH FROM a.date) AS month, COUNT(a.attendanceid) AS visits
             FROM members m
-            JOIN attendance a ON m.memberID = a.memberID
-            GROUP BY m.memberID, m.name, year, month
-            ORDER BY year DESC, month DESC`
+            JOIN attendance a ON m.memberid = a.memberid
+            GROUP BY m.memberid, m.name, year, month
+            ORDER BY year DESC, month DESC
+            LIMIT 10`
     },
     {
       id: 'instructor-classes',
       name: 'Instructor Class Count',
       description: 'List of instructors including the number of classes they conduct',
-      sql: `SELECT e.employeeid as instructorID, e.name, COUNT(c.classID) AS class_count
+      sql: `SELECT e.employeeid as instructorid, e.name, COUNT(c.classid) AS class_count
             FROM employees e
             JOIN instructors i ON e.employeeid = i.employeeid
             LEFT JOIN classes c ON e.employeeid = c.employeeid
             GROUP BY e.employeeid, e.name
-            ORDER BY class_count DESC`
+            ORDER BY class_count DESC
+            LIMIT 10`
     },
     {
       id: 'class-participants',
       name: 'Popular Classes',
       description: 'List of classes with participant count (only if at least 3 participants)',
-      sql: `SELECT c.classID, c.className, COUNT(cm.memberID) AS participant_count
+      sql: `SELECT c.classid, c.classname, COUNT(cm.memberid) AS participant_count
             FROM classes c
-            JOIN class_membership cm ON c.classID = cm.classID
-            GROUP BY c.classID, c.className
-            HAVING COUNT(cm.memberID) >= 3
-            ORDER BY participant_count DESC`
+            JOIN class_membership cm ON c.classid = cm.classid
+            GROUP BY c.classid, c.classname
+            HAVING COUNT(cm.memberid) >= 3
+            ORDER BY participant_count DESC
+            LIMIT 10`
     },
     {
       id: 'inactive-members',
       name: 'Inactive Members',
       description: 'Members who have not visited the gym in the last month',
-      sql: `SELECT m.memberID, m.name, m.email, MAX(a.date) AS last_visit
+      sql: `SELECT m.memberid, m.name, m.email, MAX(a.date) AS last_visit
             FROM members m
-            LEFT JOIN attendance a ON m.memberID = a.memberID
-            GROUP BY m.memberID, m.name, m.email
-            HAVING MAX(a.date) < CURRENT_DATE - INTERVAL '1 month' OR MAX(a.date) IS NULL`
+            LEFT JOIN attendance a ON m.memberid = a.memberid
+            GROUP BY m.memberid, m.name, m.email
+            HAVING MAX(a.date) < CURRENT_DATE - INTERVAL '1 month' OR MAX(a.date) IS NULL
+            LIMIT 10`
     }
   ];
 
@@ -108,7 +114,7 @@ export default function Reports() {
         { name: 'member_id', type: 'number', label: 'Member ID' },
         { name: 'date', type: 'date', label: 'Date' },
         { name: 'checkin', type: 'time', label: 'Check-in Time' },
-        { name: 'checkout', type: 'time', label: 'Check-out Time' }
+        { name: 'checkout', type: 'time', label: 'Check-out Time (optional)' }
       ]
     },
     {
@@ -158,6 +164,7 @@ export default function Reports() {
     } catch (error) {
       console.error('Query execution failed:', error);
       setQueryResults([]);
+      alert(`Query failed: ${error}`);
     } finally {
       setLoading(false);
     }
@@ -171,12 +178,19 @@ export default function Reports() {
     if (!procedure) return;
 
     try {
-      const params = procedure.params.map(param => procedureParams[param.name]);
+      const params = procedure.params.map(param => {
+        const value = procedureParams[param.name];
+        if (param.type === 'number') {
+          return parseFloat(value) || 0;
+        }
+        return value || null;
+      });
+      
       const result = await db.callProcedure(procedureId.replace('-', '_'), params);
-      setQueryResults([result]);
+      setQueryResults([{ message: result.message || 'Procedure executed successfully' }]);
     } catch (error) {
       console.error('Procedure execution failed:', error);
-      setQueryResults([]);
+      setQueryResults([{ error: error.toString() }]);
     } finally {
       setLoading(false);
     }
@@ -190,12 +204,19 @@ export default function Reports() {
     if (!func) return;
 
     try {
-      const params = func.params.map(param => procedureParams[param.name]);
+      const params = func.params.map(param => {
+        const value = procedureParams[param.name];
+        if (param.type === 'number') {
+          return parseInt(value) || 0;
+        }
+        return value || null;
+      });
+      
       const result = await db.callFunction(functionId.replace('-', '_'), params);
       setQueryResults(Array.isArray(result) ? result : [result]);
     } catch (error) {
       console.error('Function execution failed:', error);
-      setQueryResults([]);
+      setQueryResults([{ error: error.toString() }]);
     } finally {
       setLoading(false);
     }
@@ -299,7 +320,7 @@ export default function Reports() {
                 </Button>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded p-3">
-                <code className="text-xs text-gray-700 dark:text-gray-300">{query.sql}</code>
+                <code className="text-xs text-gray-700 dark:text-gray-300 break-all">{query.sql}</code>
               </div>
             </div>
           ))}
@@ -333,7 +354,7 @@ export default function Reports() {
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       onChange={(e) => setProcedureParams({
                         ...procedureParams,
-                        [param.name]: param.type === 'number' ? parseFloat(e.target.value) : e.target.value
+                        [param.name]: e.target.value
                       })}
                     />
                   </div>
@@ -380,7 +401,7 @@ export default function Reports() {
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       onChange={(e) => setProcedureParams({
                         ...procedureParams,
-                        [param.name]: param.type === 'number' ? parseInt(e.target.value) : e.target.value
+                        [param.name]: e.target.value
                       })}
                     />
                   </div>
@@ -428,7 +449,7 @@ export default function Reports() {
                     <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                       {Object.values(row).map((value: any, colIndex) => (
                         <td key={colIndex} className="px-4 py-2 text-sm text-gray-900 dark:text-gray-300">
-                          {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                          {typeof value === 'object' && value !== null ? JSON.stringify(value) : String(value)}
                         </td>
                       ))}
                     </tr>
