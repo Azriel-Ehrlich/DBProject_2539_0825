@@ -42,7 +42,7 @@
   - [Features](#features)
   - [Technology Stack](#technology-stack)
   - [Database Integration](#database-integration)
-  - [Setup Instructions](#setup-instructions)
+  - [Application Instructions](#application-instructions)
 
 ## Phase 1: Design and Build the Database  
 
@@ -860,7 +860,7 @@ Phase 5 introduces a comprehensive web application interface for the Gym Managem
 ## Features
 
 ### Core Functionality
-- **Complete CRUD Operations**: Full Create, Read, Update, Delete functionality for all entities
+- **Complete CRUD Operations**: Full Create, Read, Update, Delete functionality for class,classmembership,members entities
 - **Real-time Database Integration**: Direct connection to PostgreSQL database via REST API
 - **Advanced Reporting**: Execute custom SQL queries, stored procedures, and functions
 - **Interactive Analytics**: Charts and visualizations for business insights
@@ -902,160 +902,89 @@ Phase 5 introduces a comprehensive web application interface for the Gym Managem
 - **PostCSS**: CSS processing with Autoprefixer
 - **Hot Module Replacement**: Instant updates during development
 
-## Database Integration
-
-### API Endpoints
-The application provides comprehensive REST API endpoints for all database operations:
-
-#### Members Management
-- `GET /api/members` - Retrieve all members with membership details
-- `POST /api/members` - Create new member
-- `PUT /api/members/:id` - Update existing member
-- `DELETE /api/members/:id` - Delete member
-
-#### Classes Management
-- `GET /api/classes` - Retrieve all classes with instructor information
-- `POST /api/classes` - Create new class
-- `PUT /api/classes/:id` - Update existing class
-- `DELETE /api/classes/:id` - Delete class
-
-#### Employees Management
-- `GET /api/employees` - Retrieve all employees with role information
-- `POST /api/employees` - Create new employee (with role assignment)
-- `PUT /api/employees/:id` - Update existing employee
-- `DELETE /api/employees/:id` - Delete employee
-
-#### Products Management
-- `GET /api/products` - Retrieve all products
-- `POST /api/products` - Create new product
-- `PUT /api/products/:id` - Update existing product
-- `DELETE /api/products/:id` - Delete product
-
-#### Class Membership Management
-- `GET /api/class-membership` - Retrieve all class enrollments
-- `POST /api/class-membership` - Enroll member in class
-- `DELETE /api/class-membership/:memberid/:classid` - Remove enrollment
-
-#### Advanced Database Operations
-- `POST /api/query` - Execute custom SQL queries
-- `POST /api/procedure/:name` - Call stored procedures
-- `POST /api/function/:name` - Execute database functions
-
-### Stored Procedures Integration
-The application integrates with the PL/pgSQL procedures developed in Phase 4:
-
-#### `add_attendance`
-- **Purpose**: Insert attendance record with duplicate prevention
-- **Parameters**: member_id, date, checkin_time, checkout_time
-- **Error Handling**: Displays user-friendly error messages for duplicates
-
-#### `update_hourly_rate`
-- **Purpose**: Update employee hourly rate with validation
-- **Parameters**: employee_id, new_rate
-- **Validation**: Ensures positive rates and employee existence
-
-### Database Functions Integration
-The application can execute the custom functions from Phase 4:
-
-#### `calc_weekly_hours`
-- **Purpose**: Calculate total attendance hours for a member in a week
-- **Parameters**: member_id, week_start_date
-- **Output**: Total hours worked displayed in formatted table
-
-#### `get_cashier_orders`
-- **Purpose**: Retrieve all orders handled by a specific cashier
-- **Parameters**: cashier_id
-- **Output**: Complete order list with details
-
-## Setup Instructions
+## Application Instructions
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- PostgreSQL database with the gym management schema
-- Git for version control
+- Node.js (v14 or higher)
+- PostgreSQL database
+- npm (Node Package Manager)
 
-### Backend Setup
+### Installation Steps
 
-1. **Navigate to backend directory**:
-   ```bash
-   cd phase5/backend
-   ```
+1. Clone the repository:
+```bash
+git clone https://github.com/Azriel-Ehrlich/DBProject_2539_0825.git
+cd DBProject_2539_0825
+```
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+2. Install backend dependencies:
+```bash
+cd phase5/backend
+npm install
+```
 
-3. **Configure database connection**:
-   Update the database configuration in `server.js`:
-   ```javascript
-   const pool = new Pool({
-     host: 'localhost',
-     port: 5432,
-     database: 'mydatabase',
-     user: 'azriel',
-     password: 'A227Y8751'
-   });
-   ```
+3. Install frontend dependencies:
+```bash
+cd ../frontend
+npm install
+```
 
-4. **Start the backend server**:
-   ```bash
-   node server.js
-   ```
-   The server will start on `http://localhost:3001`
+4. Configure the database:
+- Make sure PostgreSQL is running
+- Create a database named 'gym_management'
+- Run the SQL scripts from phase1/scripts/createTables.sql
+- Run the SQL scripts from phase1/scripts/insertTables.sql
 
-### Frontend Setup
+5. Configure environment variables:
+- Create a .env file in the backend directory with the necessary database configuration
 
-1. **Navigate to frontend directory**:
-   ```bash
-   cd phase5/frontend
-   ```
+### Running the Application
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+1. Start the backend server:
+```bash
+cd phase5/backend
+npm start
+```
 
-3. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
-   The application will be available at `http://localhost:5173`
+2. Start the frontend development server:
+```bash
+cd phase5/frontend
+npm start
+```
 
-### Database Requirements
+3. Access the application:
+- Open your browser and navigate to `http://localhost:3000`
 
-Ensure your PostgreSQL database includes:
-- All tables from Phase 1-3 (members, classes, employees, etc.)
-- All stored procedures from Phase 4 (`add_attendance`, `update_hourly_rate`)
-- All functions from Phase 4 (`calc_weekly_hours`, `get_cashier_orders`)
-- All triggers from Phase 4 (`trg_default_checkout`, `trg_validate_cashier`)
+## Application Screenshots
 
-### Login Credentials
+### Login Page
+![login.png](phase5/photos/login.png)
 
-The application includes a demo authentication system:
-- **Username**: `admin`
-- **Password**: `password`
+### Dashboard
+![dashboard.png](phase5/photos/dashboard.png)
 
-### Features Demonstration
+### Members Management
+![members.png](phase5/photos/members.png)
 
-#### CRUD Operations
-- Navigate to any section (Members, Classes, Employees, Products)
-- Use the "Add" button to create new records
-- Click edit icons to modify existing records
-- Use delete icons to remove records
-- All operations are immediately reflected in the database
+### Classes Management
+![classes.png](phase5/photos/classes.png)
 
-#### Advanced Reporting
-- Go to "Reports & Analytics" section
-- Execute predefined queries by clicking "Run" buttons
-- Use the procedure section to call stored procedures with parameters
-- Execute functions with custom parameters
-- View results in formatted, sortable tables
+### Class Membership
+![class_membership.png](phase5/photos/class_membership.png)
 
-#### Real-time Analytics
-- View membership distribution charts
-- Monitor weekly attendance patterns
-- Track revenue trends over time
-- All charts update based on actual database data
+### Reports
+![reports.png](phase5/photos/reports.png)
 
-This comprehensive web application provides a complete interface for managing the gym database, demonstrating the practical application of all the database concepts, procedures, and functions developed throughout the previous phases.
+### Database Operations Examples
+
+#### Function Execution
+![functions.png](phase5/photos/functions.png) -*the functions we support*
+![function_cashier_order_res.png](phase5/photos/function_cashier_order_res.png) -*the result of the function get_cashier_orders*
+#### Procedure Execution
+![procedures.png](phase5/photos/procedures.png) -*the procedures we support*
+![update_salary_procedure.png](phase5/photos/update_salary_procedure.png) -*the  procedure update_hourly_rate that we'll execute*
+![procedure_res.png](phase5/photos/procedure_res.png) -*the result of the procedure update_hourly_rate*
+
+#### Complex Query
+![queries.png](phase5/photos/queries.png) -*the queries we support*
+![popular_query_result.png](phase5/photos/popular_query_result.png) -*the result of the query that shows the most popular class in the gym*
