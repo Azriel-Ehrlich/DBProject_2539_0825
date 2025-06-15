@@ -1,31 +1,34 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-interface ModalProps {
+export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  title?: string;
 }
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
+export default function Modal({ isOpen, onClose, children, title }: ModalProps) {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={onClose} />
-        
-        <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-          <div className="absolute top-4 right-4">
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-200 transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          
-          <div className="p-6">
+      <div className="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
+
+        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div className="flex items-center justify-between mb-4">
+              {title && <h3 className="text-lg font-medium text-gray-900">{title}</h3>}
+              <button
+                type="button"
+                className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                onClick={onClose}
+              >
+                <span className="sr-only">Close</span>
+                <X className="h-6 w-6" />
+              </button>
+            </div>
             {children}
           </div>
         </div>

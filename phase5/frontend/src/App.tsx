@@ -6,8 +6,6 @@ import Layout from './components/Layout';
 import Members from './components/Members';
 import Classes from './components/Classes';
 import ClassMembership from './components/ClassMembership';
-import Employees from './components/Employees';
-import Products from './components/Products';
 import Reports from './components/Reports';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -26,8 +24,6 @@ function AppRoutes() {
         <Route path="/members" element={<Members />} />
         <Route path="/classes" element={<Classes />} />
         <Route path="/class-membership" element={<ClassMembership />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/products" element={<Products />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -15,6 +15,54 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || 'A227Y8751'
 });
 
+// Initialize database tables
+const initializeDatabase = async () => {
+  try {
+    // Create products table if it doesn't exist
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS products (
+        prodid SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        price NUMERIC(10,2) NOT NULL,
+        stock INTEGER NOT NULL,
+        aisle VARCHAR(50) NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS order_items (
+        orderid INTEGER NOT NULL,
+        prodid INTEGER NOT NULL,
+        quantity INTEGER NOT NULL,
+        PRIMARY KEY (orderid, prodid),
+        FOREIGN KEY (prodid) REFERENCES products(prodid) ON DELETE CASCADE
+      );
+    `);
+
+    // Insert sample data if products table is empty
+    const { rows } = await pool.query('SELECT COUNT(*) FROM products');
+    if (parseInt(rows[0].count) === 0) {
+      await pool.query(`
+        INSERT INTO products (name, price, stock, aisle) VALUES
+        ('Yoga Mat', 29.99, 50, 'Gear'),
+        ('Dumbbells Set', 89.99, 20, 'Gear'),
+        ('Resistance Bands', 19.99, 100, 'Gear'),
+        ('Gym Shorts', 24.99, 75, 'Clothes'),
+        ('Sports Bra', 34.99, 60, 'Clothes'),
+        ('Protein Powder', 49.99, 40, 'Consumables'),
+        ('Energy Bar', 2.99, 200, 'Consumables'),
+        ('Water Bottle', 14.99, 80, 'Gear');
+      `);
+      console.log('Sample products data inserted');
+    }
+
+    console.log('Database tables initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database:', error);
+  }
+};
+
+// Initialize database on server start
+initializeDatabase();
+
 app.use(cors());
 app.use(express.json());
 
@@ -294,7 +342,14 @@ app.delete('/api/employees/:id', async (req, res) => {
 // PRODUCTS CRUD
 app.get('/api/products', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products ORDER BY prodid');
+    const result = await pool.query(`
+      SELECT p.*, 
+        COALESCE(SUM(oi.quantity), 0) as total_sold
+      FROM products p
+      LEFT JOIN order_items oi ON p.prodid = oi.prodid
+      GROUP BY p.prodid
+      ORDER BY p.prodid
+    `);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });

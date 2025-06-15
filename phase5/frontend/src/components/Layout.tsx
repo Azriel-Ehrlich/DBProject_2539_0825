@@ -6,8 +6,6 @@ import {
   Users, 
   Calendar, 
   UserPlus, 
-  Briefcase, 
-  Package, 
   BarChart3, 
   Menu, 
   X,
@@ -34,8 +32,6 @@ export default function Layout({ children }: LayoutProps) {
     { name: 'Members', href: '/members', icon: Users },
     { name: 'Classes', href: '/classes', icon: Calendar },
     { name: 'Class Membership', href: '/class-membership', icon: UserPlus },
-    { name: 'Employees', href: '/employees', icon: Briefcase },
-    { name: 'Products', href: '/products', icon: Package },
     { name: 'Reports & Analytics', href: '/reports', icon: BarChart3 },
   ];
 

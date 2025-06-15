@@ -189,6 +189,15 @@ export class DatabaseService {
     if (!response.ok) throw new Error('Failed to delete employee');
   }
 
+  // Employee Operations
+  async updateEmployeeHourlyRate(employeeId: number, newRate: number): Promise<any> {
+    return this.callProcedure('update_hourly_rate', [employeeId, newRate]);
+  }
+
+  async getEmployeeOrders(cashierId: number): Promise<any> {
+    return this.callFunction('get_cashier_orders', [cashierId]);
+  }
+
   // CRUD Operations for Products
   async getProducts(): Promise<any[]> {
     const response = await fetch(`${this.baseUrl}/products`);
@@ -230,21 +239,22 @@ export class DatabaseService {
     return response.json();
   }
 
-  async createClassMembership(membership: any): Promise<any> {
+  async addClassMembership(membership: any): Promise<any> {
     const response = await fetch(`${this.baseUrl}/class-membership`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(membership)
     });
-    if (!response.ok) throw new Error('Failed to create class membership');
+    if (!response.ok) throw new Error('Failed to add class membership');
     return response.json();
   }
 
-  async deleteClassMembership(memberId: number, classId: number): Promise<void> {
+  async deleteClassMembership(memberId: number, classId: number): Promise<any> {
     const response = await fetch(`${this.baseUrl}/class-membership/${memberId}/${classId}`, {
       method: 'DELETE'
     });
     if (!response.ok) throw new Error('Failed to delete class membership');
+    return response.json();
   }
 
   // Helper methods for dropdowns
@@ -258,6 +268,15 @@ export class DatabaseService {
     const response = await fetch(`${this.baseUrl}/instructors`);
     if (!response.ok) throw new Error('Failed to fetch instructors');
     return response.json();
+  }
+
+  // Attendance Operations
+  async addAttendance(memberId: number, date: string, checkIn: string, checkOut: string): Promise<any> {
+    return this.callProcedure('add_attendance', [memberId, date, checkIn, checkOut]);
+  }
+
+  async getWeeklyHours(memberId: number, weekStart: string): Promise<number> {
+    return this.callFunction('calc_weekly_hours', [memberId, weekStart]);
   }
 }
 
