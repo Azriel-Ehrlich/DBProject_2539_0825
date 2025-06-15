@@ -107,7 +107,7 @@ export default function Reports() {
   // Database procedures from your files
   const procedures = [
     {
-      id: 'add-attendance',
+      id: 'add_attendance',
       name: 'Add Attendance Record',
       description: 'Insert a single attendance row while preventing duplicates for the same member & date',
       params: [
@@ -118,7 +118,7 @@ export default function Reports() {
       ]
     },
     {
-      id: 'update-hourly-rate',
+      id: 'update_hourly_rate',
       name: 'Update Employee Hourly Rate',
       description: 'Update an employee\'s hourly pay-rate with basic validation and feedback',
       params: [
@@ -131,7 +131,7 @@ export default function Reports() {
   // Database functions from your files
   const functions = [
     {
-      id: 'calc-weekly-hours',
+      id: 'calc_weekly_hours',
       name: 'Calculate Weekly Hours',
       description: 'Compute total attendance hours for one member within a 7-day window',
       params: [
@@ -140,7 +140,7 @@ export default function Reports() {
       ]
     },
     {
-      id: 'get-cashier-orders',
+      id: 'get_cashier_orders',
       name: 'Get Cashier Orders',
       description: 'Return all orders handled by a specific cashier',
       params: [
@@ -186,7 +186,7 @@ export default function Reports() {
         return value || null;
       });
       
-      const result = await db.callProcedure(procedureId.replace('-', '_'), params);
+      const result = await db.callProcedure(procedureId, params);
       setQueryResults([{ message: result.message || 'Procedure executed successfully' }]);
     } catch (error) {
       console.error('Procedure execution failed:', error);
@@ -212,7 +212,7 @@ export default function Reports() {
         return value || null;
       });
       
-      const result = await db.callFunction(functionId.replace('-', '_'), params);
+      const result = await db.callFunction(functionId, params);
       setQueryResults(Array.isArray(result) ? result : [result]);
     } catch (error) {
       console.error('Function execution failed:', error);
