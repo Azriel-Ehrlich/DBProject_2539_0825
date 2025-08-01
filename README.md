@@ -308,8 +308,8 @@ WHERE classID NOT IN (SELECT DISTINCT classID FROM class_membership);
 ```
 
 📸 ![delete3\_stage2.png](phase2/resources/delete3B_stage2.png) – *Before the Delete execution*
-📸 ![delete3\_stage2.png](phase2/resources/delete3_stage2.png) – *The Delete execution*
-📸 ![delete3\_stage2.png](phase2/resources/delete3_stage2.png) – *After the Delete execution*
+📸 ![delete3\_stage2.png](phase2/resources/delete3A_stage2.png) – *The Delete execution*
+📸 ![delete3\_stage2.png](phase2/resources/delete3E_stage2.png) – *After the Delete execution*
 
 ---
 
