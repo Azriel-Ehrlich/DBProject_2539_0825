@@ -166,7 +166,6 @@ LEFT JOIN memberships ms ON m.membershipType = ms.membershipID;
 ```
 
 📸 ![query1\_stage2.png](phase2/resources/query1_stage2.png) – *Query execution*
-📸 ![query1\_stage2\_result.png](phase2/resources/query1_stage2_result.png) – *Result preview*
 
 ### Query 2: Total Revenue from Payments Per Month and Year
 
@@ -180,7 +179,6 @@ ORDER BY year DESC, month DESC;
 ```
 
 📸 ![query2\_stage2.png](phase2/resources/query2_stage2.png) – *Query execution*
-📸 ![query2\_stage2\_result.png](phase2/resources/query2_stage2_result.png) – *Result preview*
 
 ### Query 3: Number of Check-ins per Member per Month and Year
 
@@ -195,7 +193,6 @@ ORDER BY year DESC, month DESC;
 ```
 
 📸 ![query3\_stage2.png](phase2/resources/query3_stage2.png) – *Query execution*
-📸 ![query3\_stage2\_result.png](phase2/resources/query3_stage2_result.png) – *Result preview*
 
 ### Query 4: List of Instructors Including Number of Classes
 
@@ -210,7 +207,6 @@ ORDER BY class_count DESC;
 ```
 
 📸 ![query4\_stage2.png](phase2/resources/query4_stage2.png) – *Query execution*
-📸 ![query4\_stage2\_result.png](phase2/resources/query4_stage2_result.png) – *Result preview*
 
 ### Query 5: List of Classes with at Least 3 Participants
 
