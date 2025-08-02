@@ -945,7 +945,7 @@ npm start
 2. Start the frontend development server:
 ```bash
 cd phase5/frontend
-npm start
+npm run dev
 ```
 
 3. Access the application:
